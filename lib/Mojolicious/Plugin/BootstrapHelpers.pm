@@ -4,7 +4,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
-    use Mojolicious::Plugin::TagHelpers;
     use Scalar::Util 'blessed';
     use String::Trim;
 
@@ -18,6 +17,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         $app->helper(bs_panel => \&bootstrap_panel);
         $app->helper(bs_formgroup => \&bootstrap_formgroup);
+        $app->helper(bs_button => \&bootstrap_button);
 
 
     }
@@ -44,7 +44,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         return out($tag);
 
     }
-# %= bs_formgroup 'Email', text_field => ['field-name', 'default value', placeholder => 'what', prepend => '$', append => '.00']
+
     sub bootstrap_formgroup {
         my $c = shift;
         my $title = shift;
@@ -54,14 +54,34 @@ package Mojolicious::Plugin::BootstrapHelpers {
         
         my($id, $input) = fix_input($c, @_);
 
-        my $tag = qq{
+        my $tag = q{
             <div class="form-group">
-                <label for="$id">$title</label>
+                } . Mojolicious::Plugin::TagHelpers::_label_for($c, $id, $title) . qq{
                 $input
             </div>
         };
 
         return out($tag);
+    }
+    # %= bs_button 'The text' => ['url', {}], attr => value
+    sub bootstrap_button {
+        my $c = shift;
+        my $content = shift;
+        #my @url = ($content);
+        my @url = shift->@* if ref $_[0] eq 'ARRAY';
+        
+        if(ref $_[-1] ne 'CODE') {
+            push @_ => $content;
+        }
+
+        # We have an url
+        if(scalar @url) {
+            return out(Mojolicious::Plugin::TagHelpers::_tag('a', href => $c->url_for(@url), @_));
+        }
+        else {
+            return out(qq{<button>$content</button>});
+        }
+
     }
 
     sub fix_input {
@@ -70,13 +90,17 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url/)[0];
         my $id = shift $attr->{"${tagname}_field"}->@*;
-        push $attr->{"${tagname}_field"}->@* => (value => shift $attr->{"${tagname}_field"}->@*) if $attr->{"${tagname}_field"}->@* % 2;
+        
+        # if odd number of elements, the first one is the value (shortcut to avoid having to: value => 'value')
+        if($attr->{"${tagname}_field"}->@* % 2) {
+            push $attr->{"${tagname}_field"}->@* => (value => shift $attr->{"${tagname}_field"}->@*);
+        }
         my %tag_attr = $attr->{"${tagname}_field"}->@*;
 
         $tag_attr{'class'} = exists $tag_attr{'class'} ? $tag_attr{'class'} . ' form-control' : 'form-control';
         $tag_attr{'id'}  = $id;
 
-        # input group unnecessary
+        # input group not requested
         if(!exists $tag_attr{'_prepend'} && !exists $tag_attr{'_append'}) {
             return ($id => Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname));
         }
