@@ -4,6 +4,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
+    use Mojolicious::Plugin::TagHelpers;
     use Scalar::Util 'blessed';
     use String::Trim;
 
@@ -24,12 +25,12 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
         
-        $attr->{'-panel-type'} //= 'default';
-        $attr->{'-no-title'} //= 0;
+        $attr->{'panel_type'} //= 'default';
+        $attr->{'no_title'} //= 0;
         
         my $tag = qq{
-            <div class="panel panel-$attr->{'-panel-type'}">
-            } . (!$attr->{'-no-title'} ? qq{
+            <div class="panel panel-$attr->{'panel_type'}">
+            } . (!$attr->{'no_title'} ? qq{
                 <div class="panel-heading">
                     <h3 class="panel-title">$title</h3>
                 </div>
@@ -43,25 +44,55 @@ package Mojolicious::Plugin::BootstrapHelpers {
         return out($tag);
 
     }
-# %= bs_formgroup 'Email', -text_field => ['field-name', 'default value', placeholder => 'what'], -addons => ['', '@']
+# %= bs_formgroup 'Email', text_field => ['field-name', 'default value', placeholder => 'what', prepend => '$', append => '.00']
     sub bootstrap_formgroup {
         my $c = shift;
         my $title = shift;
+        
         #my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
         #my $content = scalar @_ % 2 ? pop : '';
-        my $attr = parse_attributes(@_);
-
-        my $text_field = fix_text_field($attr->{'-text_field'});
-        my $addons = fix_addons($attr->{'-addons'});
+        
+        my($id, $input) = fix_input($c, @_);
 
         my $tag = qq{
             <div class="form-group">
-                <label>$title</label>
-                <input type="text" class="form-control" />
+                <label for="$id">$title</label>
+                $input
             </div>
         };
 
         return out($tag);
+    }
+
+    sub fix_input {
+        my $c = shift;
+        my $attr = parse_attributes(@_);
+
+        my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url/)[0];
+        my $id = shift $attr->{"${tagname}_field"}->@*;
+        push $attr->{"${tagname}_field"}->@* => (value => shift $attr->{"${tagname}_field"}->@*) if $attr->{"${tagname}_field"}->@* % 2;
+        my %tag_attr = $attr->{"${tagname}_field"}->@*;
+
+        $tag_attr{'class'} = exists $tag_attr{'class'} ? $tag_attr{'class'} . ' form-control' : 'form-control';
+        $tag_attr{'id'}  = $id;
+
+        # input group unnecessary
+        if(!exists $tag_attr{'_prepend'} && !exists $tag_attr{'_append'}) {
+            return ($id => Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname));
+        }
+
+        my $prepend = delete $tag_attr{'_prepend'};
+        my $append = delete $tag_attr{'_append'};
+        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname);
+
+        return $id => qq{
+            <div class="input-group">
+                } . ($prepend ? qq{<span class="input-group-addon">$prepend</span>} : '') . qq{
+                $input
+                } . ($append ? qq{<span class="input-group-addon">$append</span>} : '') . qq{
+            </div>
+        };
+
     }
 
     sub parse_call {
@@ -84,22 +115,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
             delete $attr{'data'};
         }
         return \%attr;
-    }
-
-    sub fix_addons {
-        my $addons = shift;
-        return (undef, undef) if !defined $addons;
-
-        if(ref $addons ne 'ARRAY') {
-            warn '-addons must be (two item) array ref';
-            return (undef, undef);
-        }
-        elsif(scalar $addons->@* != 2) {
-            warn '-addons must be two item array ref';
-            return (undef, undef);
-        }
-        return $addons;
-
     }
 
     sub contents {
