@@ -12,13 +12,15 @@ plugin 'BootstrapHelpers';
 
 my $test = Test::Mojo->new;
 
-get '/panel';
+get '/panel' => 'panel';
 
 get '/formgroup_textfield';
 
+get '/buttons';
+
 {
-    my $panel = qq{
-            <div class="panel panel-default">
+    my $panel = qq{[
+            ]<div class="panel panel-default">
                 <div class="panel-body">
                 </div>
             </div>[
@@ -47,8 +49,8 @@ get '/formgroup_textfield';
     $test->get_ok('/panel')->status_is(200)->content_is(trimmed($panel));
 }
 {
-    my $group = q{
-            <div class="form-group">
+    my $group = q{[
+            ]<div class="form-group">
                 <label for="test_text">Text test</label>
                 <input class="form-control" id="test_text" name="test_text" type="text" />
             </div>[
@@ -69,7 +71,7 @@ get '/formgroup_textfield';
             ]<div class="form-group">
                 <label for="test_text">Text test</label>
                 <div class="input-group">
-                    <input class="form-control" id="test_text" name="test_text" type="text" />
+                    <input class="added_class form-control" id="test_text" name="test_text" type="text" />
                     <span class="input-group-addon">.00</span>
                 </div>
             </div>[
@@ -86,6 +88,16 @@ get '/formgroup_textfield';
     $test->get_ok('/formgroup_textfield')->status_is(200)->content_is(trimmed($group));
 }
 
+{
+    my $buttons = q{
+            <a href="http://www.example.com/">The example</a>[
+]<a href="/buttons">The example</a>[
+]<a href="/panel">The example</a>[
+]<button>The example</button>[
+]};
+    $test->get_ok('/buttons')->status_is(200)->content_is(trimmed($buttons));
+}
+
 done_testing();
 
 
@@ -95,10 +107,12 @@ sub trimmed {
     no warnings 'uninitialized';
     # remove unwanted newlines/lines with just whitespace
     $tag =~ s{>[^[]? \n+ \s* \n? ([^]])?}{>$1}xg;
+    # remove leading whitespace
+    $tag =~ s{^[ \s]+}{}g;
     # remove trailing whitespace
     $tag =~ s{[ \s]+$}{}g;
     # remove wanted whitespace opener
-    $tag =~ s{>\[}{>}g;
+    $tag =~ s{(>?)\[}{$1}g;
     # remove wanted whitespace closer
     $tag =~ s{](<?)}{$1}g;
     
@@ -119,5 +133,11 @@ __DATA__
 %= bs_formgroup 'Text test', text_field => ['test_text']
 %= bs_formgroup 'Text test', text_field => ['test_text', size => 30]
 %= bs_formgroup 'Text test', text_field => ['test_text', _prepend => '@']
-%= bs_formgroup 'Text test', text_field => ['test_text', _append => '.00']
+%= bs_formgroup 'Text test', text_field => ['test_text', _append => '.00', class => 'added_class']
 %= bs_formgroup 'Text test', text_field => ['test_text', '200', _prepend => '$', _append => '.00']
+
+@@ buttons.html.ep
+%= bs_button 'The example' => ['http://www.example.com/']
+%= bs_button 'The example' => [url_for]
+%= bs_button 'The example' => ['panel']
+%= bs_button 'The example'
