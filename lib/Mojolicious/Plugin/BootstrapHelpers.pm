@@ -210,13 +210,26 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 =head1 STATUS
 
-This is an unstable work in progress.
+This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
 
 =head1 DESCRIPTION
 
 Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some bootstrap complexity by introducing several tag helpers specifically for L<Bootstrap 3|http://www.getbootstrap.com/>.
 
-The goal is not to have
+The goal is not to have tag helpers for everything, but for common use cases.
+
+All examples below currently works.
+
+=head2 Panel
+    
+    %= bs_panel Test => no_title => 1
+
+    Generates
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+        </div>
+    </div>
 
 =head1 AUTHOR
 
