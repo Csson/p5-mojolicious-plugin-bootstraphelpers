@@ -187,7 +187,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
                 push @classes => sprintf "col-%s-%d" => $correct_name, $attr->{ $key }[ $index ];
             }
         }
-        return @classes;
+        return sort @classes;
     }
 
     sub add_classes {
@@ -208,7 +208,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             push @classes => sprintfify_class($attr, $formatter->{'panel_context'}, $formatter->{'default'}, _panel_contexts());
         }
 
-        $attr->{'class'} = trim join ' ' => @classes;
+        $attr->{'class'} = trim join ' ' => sort @classes;
 
         return $attr;
         
