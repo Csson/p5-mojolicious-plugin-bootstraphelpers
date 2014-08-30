@@ -16,6 +16,7 @@ get '/panel_1' => 'panel_1';
 get '/panel_2';
 get '/panel_3';
 get '/panel_4';
+get '/panel_5';
 get '/formgroup_textfield_1';
 get '/formgroup_textfield_2';
 get '/formgroup_textfield_3';
@@ -38,6 +39,7 @@ $test->get_ok('/panel_1')->status_is(200)->content_is(trimmed($panel_1));
 my $panel_2 = qq{[
             ]<div class="panel panel-default">
                 <div class="panel-body">
+                    <p>In the panel.</p>
                 </div>
             </div>};
 $test->get_ok('/panel_2')->status_is(200)->content_is(trimmed($panel_2));
@@ -56,13 +58,24 @@ $test->get_ok('/panel_3')->status_is(200)->content_is(trimmed($panel_3));
 my $panel_4 = qq{[
             ]<div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Test</h3>
+                    <h3 class="panel-title">The Header</h3>
                 </div>
                 <div class="panel-body">
                     <p>A short text.</p>
                 </div>
             </div>};
 $test->get_ok('/panel_4')->status_is(200)->content_is(trimmed($panel_4));
+
+my $panel_5 = qq{[
+            ]<div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel 5</h3>
+                </div>
+                <div class="panel-body">
+                    <p>A short text.</p>
+                </div>
+            </div>};
+$test->get_ok('/panel_5')->status_is(200)->content_is(trimmed($panel_5));
 
 my $formgroup_textfield_1 = q{[
             ]<div class="form-group">
@@ -182,16 +195,23 @@ __DATA__
 %= bs_panel
 
 @@ panel_2.html.ep
-%= bs_panel () => begin
+%= bs_panel undef ,=> begin
+    <p>In the panel.</p>
 %  end
 
 @@ panel_3.html.ep
 %= bs_panel 'Test'
 
 @@ panel_4.html.ep
-%= bs_panel Test => begin
+%= bs_panel 'The Header' => begin
     <p>A short text.</p>
 %  end
+
+@@ panel_5.html.ep
+%= bs_panel 'Panel 5', success => 1 => begin
+    <p>A short text.</p>
+%  end
+
 
 @@ formgroup_textfield_1.html.ep
 %= bs_formgroup 'Text test 1', text_field => ['test_text']
