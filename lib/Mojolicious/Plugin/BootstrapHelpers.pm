@@ -287,6 +287,8 @@ This is an unstable work in progress. Backwards compatibility is currently not t
 
 Currently supported Bootstrap version: 3.2.0.
 
+Only Perl 5.20+ is supported (thanks to postderef). This might change.
+
 =head1 DESCRIPTION
 
 Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some bootstrap complexity by introducing several tag helpers specifically for L<Bootstrap 3|http://www.getbootstrap.com/>.
