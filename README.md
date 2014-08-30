@@ -14,6 +14,8 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
 
+Currently supported Bootstrap version: 3.2.0.
+
 # DESCRIPTION
 
 Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some bootstrap complexity by introducing several tag helpers specifically for [Bootstrap 3](http://www.getbootstrap.com/).
