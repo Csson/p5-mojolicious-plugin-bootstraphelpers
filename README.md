@@ -78,11 +78,10 @@ All examples below (and more, see tests) currently works.
             <p>A short text.</p>
         </div>
     </div>
-    
 
 # AUTHOR
 
-Erik Carlsson <info@code301.com>
+Erik Carlsson <csson@cpan.org>
 
 # COPYRIGHT
 

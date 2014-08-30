@@ -349,10 +349,10 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
             <p>A short text.</p>
         </div>
     </div>
-    
+
 =head1 AUTHOR
 
-Erik Carlsson E<lt>info@code301.comE<gt>
+Erik Carlsson E<lt>csson@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
