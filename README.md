@@ -33,6 +33,23 @@ Generates
         </div>
     </div>
 
+\----
+
+    %= bs_panel Test => begin
+        <p>A short text.</p>
+    %  end
+
+Generates
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Test</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
 # AUTHOR
 
 Erik Carlsson <info@code301.com>
