@@ -9,7 +9,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use experimental 'postderef';
 
-    our $VERSION = 0.01;
+    our $VERSION = 0.001320;
 
     sub register {
         my $self = shift;
@@ -47,47 +47,52 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     sub bootstrap_formgroup {
         my $c = shift;
-        my $title = shift;
-        
+        my $title = ref $_[-1] eq 'CODE' ? pop : shift;
+        my $attr = parse_attributes(@_);
+
         #my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
         #my $content = scalar @_ % 2 ? pop : '';
         
-        my($id, $input) = fix_input($c, @_);
+        my($id, $input) = fix_input($c, $attr);
+        my $label = fix_label($c, $id, $title, $attr);
 
-        my $tag = q{
-            <div class="form-group">
-                } . Mojolicious::Plugin::TagHelpers::_label_for($c, $id, $title) . qq{
+        my $form_group_class = join ' ' => ('form-group', get_size($attr, 'form-group-%s'));
+
+        my $tag = qq{
+            <div class="$form_group_class">
+                $label
                 $input
             </div>
         };
 
         return out($tag);
     }
-    # %= bs_button 'The text' => ['url', {}], attr => value
+
     sub bootstrap_button {
         my $c = shift;
-        my $content = shift;
-        #my @url = ($content);
+        my $content = ref $_[-1] eq 'CODE' ? pop : shift;
+
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
+        my %attr = @_;
         
-        if(ref $_[-1] ne 'CODE') {
-            push @_ => $content;
-        }
+        my @tag_attrs = ();
+        push @tag_attrs => (class => join ' ' => ('btn', get_size(\%attr, 'btn-%s')));
 
         # We have an url
         if(scalar @url) {
-            return out(Mojolicious::Plugin::TagHelpers::_tag('a', href => $c->url_for(@url), @_));
+            push @tag_attrs => (href => $c->url_for(@url));
+            return out(Mojolicious::Plugin::TagHelpers::_tag('a', @tag_attrs, $content));
         }
         else {
-            return out(qq{<button>$content</button>});
+            return out(Mojolicious::Plugin::TagHelpers::_tag('button', @tag_attrs, $content));
         }
 
     }
 
     sub fix_input {
         my $c = shift;
-        my $attr = parse_attributes(@_);
-
+        my $attr = shift;
+        
         my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url/)[0];
         my $id = shift $attr->{"${tagname}_field"}->@*;
         
@@ -97,16 +102,21 @@ package Mojolicious::Plugin::BootstrapHelpers {
         }
         my %tag_attr = $attr->{"${tagname}_field"}->@*;
 
-        $tag_attr{'class'} = exists $tag_attr{'class'} ? $tag_attr{'class'} . ' form-control' : 'form-control';
-        $tag_attr{'id'}  = $id;
+        {
+            no warnings 'uninitialized';
+            $tag_attr{'class'} = trim join ' ' => ($tag_attr{'class'}, 'form-control', get_size(\%tag_attr, 'input-%s'));
+            $tag_attr{'id'}  = $id;
+        }
+
+        my $prepend = delete $tag_attr{'prepend'};
+        my $append = delete $tag_attr{'append'};
 
         # input group not requested
-        if(!exists $tag_attr{'_prepend'} && !exists $tag_attr{'_append'}) {
+        if(!defined $prepend && !defined $append) {
             return ($id => Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname));
         }
 
-        my $prepend = delete $tag_attr{'_prepend'};
-        my $append = delete $tag_attr{'_append'};
+        
         my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname);
 
         return $id => qq{
@@ -117,6 +127,18 @@ package Mojolicious::Plugin::BootstrapHelpers {
             </div>
         };
 
+    }
+
+    sub fix_label {
+        my $c = shift;
+        my $for = shift;
+        my $title = shift;
+        my $attr = shift;
+
+        my @args = (class => 'control-label');
+        ref $title eq 'CODE' ? push @args => $title : unshift @args => $title;
+
+        return Mojolicious::Plugin::TagHelpers::_label_for($c, $for, @args);
     }
 
     sub parse_call {
@@ -141,6 +163,21 @@ package Mojolicious::Plugin::BootstrapHelpers {
         return \%attr;
     }
 
+    sub get_size {
+        my $attr = shift;
+        my $format = shift;
+
+        my %possible_sizes = qw/xsmall xs  small s  medium md  large lg/;
+        my $attr_size = (grep { exists $attr->{ $_ } } (%possible_sizes))[0];
+
+        return if !defined $attr_size;
+
+        my $size = exists $possible_sizes{ $attr_size } ? $possible_sizes{ $attr_size } : $attr_size;
+        delete $attr->{ $attr_size };
+
+        return sprintf $format => $size;
+    }
+
     sub contents {
         my $callback = shift;
         my $content = shift;
@@ -161,11 +198,15 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Plugin::BootstrapHelpers - Blah blah blah
+Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 =head1 SYNOPSIS
 
-  use Mojolicious::Plugin::BootstrapHelpers;
+  # Mojolicious
+  $self->plugin('BootstrapHelpers');
+
+  # ::Lite
+  plugin 'BootstrapHelpers';
 
 =head1 DESCRIPTION
 
