@@ -269,7 +269,7 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 
 The goal is not to have tag helpers for everything, but for common use cases.
 
-All examples below currently works.
+All examples below (and more, see tests) currently works.
 
 =head2 Panel
     
