@@ -2,5 +2,8 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
 
+0.002  2014-08-30 22:50:05 CEST
+    - First public release.
+
 0.001  2014-08-30 22:47:03 CEST
-	- Initial release
+    - Initial release
