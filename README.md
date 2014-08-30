@@ -26,7 +26,7 @@ All examples below currently works.
 
     %= bs_panel Test => no_title => 1
 
-    Generates
+Generates
 
     <div class="panel panel-default">
         <div class="panel-body">
