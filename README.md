@@ -10,9 +10,15 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     # ::Lite
     plugin 'BootstrapHelpers';
 
+# STATUS
+
+This is an unstable work in progress.
+
 # DESCRIPTION
 
-Mojolicious::Plugin::BootstrapHelpers is
+Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some bootstrap complexity by introducing several tag helpers specifically for [Bootstrap 3](http://www.getbootstrap.com/).
+
+The goal is not to have
 
 # AUTHOR
 

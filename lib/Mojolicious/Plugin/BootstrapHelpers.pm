@@ -208,9 +208,15 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
   # ::Lite
   plugin 'BootstrapHelpers';
 
+=head1 STATUS
+
+This is an unstable work in progress.
+
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::BootstrapHelpers is
+Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some bootstrap complexity by introducing several tag helpers specifically for L<Bootstrap 3|http://www.getbootstrap.com/>.
+
+The goal is not to have
 
 =head1 AUTHOR
 
