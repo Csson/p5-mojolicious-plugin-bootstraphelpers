@@ -22,26 +22,28 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 
 The goal is not to have tag helpers for everything, but for common use cases.
 
-All examples below currently works.
+All examples below (and more, see tests) currently works.
 
 ## Panel
 
-    %= bs_panel Test => no_title => 1
+[Bootstrap documentation](http://getbootstrap.com/components/#panels)
 
-Generates
+### No body, no title
+
+    %= bs_panel
+
 
     <div class="panel panel-default">
         <div class="panel-body">
         </div>
     </div>
 
-\----
+### Body, no title
 
     %= bs_panel Test => begin
         <p>A short text.</p>
     %  end
 
-Generates
 
     <div class="panel panel-default">
         <div class="panel-heading">
