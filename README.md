@@ -134,6 +134,8 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 Note the difference with the earlier example. Here `large => 1` is outside the `text_field` array ref, and therefore is applied to the form group. 
 
+### Horizontal form groups
+
     %= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
     <div class="form-group">
@@ -159,11 +161,3 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 # SEE ALSO
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 141:
-
-    Unknown directive: =head

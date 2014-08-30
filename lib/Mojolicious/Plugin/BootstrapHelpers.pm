@@ -405,7 +405,7 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 Note the difference with the earlier example. Here C<large =E<gt> 1> is outside the C<text_field> array ref, and therefore is applied to the form group. 
 
-=head Horizontal form groups
+=head3 Horizontal form groups
     
     %= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
