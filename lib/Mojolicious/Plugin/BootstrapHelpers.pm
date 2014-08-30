@@ -295,7 +295,7 @@ The goal is not to have tag helpers for everything, but for common use cases.
 
 All examples below (and more, see tests) currently works.
 
-=head2 Panel
+=head2 Panels
 
 L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
@@ -349,6 +349,72 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
             <p>A short text.</p>
         </div>
     </div>
+
+=head2 Form groups
+
+L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
+
+=head3 Basic form group
+    
+    %= bs_formgroup 'Text test 1', text_field => ['test_text']
+
+    <div class="form-group">
+        <label class="control-label" for="test_text">Text test 1</label>
+        <input class="form-control" id="test_text" name="test_text" type="text" />
+    </div>
+
+The first item in the array ref is used for both C<id> and C<name>.
+
+=head3 Input group (before), and large input field
+
+    %= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+
+    <div class="form-group">
+        <label class="control-label" for="test_text">Text test 4</label>
+        <div class="input-group">
+            <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
+            <span class="input-group-addon">.00</span>
+        </div>
+    </div>
+
+=head3 Input group (before and after), and with value
+
+    %= bs_formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+
+    <div class="form-group">
+        <label class="control-label" for="test_text">Text test 5</label>
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
+            <span class="input-group-addon">.00</span>
+        </div>
+    </div>
+
+The (optional) second item in the array ref is the value, if any, that should populate the input tag.
+
+=head3 Large input group
+
+    %= bs_formgroup 'Text test 6', text_field => ['test_text'], large => 1
+
+    <div class="form-group form-group-lg">
+        <label class="control-label" for="test_text">Text test 6</label>
+        <input class="form-control" id="test_text" name="test_text" type="text" />
+    </div>
+
+Note the difference with the earlier example. Here C<large =E<gt> 1> is outside the C<text_field> array ref, and therefore is applied to the form group. 
+
+=head Horizontal form groups
+    
+    %= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
+
+    <div class="form-group">
+        <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
+        <div class="col-md-10 col-sm-8">
+            <input class="form-control" id="test_text" name="test_text" type="text" />
+        </div>
+    </div>
+
+If the C<form> has the C<form-horizontal> class, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
 
 =head1 AUTHOR
 
