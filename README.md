@@ -1,10 +1,14 @@
 # NAME
 
-Mojolicious::Plugin::BootstrapHelpers - Blah blah blah
+Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 # SYNOPSIS
 
-    use Mojolicious::Plugin::BootstrapHelpers;
+    # Mojolicious
+    $self->plugin('BootstrapHelpers');
+
+    # ::Lite
+    plugin 'BootstrapHelpers';
 
 # DESCRIPTION
 

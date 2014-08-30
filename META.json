@@ -1,5 +1,5 @@
 {
-   "abstract" : "Blah blah blah",
+   "abstract" : "Type less bootstrap",
    "author" : [
       "Erik Carlsson <info@code301.com>"
    ],
@@ -46,6 +46,17 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.01"
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/issues"
+      },
+      "homepage" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers.git",
+         "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers"
+      }
+   },
+   "version" : "0.00132"
 }
 
