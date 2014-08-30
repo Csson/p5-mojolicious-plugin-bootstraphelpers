@@ -1,7 +1,7 @@
 {
    "abstract" : "Type less bootstrap",
    "author" : [
-      "Erik Carlsson <info@code301.com>"
+      "Erik Carlsson <csson@cpan.org>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Dist::Milla version v1.0.5, Dist::Zilla version 5.019, CPAN::Meta::Converter version 2.140640",
