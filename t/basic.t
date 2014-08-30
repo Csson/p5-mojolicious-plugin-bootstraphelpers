@@ -113,10 +113,13 @@ get '/buttons';
 ]<a class="btn" href="/buttons">The example 2</a>[
 ]<a class="btn" href="/panel">The example 3</a>[
 ]<button class="btn">The example 4</button>[
-]<button class="btn btn-lg">The example 5</button>[
+]<button class="btn btn-lg btn-warning">The example 5</button>[
 ]<a class="btn" href="/buttons">[
    ]The Example 6[
-]</a>};
+]</a>
+<button class="btn" type="submit">Save 1</button>[
+]<button class="btn btn-primary" type="submit">Save 2</button>[
+]};
     $test->get_ok('/buttons')->status_is(200)->content_is(trimmed($buttons));
 }
 
@@ -143,8 +146,8 @@ sub trimmed {
 
 __DATA__
 @@ panel.html.ep
-%= bs_panel Test => no_title => 1
-%= bs_panel Test => (no_title => 1) => begin
+%= bs_panel
+%= bs_panel () => begin
 %  end
 %= bs_panel 'Test'
 %= bs_panel Test => begin
@@ -169,7 +172,9 @@ __DATA__
 %= bs_button 'The example 2' => [url_for]
 %= bs_button 'The example 3' => ['panel']
 %= bs_button 'The example 4'
-%= bs_button 'The example 5' => large => 1
+%= bs_button 'The example 5' => large => 1, warning => 1
 %= bs_button [url_for] => begin
    The Example 6
 %  end
+%= bs_submit 'Save 1'
+%= bs_submit 'Save 2', primary => 1
