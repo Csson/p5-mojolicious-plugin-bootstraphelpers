@@ -32,7 +32,6 @@ All examples below (and more, see tests) currently works.
 
     %= bs_panel
 
-
     <div class="panel panel-default">
         <div class="panel-body">
         </div>
@@ -40,19 +39,46 @@ All examples below (and more, see tests) currently works.
 
 ### Body, no title
 
-    %= bs_panel Test => begin
+    %= bs_panel undef ,=> begin
         <p>A short text.</p>
     %  end
 
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+### Body and title
+
+    %= bs_panel 'The header' => begin
+        <p>A short text.</p>
+    %  end
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Test</h3>
+            <h3 class="panel-title">The Header</h3>
         </div>
         <div class="panel-body">
             <p>A short text.</p>
         </div>
     </div>
+
+### Body and title, with context
+
+    %= bs_panel 'Panel 5', success => 1 => begin
+        <p>A short text.</p>
+    %  end
+    
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel 5</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+    
 
 # AUTHOR
 
