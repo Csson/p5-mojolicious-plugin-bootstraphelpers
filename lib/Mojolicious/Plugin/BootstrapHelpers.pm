@@ -2,6 +2,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
     use Mojo::Base 'Mojolicious::Plugin';
     use Syntax::Collection::Basic;
 
+    use List::AllUtils 'first_index';
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
@@ -9,7 +10,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use experimental 'postderef';
 
-    our $VERSION = 0.001320;
+    our $VERSION = 0.001;
 
     sub register {
         my $self = shift;
@@ -18,6 +19,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper(bs_panel => \&bootstrap_panel);
         $app->helper(bs_formgroup => \&bootstrap_formgroup);
         $app->helper(bs_button => \&bootstrap_button);
+        $app->helper(bs_submit => \&bootstrap_submit);
 
 
     }
@@ -25,12 +27,12 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
         
-        $attr->{'panel_type'} //= 'default';
-        $attr->{'no_title'} //= 0;
+        #$attr = replace_context('panel_context');
+        $attr = add_classes($attr, 'panel', { panel_context => 'panel-%s', default => 'default'});
         
         my $tag = qq{
-            <div class="panel panel-$attr->{'panel_type'}">
-            } . (!$attr->{'no_title'} ? qq{
+            <div class="$attr->{'class'}">
+            } . (defined $title ? qq{
                 <div class="panel-heading">
                     <h3 class="panel-title">$title</h3>
                 </div>
@@ -49,17 +51,15 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $c = shift;
         my $title = ref $_[-1] eq 'CODE' ? pop : shift;
         my $attr = parse_attributes(@_);
-
-        #my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
-        #my $content = scalar @_ % 2 ? pop : '';
         
         my($id, $input) = fix_input($c, $attr);
         my $label = fix_label($c, $id, $title, $attr);
 
-        my $form_group_class = join ' ' => ('form-group', get_size($attr, 'form-group-%s'));
+        $attr = add_classes($attr, 'form-group', { size => 'form-group-%s'});
+        $attr = remove_attrs($attr);
 
         my $tag = qq{
-            <div class="$form_group_class">
+            <div class="$attr->{'class'}">
                 $label
                 $input
             </div>
@@ -73,20 +73,25 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $content = ref $_[-1] eq 'CODE' ? pop : shift;
 
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
-        my %attr = @_;
+        my $attr = { @_ };
         
-        my @tag_attrs = ();
-        push @tag_attrs => (class => join ' ' => ('btn', get_size(\%attr, 'btn-%s')));
+        $attr = add_classes($attr, 'btn', { size => 'btn-%s', button_context => 'btn-%s' });
+        $attr = remove_attrs($attr);
 
         # We have an url
         if(scalar @url) {
-            push @tag_attrs => (href => $c->url_for(@url));
-            return out(Mojolicious::Plugin::TagHelpers::_tag('a', @tag_attrs, $content));
+            $attr->{'href'} = $c->url_for(@url);
+            return out(Mojolicious::Plugin::TagHelpers::_tag('a', $attr->%*, $content));
         }
         else {
-            return out(Mojolicious::Plugin::TagHelpers::_tag('button', @tag_attrs, $content));
+            return out(Mojolicious::Plugin::TagHelpers::_tag('button', $attr->%*, $content));
         }
 
+    }
+
+    sub bootstrap_submit {
+        push @_ => (type => 'submit');
+        return bootstrap_button(@_);
     }
 
     sub fix_input {
@@ -94,30 +99,28 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $attr = shift;
         
         my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url/)[0];
-        my $id = shift $attr->{"${tagname}_field"}->@*;
+        my $info = $attr->{"${tagname}_field"};
+        my $id = shift $info->@*;
         
         # if odd number of elements, the first one is the value (shortcut to avoid having to: value => 'value')
-        if($attr->{"${tagname}_field"}->@* % 2) {
-            push $attr->{"${tagname}_field"}->@* => (value => shift $attr->{"${tagname}_field"}->@*);
+        if($info->@* % 2) {
+            push $info->@* => (value => shift $info->@*);
         }
-        my %tag_attr = $attr->{"${tagname}_field"}->@*;
+        my $tag_attr = { $info->@* };
 
-        {
-            no warnings 'uninitialized';
-            $tag_attr{'class'} = trim join ' ' => ($tag_attr{'class'}, 'form-control', get_size(\%tag_attr, 'input-%s'));
-            $tag_attr{'id'}  = $id;
-        }
+        $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
+        $tag_attr->{'id'} = $id;
 
-        my $prepend = delete $tag_attr{'prepend'};
-        my $append = delete $tag_attr{'append'};
+        my $prepend = delete $tag_attr->{'prepend'};
+        my $append = delete $tag_attr->{'append'};
+        $tag_attr = remove_attrs($tag_attr);
+
+        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, $tag_attr->%*, type => $tagname);
 
         # input group not requested
         if(!defined $prepend && !defined $append) {
-            return ($id => Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname));
+            return ($id => $input);
         }
-
-        
-        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, %tag_attr, type => $tagname);
 
         return $id => qq{
             <div class="input-group">
@@ -163,19 +166,45 @@ package Mojolicious::Plugin::BootstrapHelpers {
         return \%attr;
     }
 
-    sub get_size {
+    sub add_classes {
+        my $attr = shift;
+        my $formatter = ref $_[-1] eq 'HASH' ? pop : undef;
+
+        no warnings 'uninitialized';
+
+        my @classes = ($attr->{'class'}, @_);
+
+        if(exists $formatter->{'size'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'size'}, $formatter->{'default'}, _sizes());
+        }
+        if(exists $formatter->{'button_context'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'button_context'}, $formatter->{'default'}, _button_contexts());
+        }
+        if(exists $formatter->{'panel_context'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'panel_context'}, $formatter->{'default'}, _panel_contexts());
+        }
+
+        $attr->{'class'} = trim join ' ' => @classes;
+
+        return $attr;
+        
+    }
+
+    sub sprintfify_class {
         my $attr = shift;
         my $format = shift;
+        my %possibilities = pop->@*;
+        my $default = shift;
 
-        my %possible_sizes = qw/xsmall xs  small s  medium md  large lg/;
-        my $attr_size = (grep { exists $attr->{ $_ } } (%possible_sizes))[0];
+        my $found = (grep { exists $attr->{ $_ } } (%possibilities))[0];
 
-        return if !defined $attr_size;
+        return if !defined $found && !defined $default;
+        $found = $default if !defined $found;
 
-        my $size = exists $possible_sizes{ $attr_size } ? $possible_sizes{ $attr_size } : $attr_size;
-        delete $attr->{ $attr_size };
+        #* translate to bootstrap vocabulary (eg. large => lg)
+        my $correct_name = exists $possibilities{ $found } ? $possibilities{ $found } : $found;
 
-        return sprintf $format => $size;
+        return sprintf $format => $correct_name;
     }
 
     sub contents {
@@ -183,6 +212,26 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $content = shift;
 
         return defined $callback ? $callback->() : xml_escape($content);
+    }
+
+    sub remove_attrs {
+        my $hash = shift;
+        
+        map { delete $hash->{ $_ } } (_sizes()->@*, _contexts()->@*, _button_contexts()->@*, _panel_contexts()->@*);
+        return $hash;
+    }
+
+    sub _sizes {
+        return [qw/xsmall xs  small s  medium md  large lg/];
+    }
+    sub _button_contexts {
+        return [qw/default default primary primary success success info info warning warning danger danger link link/];
+    }
+    sub _panel_contexts {
+        return [qw/default default primary primary success success info info warning warning danger danger/];
+    }
+    sub _contexts {
+        return [qw/active active success success info info warning warning danger danger/];
     }
 
     sub out {
@@ -211,6 +260,8 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 =head1 STATUS
 
 This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
+
+Currently supported Bootstrap version: 3.2.0.
 
 =head1 DESCRIPTION
 
