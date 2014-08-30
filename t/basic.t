@@ -108,7 +108,7 @@ my $formgroup_textfield_4 = q{[
             <div class="form-group">
                 <label class="control-label" for="test_text">Text test 4</label>
                 <div class="input-group">
-                    <input class="input-lg form-control" id="test_text" name="test_text" type="text" />
+                    <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
                     <span class="input-group-addon">.00</span>
                 </div>
             </div>[
@@ -146,8 +146,8 @@ $test->get_ok('/formgroup_textfield_7')->status_is(200)->content_is(trimmed($for
 
 my $formgroup_textfield_8 = q{[
             ]<div class="form-group">
-                <label class="control-label col-md-2" for="test_text">Text test 8</label>
-                <div class="col-md-10">
+                <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
+                <div class="col-md-10 col-sm-8">
                     <input class="form-control" id="test_text" name="test_text" type="text" />
                 </div>
             </div>[
@@ -223,7 +223,7 @@ __DATA__
 %= bs_formgroup 'Text test 3', text_field => ['test_text', prepend => '@']
 
 @@ formgroup_textfield_4.html.ep
-%= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', class => 'input-lg']
+%= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
 
 @@ formgroup_textfield_5.html.ep
 %= bs_formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
@@ -237,7 +237,7 @@ __DATA__
 %  end
 
 @@ formgroup_textfield_8.html.ep
-%= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10] }
+%= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
 
 @@ buttons.html.ep
