@@ -52,11 +52,14 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $title = ref $_[-1] eq 'CODE' ? pop : shift;
         my $attr = parse_attributes(@_);
         
+        $attr->{'column_information'} = delete $attr->{'cols'} if ref $attr->{'cols'} eq 'HASH';
+
         my($id, $input) = fix_input($c, $attr);
         my $label = fix_label($c, $id, $title, $attr);
 
         $attr = add_classes($attr, 'form-group', { size => 'form-group-%s'});
-        $attr = remove_attrs($attr);
+        $attr = cleanup_attrs($attr);
+
 
         my $tag = qq{
             <div class="$attr->{'class'}">
@@ -76,7 +79,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $attr = { @_ };
         
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button_context => 'btn-%s' });
-        $attr = remove_attrs($attr);
+        $attr = cleanup_attrs($attr);
 
         # We have an url
         if(scalar @url) {
@@ -98,7 +101,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $c = shift;
         my $attr = shift;
         
-        my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url/)[0];
+        my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url password/)[0];
         my $info = $attr->{"${tagname}_field"};
         my $id = shift $info->@*;
         
@@ -108,26 +111,31 @@ package Mojolicious::Plugin::BootstrapHelpers {
         }
         my $tag_attr = { $info->@* };
 
+        my @column_classes = get_column_classes($attr->{'column_information'}, 1);
         $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
         $tag_attr->{'id'} = $id;
 
         my $prepend = delete $tag_attr->{'prepend'};
         my $append = delete $tag_attr->{'append'};
-        $tag_attr = remove_attrs($tag_attr);
+        $tag_attr = cleanup_attrs($tag_attr);
 
+        my $horizontal_before = scalar @column_classes ? qq{<div class="} . (trim join ' ' => @column_classes) . '">' : '';
+        my $horizontal_after = scalar @column_classes ? '</div>' : '';
         my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, $tag_attr->%*, type => $tagname);
 
         # input group not requested
         if(!defined $prepend && !defined $append) {
-            return ($id => $input);
+            return ($id => $horizontal_before . $input . $horizontal_after);
         }
 
         return $id => qq{
+            $horizontal_before
             <div class="input-group">
                 } . ($prepend ? qq{<span class="input-group-addon">$prepend</span>} : '') . qq{
                 $input
                 } . ($append ? qq{<span class="input-group-addon">$append</span>} : '') . qq{
             </div>
+            $horizontal_after
         };
 
     }
@@ -138,7 +146,8 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $title = shift;
         my $attr = shift;
 
-        my @args = (class => 'control-label');
+        my @column_classes = get_column_classes($attr->{'column_information'}, 0);
+        my @args = (class => trim join ' ' => ('control-label', @column_classes));
         ref $title eq 'CODE' ? push @args => $title : unshift @args => $title;
 
         return Mojolicious::Plugin::TagHelpers::_label_for($c, $for, @args);
@@ -164,6 +173,21 @@ package Mojolicious::Plugin::BootstrapHelpers {
             delete $attr{'data'};
         }
         return \%attr;
+    }
+
+    sub get_column_classes {
+        my $attr = shift;
+        my $index = shift;
+
+        my %sizes = _sizes()->@*;
+        my @classes = ();
+        foreach my $key (keys $attr->%*) {
+            my $correct_name = exists $sizes{ $key } ? $sizes{ $key } : $key;
+            if(exists $attr->{ $key } || exists $attr->{ $correct_name }) {
+                push @classes => sprintf "col-%s-%d" => $correct_name, $attr->{ $key }[ $index ];
+            }
+        }
+        return @classes;
     }
 
     sub add_classes {
@@ -214,15 +238,15 @@ package Mojolicious::Plugin::BootstrapHelpers {
         return defined $callback ? $callback->() : xml_escape($content);
     }
 
-    sub remove_attrs {
+    sub cleanup_attrs {
         my $hash = shift;
         
-        map { delete $hash->{ $_ } } (_sizes()->@*, _contexts()->@*, _button_contexts()->@*, _panel_contexts()->@*);
+        map { delete $hash->{ $_ } } ('column_information', _sizes()->@*, _contexts()->@*, _button_contexts()->@*, _panel_contexts()->@*);
         return $hash;
     }
 
     sub _sizes {
-        return [qw/xsmall xs  small s  medium md  large lg/];
+        return [qw/xsmall xs  small sm  medium md  large lg/];
     }
     sub _button_contexts {
         return [qw/default default primary primary success success info info warning warning danger danger link link/];
@@ -272,23 +296,25 @@ The goal is not to have tag helpers for everything, but for common use cases.
 All examples below (and more, see tests) currently works.
 
 =head2 Panel
-    
-    %= bs_panel Test => no_title => 1
 
-Generates
+L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
+
+=head3 No body, no title
+
+    %= bs_panel
+
 
     <div class="panel panel-default">
         <div class="panel-body">
         </div>
     </div>
 
-----
+=head3 Body, no title
 
     %= bs_panel Test => begin
         <p>A short text.</p>
     %  end
 
-Generates
 
     <div class="panel panel-default">
         <div class="panel-heading">
