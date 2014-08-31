@@ -520,6 +520,8 @@ This is similar to C<tag_prefix>, but is instead applied to the shortcuts. The s
 
 =head2 init_shortcuts
 
+Default: C<1>
+
 If you don't want the shortcuts setup at all, set this option to a defined but false value.
 
 All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>. That is why they are shortcuts.

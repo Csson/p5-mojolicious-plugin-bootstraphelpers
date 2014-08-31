@@ -205,6 +205,8 @@ This is similar to `tag_prefix`, but is instead applied to the shortcuts. The sa
 
 ## init\_shortcuts
 
+Default: `1`
+
 If you don't want the shortcuts setup at all, set this option to a defined but false value.
 
 All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are shortcuts.
