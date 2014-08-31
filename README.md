@@ -32,7 +32,7 @@ All examples below (and more, see tests) currently works.
 
 ### No body, no title
 
-    %= bs_panel
+    %= panel
 
     <div class="panel panel-default">
         <div class="panel-body">
@@ -41,7 +41,7 @@ All examples below (and more, see tests) currently works.
 
 ### Body, no title
 
-    %= bs_panel undef ,=> begin
+    %= panel undef ,=> begin
         <p>A short text.</p>
     %  end
 
@@ -53,7 +53,7 @@ All examples below (and more, see tests) currently works.
 
 ### Body and title
 
-    %= bs_panel 'The header' => begin
+    %= panel 'The header' => begin
         <p>A short text.</p>
     %  end
 
@@ -68,7 +68,7 @@ All examples below (and more, see tests) currently works.
 
 ### Body and title, with context
 
-    %= bs_panel 'Panel 5', success => 1 => begin
+    %= panel 'Panel 5', success => 1 => begin
         <p>A short text.</p>
     %  end
     
@@ -87,7 +87,7 @@ All examples below (and more, see tests) currently works.
 
 ### Basic form group
 
-    %= bs_formgroup 'Text test 1', text_field => ['test_text']
+    %= formgroup 'Text test 1', text_field => ['test_text']
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 1</label>
@@ -98,7 +98,7 @@ The first item in the array ref is used for both `id` and `name`.
 
 ### Input group (before), and large input field
 
-    %= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
@@ -110,7 +110,7 @@ The first item in the array ref is used for both `id` and `name`.
 
 ### Input group (before and after), and with value
 
-    %= bs_formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+    %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 5</label>
@@ -125,7 +125,7 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 ### Large input group
 
-    %= bs_formgroup 'Text test 6', text_field => ['test_text'], large => 1
+    %= formgroup 'Text test 6', text_field => ['test_text'], large => 1
 
     <div class="form-group form-group-lg">
         <label class="control-label" for="test_text">Text test 6</label>
@@ -136,7 +136,7 @@ Note the difference with the earlier example. Here `large => 1` is outside the `
 
 ### Horizontal form groups
 
-    %= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
+    %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
     <div class="form-group">
         <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>

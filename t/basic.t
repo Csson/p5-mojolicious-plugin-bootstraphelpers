@@ -192,62 +192,62 @@ sub trimmed {
 
 __DATA__
 @@ panel_1.html.ep
-%= bs_panel
+%= panel
 
 @@ panel_2.html.ep
-%= bs_panel undef ,=> begin
+%= panel undef ,=> begin
     <p>In the panel.</p>
 %  end
 
 @@ panel_3.html.ep
-%= bs_panel 'Test'
+%= panel 'Test'
 
 @@ panel_4.html.ep
-%= bs_panel 'The Header' => begin
+%= panel 'The Header' => begin
     <p>A short text.</p>
 %  end
 
 @@ panel_5.html.ep
-%= bs_panel 'Panel 5', success => 1 => begin
+%= panel 'Panel 5', success, begin
     <p>A short text.</p>
 %  end
 
 
 @@ formgroup_textfield_1.html.ep
-%= bs_formgroup 'Text test 1', text_field => ['test_text']
+%= formgroup 'Text test 1', text_field => ['test_text']
 
 @@ formgroup_textfield_2.html.ep
-%= bs_formgroup 'Text test 2', text_field => ['test_text', size => 30]
+%= formgroup 'Text test 2', text_field => ['test_text', size => 30]
 
 @@ formgroup_textfield_3.html.ep
-%= bs_formgroup 'Text test 3', text_field => ['test_text', prepend => '@']
+%= formgroup 'Text test 3', text_field => ['test_text', prepend => '@']
 
 @@ formgroup_textfield_4.html.ep
-%= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+%= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
 
 @@ formgroup_textfield_5.html.ep
-%= bs_formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+%= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
 @@ formgroup_textfield_6.html.ep
-%= bs_formgroup 'Text test 6', text_field => ['test_text'], large => 1
+%= formgroup 'Text test 6', large, text_field => ['test_text']
 
 @@ formgroup_textfield_7.html.ep
-%= bs_formgroup text_field => ['test_text', xsmall => 1] => begin
+%= formgroup text_field => ['test_text', xsmall => 1] => begin
     Text test 7
 %  end
 
 @@ formgroup_textfield_8.html.ep
-%= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
+%= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
 
 @@ buttons.html.ep
-%= bs_button 'The example 1' => ['http://www.example.com/'], lg => 1
-%= bs_button 'The example 2' => [url_for]
-%= bs_button 'The example 3' => ['panel_1']
-%= bs_button 'The example 4'
-%= bs_button 'The example 5' => large => 1, warning => 1
-%= bs_button [url_for] => begin
+%= button 'The example 1' => ['http://www.example.com/'], lg => 1
+%= button 'The example 2' => [url_for]
+%= button 'The example 3' => ['panel_1']
+%= button 'The example 4'
+%= button 'The example 5' => large => 1, warning => 1
+%= button [url_for] => begin
    The Example 6
 %  end
-%= bs_submit 'Save 1'
-%= bs_submit 'Save 2', primary => 1
+%= submit_button 'Save 1'
+%= submit_button 'Save 2', primary => 1

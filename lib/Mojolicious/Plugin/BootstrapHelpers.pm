@@ -16,11 +16,12 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $self = shift;
         my $app = shift;
 
-        $app->helper(bs_panel => \&bootstrap_panel);
-        $app->helper(bs_formgroup => \&bootstrap_formgroup);
-        $app->helper(bs_button => \&bootstrap_button);
-        $app->helper(bs_submit => \&bootstrap_submit);
-
+        $app->helper(panel => \&bootstrap_panel);
+        $app->helper(formgroup => \&bootstrap_formgroup);
+        $app->helper(button => \&bootstrap_button);
+        $app->helper(submit_button => \&bootstrap_submit);
+        $app->helper(large => sub { (large => 1) });
+        $app->helper(success => sub { (success => 1) });
 
     }
 
@@ -303,7 +304,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 No body, no title
 
-    %= bs_panel
+    %= panel
 
     <div class="panel panel-default">
         <div class="panel-body">
@@ -312,7 +313,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Body, no title
 
-    %= bs_panel undef ,=> begin
+    %= panel undef ,=> begin
         <p>A short text.</p>
     %  end
 
@@ -324,7 +325,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Body and title
 
-    %= bs_panel 'The header' => begin
+    %= panel 'The header' => begin
         <p>A short text.</p>
     %  end
 
@@ -339,7 +340,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Body and title, with context
     
-    %= bs_panel 'Panel 5', success => 1 => begin
+    %= panel 'Panel 5', success => 1 => begin
         <p>A short text.</p>
     %  end
     
@@ -358,7 +359,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 =head3 Basic form group
     
-    %= bs_formgroup 'Text test 1', text_field => ['test_text']
+    %= formgroup 'Text test 1', text_field => ['test_text']
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 1</label>
@@ -369,7 +370,7 @@ The first item in the array ref is used for both C<id> and C<name>.
 
 =head3 Input group (before), and large input field
 
-    %= bs_formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
@@ -381,7 +382,7 @@ The first item in the array ref is used for both C<id> and C<name>.
 
 =head3 Input group (before and after), and with value
 
-    %= bs_formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+    %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 5</label>
@@ -396,7 +397,7 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 =head3 Large input group
 
-    %= bs_formgroup 'Text test 6', text_field => ['test_text'], large => 1
+    %= formgroup 'Text test 6', text_field => ['test_text'], large => 1
 
     <div class="form-group form-group-lg">
         <label class="control-label" for="test_text">Text test 6</label>
@@ -407,7 +408,7 @@ Note the difference with the earlier example. Here C<large =E<gt> 1> is outside 
 
 =head3 Horizontal form groups
     
-    %= bs_formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
+    %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
     <div class="form-group">
         <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
