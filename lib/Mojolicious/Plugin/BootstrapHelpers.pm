@@ -382,7 +382,7 @@ This is an unstable work in progress. Backwards compatibility is currently not t
 
 Currently supported Bootstrap version: 3.2.0.
 
-Only Perl 5.20+ is supported (thanks to postderef). This I<might> change.
+Currently only Perl 5.20+ is supported (thanks to postderef).
 
 =head1 DESCRIPTION
 
@@ -476,16 +476,21 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
     %= panel
 
-    %= panel $title, %arguments, begin
+    %= panel $title, @shortcuts, begin
+        $body
     %  end
 
 B<C<$title>>
 
 Usually mandatory, but can be omitted if there are no other arguments to the C<panel>. Otherwise, if you don't want a title, set it C<undef>.
 
-B<C<%arguments>>
+B<C<@shortcuts>>
 
-A hash. Currently the only use is for shortcuts. No html attributes can (currently) be added to panels.
+Optional hash. Any shortcuts you want applied to the C<panel>.
+
+B<C<$body>>
+
+Optional (but panels are not much use without it). The html inside the C<panel>.
 
 =back
 

@@ -1,6 +1,9 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Documentation: Clarified shortcuts
+    - Documentation: Started work on structured syntax descriptions
+    - Documentation: Improved synopsis
 
 0.006  2014-08-31 17:37:26 CEST
     - Added table helpers
