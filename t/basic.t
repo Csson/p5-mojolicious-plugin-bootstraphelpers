@@ -141,6 +141,20 @@ my @buttons = (
 test($test, 'button', @buttons);
 
 
+my @tables = (
+    q{
+        <table class="table">
+        </table>
+    },
+    q{
+        <table class="table table-condensed table-hover table-striped">
+        </table>
+    }
+
+);
+
+test($test, 'table', @tables);
+
 
 done_testing();
 
@@ -232,3 +246,11 @@ __DATA__
 
 @@ button_8.html.ep
 %= submit_button 'Save 2', primary
+
+
+@@ table_1.html.ep
+%= table
+
+@@ table_2.html.ep
+%= table hover, striped, condensed, begin
+%  end
