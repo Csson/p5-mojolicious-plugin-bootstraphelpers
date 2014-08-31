@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Removed unnecessary dependency
+    - Much improved tests (with Test::Mojo::Trim)
 
 0.002  2014-08-30 22:50:05 CEST
     - First public release.
