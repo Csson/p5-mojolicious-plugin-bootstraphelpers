@@ -1,7 +1,9 @@
 package Mojolicious::Plugin::BootstrapHelpers {
+    use strict;
+    use true;
+    
     use Mojo::Base 'Mojolicious::Plugin';
-    use Syntax::Collection::Basic;
-
+    
     use List::AllUtils 'first_index';
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
