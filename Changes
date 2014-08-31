@@ -1,7 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
-    - Added many shortcuts
+    - Added many shortcuts (and adjusted documentation)
+    - Documented options
     - Cleaned up internals
     - Improved test layout
     - Cleaned up cpanfile
