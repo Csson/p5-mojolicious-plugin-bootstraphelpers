@@ -24,7 +24,7 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 
 The goal is not to have tag helpers for everything, but for common use cases.
 
-All examples below (and more, see tests) currently works.
+All examples below (and more, see tests) is expected to work.
 
 ## Shortcuts
 
@@ -60,6 +60,8 @@ If there is no corresponding class for the element you add the shortcut to it is
         </div>
     </div>
 
+The class is set to `panel-default`, by default.
+
 ### Body, no title
 
     %= panel undef ,=> begin
@@ -71,6 +73,8 @@ If there is no corresponding class for the element you add the shortcut to it is
             <p>A short text.</p>
         </div>
     </div>
+
+If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string.
 
 ### Body and title
 
@@ -89,7 +93,7 @@ If there is no corresponding class for the element you add the shortcut to it is
 
 ### Body and title, with context
 
-    %= panel 'Panel 5', success => 1 => begin
+    %= panel 'Panel 5', success, begin
         <p>A short text.</p>
     %  end
     
@@ -101,6 +105,8 @@ If there is no corresponding class for the element you add the shortcut to it is
             <p>A short text.</p>
         </div>
     </div>
+
+The first shortcut, `success`. This applies `.panel-success`.
 
 ## Form groups
 
@@ -119,7 +125,7 @@ The first item in the array ref is used for both `id` and `name`.
 
 ### Input group (before), and large input field
 
-    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
@@ -128,6 +134,8 @@ The first item in the array ref is used for both `id` and `name`.
             <span class="input-group-addon">.00</span>
         </div>
     </div>
+
+Shortcuts can also be used in this context. Here `large` applies `.input-lg`.
 
 ### Input group (before and after), and with value
 
@@ -146,14 +154,14 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 ### Large input group
 
-    %= formgroup 'Text test 6', text_field => ['test_text'], large => 1
+    %= formgroup 'Text test 6', text_field => ['test_text'], large
 
     <div class="form-group form-group-lg">
         <label class="control-label" for="test_text">Text test 6</label>
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-Note the difference with the earlier example. Here `large => 1` is outside the `text_field` array ref, and therefore is applied to the form group. 
+Note the difference with the earlier example. Here `large` is outside the `text_field` array ref, and therefore `.form-group-lg` is applied to the form group. 
 
 ### Horizontal form groups
 
@@ -166,7 +174,40 @@ Note the difference with the earlier example. Here `large => 1` is outside the `
         </div>
     </div>
 
-If the `form` has the `form-horizontal` class, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
+If the `form` `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
+
+# OPTIONS
+
+Some options are available:
+
+    $app->plugin('BootstrapHelpers', {
+        tag_prefix => 'bs',
+        shortcut_prefix => 'set',
+        init_shortcuts => 1,
+    });
+
+## tag\_prefix
+
+Default: `undef`
+
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
+by using the prefix to original names are no longer available. The following rules are used:
+
+- If the option is missing, or is `undef`, there is no prefix.
+- If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
+- If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
+
+## shortcut\_prefix
+
+Default: `undef`
+
+This is similar to `tag_prefix`, but is instead applied to the shortcuts. The same rules applies.
+
+## init\_shortcuts
+
+If you don't want the shortcuts setup at all, set this option to a defined but false value.
+
+All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are shortcuts.
 
 # AUTHOR
 
