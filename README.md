@@ -28,7 +28,7 @@ This is an unstable work in progress. Backwards compatibility is currently not t
 
 Currently supported Bootstrap version: 3.2.0.
 
-Only Perl 5.20+ is supported (thanks to postderef). This _might_ change.
+Currently only Perl 5.20+ is supported (thanks to postderef).
 
 # DESCRIPTION
 
@@ -117,16 +117,21 @@ If there is no corresponding class for the element you add the shortcut to it is
 
     %= panel
 
-    %= panel $title, %arguments, begin
+    %= panel $title, @shortcuts, begin
+        $body
     %  end
 
 **`$title`**
 
 Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
 
-**`%arguments`**
+**`@shortcuts`**
 
-A hash. Currently the only use is for shortcuts. No html attributes can (currently) be added to panels.
+Optional hash. Any shortcuts you want applied to the `panel`.
+
+**`$body`**
+
+Optional (but panels are not much use without it). The html inside the `panel`.
 
 ### Examples
 
@@ -441,10 +446,10 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 140:
+- Around line 145:
 
     &#x3d;back without =over
 
-- Around line 254:
+- Around line 259:
 
     Unterminated B<...> sequence
