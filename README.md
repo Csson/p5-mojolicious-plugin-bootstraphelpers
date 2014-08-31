@@ -233,7 +233,7 @@ A hash:
 >
 > > **`$name`**
 > >
-> > Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
+> > Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes then those are translated
 > > into underscores when setting the `name`. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
 > >
 > > **`$value`**
