@@ -92,8 +92,6 @@ See below for usage. **Important:** You can't follow a shortcut with a fat comma
 
 If there is no corresponding class for the element you add the shortcut to it is silently not applied.
 
-You can turn off shortcuts, see [init\_shortcuts](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers#init_shortcuts).
-
 ## Panels
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
@@ -317,3 +315,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 101:
+
+    Unknown directive: =html

@@ -448,7 +448,9 @@ See below for usage. B<Important:> You can't follow a shortcut with a fat comma 
 
 If there is no corresponding class for the element you add the shortcut to it is silently not applied.
 
-You can turn off shortcuts, see L<init_shortcuts|Mojolicious::Plugin::BootstrapHelpers#init_shortcuts>.
+=html
+You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
+=end
 
 =head2 Panels
 
