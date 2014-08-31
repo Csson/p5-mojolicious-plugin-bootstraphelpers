@@ -104,6 +104,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my @column_classes = get_column_classes($attr->{'column_information'}, 1);
         $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
         $tag_attr->{'id'} = $id;
+        my $name_attr = $id =~ s{-}{_}r;
 
         my $prepend = delete $tag_attr->{'prepend'};
         my $append = delete $tag_attr->{'append'};
@@ -111,7 +112,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         my $horizontal_before = scalar @column_classes ? qq{<div class="} . (trim join ' ' => @column_classes) . '">' : '';
         my $horizontal_after = scalar @column_classes ? '</div>' : '';
-        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $id, $tag_attr->%*, type => $tagname);
+        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $name_attr, $tag_attr->%*, type => $tagname);
 
         # input group not requested
         if(!defined $prepend && !defined $append) {
@@ -478,7 +479,7 @@ Note the difference with the earlier example. Here C<large> is outside the C<tex
         </div>
     </div>
 
-If the C<form> C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
+If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
 
 =head1 OPTIONS
 
