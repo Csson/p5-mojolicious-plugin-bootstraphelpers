@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Allow dashes in id, but change them to underscores in name
+    - Documented buttons
 
 0.004  2014-08-31 14:14:19 CEST
     - Added many shortcuts (and adjusted documentation)
