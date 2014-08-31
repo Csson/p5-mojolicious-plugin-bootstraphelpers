@@ -1,6 +1,10 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Added many shortcuts
+    - Cleaned up internals
+    - Improved test layout
+    - Cleaned up cpanfile
 
 0.003  2014-08-31 11:21:10 CEST
     - Removed unnecessary dependency

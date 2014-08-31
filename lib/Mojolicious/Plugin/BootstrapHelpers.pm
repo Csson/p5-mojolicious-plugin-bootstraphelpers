@@ -169,11 +169,10 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $attr = shift;
         my $index = shift;
 
-        my %sizes = _sizes()->@*;
         my @classes = ();
         foreach my $key (keys $attr->%*) {
-            my $correct_name = exists $sizes{ $key } ? $sizes{ $key } : $key;
-            if(exists $attr->{ $key } || exists $attr->{ $correct_name }) {
+            my $correct_name = get_size_for($key);
+            if(defined $correct_name) {
                 push @classes => sprintf "col-%s-%d" => $correct_name, $attr->{ $key }[ $index ];
             }
         }
@@ -207,18 +206,16 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub sprintfify_class {
         my $attr = shift;
         my $format = shift;
-        my %possibilities = pop->@*;
+        my $possibilities = pop;
         my $default = shift;
 
-        my $found = (grep { exists $attr->{ $_ } } (%possibilities))[0];
+        my $found = (grep { exists $attr->{ $_ } } (keys $possibilities->%*))[0];
 
         return if !defined $found && !defined $default;
         $found = $default if !defined $found;
 
-        #* translate to bootstrap vocabulary (eg. large => lg)
-        my $correct_name = exists $possibilities{ $found } ? $possibilities{ $found } : $found;
+        return sprintf $format => $possibilities->{ $found };
 
-        return sprintf $format => $correct_name;
     }
 
     sub contents {
@@ -231,21 +228,32 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub cleanup_attrs {
         my $hash = shift;
         
-        map { delete $hash->{ $_ } } ('column_information', _sizes()->@*, _contexts()->@*, _button_contexts()->@*, _panel_contexts()->@*);
+        map { delete $hash->{ $_ } } ('column_information', keys _sizes()->%*, keys _button_contexts()->%*, keys _panel_contexts()->%*);
+        # delete all attributes starting with __
+        map { delete $hash->{ $_ } } grep { substr $_, 0 => 2 eq '__' } keys $hash->%*;
         return $hash;
     }
 
-    sub _sizes {
-        return [qw/xsmall xs  small sm  medium md  large lg/];
+    sub get_size_for {
+        my $input = shift;
+
+        return _sizes()->{ $input };
     }
+
+    sub _sizes {
+        return {
+            __xsmall => 'xs', xsmall => 'xs', xs => 'xs',
+            __small  => 'sm', small  => 'sm', sm => 'sm',
+            __medium => 'md', medium => 'md', md => 'md',
+            __large  => 'lg', large  => 'lg', lg => 'lg',
+        }
+    }
+
     sub _button_contexts {
-        return [qw/default default primary primary success success info info warning warning danger danger link link/];
+        return { map { ("__$_" => $_, $_ => $_) } qw/default primary success info warning danger link/ };
     }
     sub _panel_contexts {
-        return [qw/default default primary primary success success info info warning warning danger danger/];
-    }
-    sub _contexts {
-        return [qw/active active success success info info warning warning danger danger/];
+        return { map { ("__$_" => $_, $_ => $_) } qw/default primary success info warning danger/ };
     }
 
     sub out {
@@ -264,16 +272,19 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $spx = setup_prefix($args->{'shortcut_prefix'});
         my $suppress_shortcuts = $args->{'suppress_shortcuts'} //= 0;
 
-        add_helper($app, $px, panel => \&bootstrap_panel);
-        add_helper($app, $px, formgroup => \&bootstrap_formgroup);
-        add_helper($app, $px, button => \&bootstrap_button);
-        add_helper($app, $px, submit_button => \&bootstrap_submit);
+        $app->helper($px.'panel' => \&bootstrap_panel);
+        $app->helper($px.'formgroup' => \&bootstrap_formgroup);
+        $app->helper($px.'button' => \&bootstrap_button);
+        $app->helper($px.'submit_button' => \&bootstrap_submit);
 
         if(!$suppress_shortcuts) {
-            add_helper($app, $spx, large => sub { (large => 1) });
-            add_helper($app, $spx, success => sub { (success => 1) });
-        }
+            my @sizes = qw/xsmall small medium large/;
+            my @contexts = qw/default primary success info warning danger/;
 
+            foreach my $helper (@sizes, @contexts) {
+               $app->helper($spx.$helper, sub { ("__$helper" => 1) });
+            }
+        }
     }
 
     sub setup_prefix {
@@ -286,14 +297,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
              ;
     }
 
-    sub add_helper {
-        my $app = shift;
-        my $prefix = shift;
-        my $helper = shift;
-        my $method = shift;
-
-        $app->helper($prefix.$helper => $method);
-    }
 }
 __END__
 
@@ -326,6 +329,27 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 The goal is not to have tag helpers for everything, but for common use cases.
 
 All examples below (and more, see tests) currently works.
+
+=head2 Shortcuts
+
+There are several shortcuts for context and size classes, that automatically expands to the correct class depending on which tag it is applied to.
+
+For instance, if you apply the C<info> shortcut to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
+
+For sizes, you can only use C<xsmall>, C<small>, C<medium> and C<large>, they are shortened to the Bootstrap type classes.
+
+The following shortcuts are available:
+
+   xsmall    default
+   small     primary
+   medium    success
+   large     info
+             warning
+             danger
+
+See below for usage. B<Important:> You can't follow a shortcut with a fat comma (C<=E<gt>>). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
+
+If there is no corresponding class for the element you add the shortcut to it is automatically removed.
 
 =head2 Panels
 

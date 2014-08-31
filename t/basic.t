@@ -199,7 +199,7 @@ __DATA__
 %= formgroup 'Text test 6', large, text_field => ['test_text']
 
 @@ formgroup_7.html.ep
-%= formgroup text_field => ['test_text', xsmall => 1] => begin
+%= formgroup text_field => ['test_text', xsmall] => begin
     Text test 7
 %  end
 
@@ -220,7 +220,7 @@ __DATA__
 %= button 'The example 4'
 
 @@ button_5.html.ep
-%= button 'The example 5' => large => 1, warning => 1
+%= button 'The example 5' => large, warning
 
 @@ button_6.html.ep
 %= button [url_for] => begin
@@ -231,4 +231,4 @@ __DATA__
 %= submit_button 'Save 1'
 
 @@ button_8.html.ep
-%= submit_button 'Save 2', primary => 1
+%= submit_button 'Save 2', primary

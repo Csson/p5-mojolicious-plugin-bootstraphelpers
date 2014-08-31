@@ -26,6 +26,27 @@ The goal is not to have tag helpers for everything, but for common use cases.
 
 All examples below (and more, see tests) currently works.
 
+## Shortcuts
+
+There are several shortcuts for context and size classes, that automatically expands to the correct class depending on which tag it is applied to.
+
+For instance, if you apply the `info` shortcut to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
+
+For sizes, you can only use `xsmall`, `small`, `medium` and `large`, they are shortened to the Bootstrap type classes.
+
+The following shortcuts are available:
+
+    xsmall    default
+    small     primary
+    medium    success
+    large     info
+              warning
+              danger
+
+See below for usage. **Important:** You can't follow a shortcut with a fat comma (`=>`). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
+
+If there is no corresponding class for the element you add the shortcut to it is automatically removed.
+
 ## Panels
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
