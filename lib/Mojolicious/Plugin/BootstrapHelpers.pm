@@ -14,6 +14,26 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     our $VERSION = 0.005;
 
+    sub bootstraps_bootstraps {
+        my $c = shift;
+        my $arg = shift;
+
+        my $css   = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">};
+        my $theme = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">};
+        my $js    = q{<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>};
+        my $jq    = q{<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>};
+
+        return out(
+              !defined $arg  ? $css
+            : $arg eq 'css'  ? $css . $theme
+            : $arg eq 'js'   ? $js
+            : $arg eq 'jsq'  ? $jq . $js
+            : $arg eq 'all'  ? $css . $theme . $js
+            : $arg eq 'allq' ? $css . $theme . $jq . $js
+            :                 ''
+        );
+    }
+
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
         
@@ -299,6 +319,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $spx = setup_prefix($args->{'shortcut_prefix'});
         my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
 
+        $app->helper($px.'bootstrap' => \&bootstraps_bootstraps);
         $app->helper($px.'table' => \&bootstrap_table);
         $app->helper($px.'panel' => \&bootstrap_panel);
         $app->helper($px.'formgroup' => \&bootstrap_formgroup);
@@ -358,6 +379,53 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 The goal is not to have tag helpers for everything, but for common use cases.
 
 All examples below (and more, see tests) is expected to work.
+
+
+=head2 How to use Bootstrap
+
+If you don't know what Bootstrap is, see L<http://www.getbootstrap.com/> for possible usages.
+
+You might want to use L<Mojolicious::Plugin::Bootstrap3> in your templates.
+
+To get going quickly by using the official CDN you can use the following helpers:
+    
+    # CSS
+    %= bootstrap
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    
+    # or (if you want to use the theme)
+    %= bootstrap 'theme'
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    # And the javascript
+    %= bootstrap 'js'
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    # Or just:
+    %= bootstrap 'all'
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+It is also possible to automatically include jQuery (2.*)
+    
+    %= bootstrap 'jsq'
+    
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    %= bootstrap 'allq'
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 
 =head2 Shortcuts
 
@@ -616,7 +684,5 @@ Copyright 2014- Erik Carlsson
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-=head1 SEE ALSO
 
 =cut

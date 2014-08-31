@@ -13,6 +13,37 @@ plugin 'BootstrapHelpers';
 
 my $test = Test::Mojo::Trim->new;
 
+my @bootstraps = (
+    q{
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    },
+    q{
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    },
+    q{
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    },
+    q{
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    },
+    q{
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    },
+    q{
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    },
+);
+
+test($test, 'bootstrap', @bootstraps);
+
+
 my @panels = (
     qq{
         <div class="panel panel-default">
@@ -151,8 +182,7 @@ my @tables = (
         <table class="table table-condensed table-hover table-striped">
             <tr><td>Table 2</td></tr>
         </table>
-    }
-
+    },
 );
 
 test($test, 'table', @tables);
@@ -174,6 +204,25 @@ sub test {
 }
 
 __DATA__
+@@ bootstrap_1.html.ep
+%= bootstrap
+
+@@ bootstrap_2.html.ep
+%= bootstrap 'css'
+
+@@ bootstrap_3.html.ep
+%= bootstrap 'js'
+
+@@ bootstrap_4.html.ep
+%= bootstrap 'all'
+
+@@ bootstrap_5.html.ep
+%= bootstrap 'jsq'
+
+@@ bootstrap_6.html.ep
+%= bootstrap 'allq'
+
+
 @@ panel_1.html.ep
 %= panel
 
