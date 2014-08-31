@@ -467,14 +467,13 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
     %= panel $title, %arguments, begin
     %  end
 
-=over 4
+B<C<$title>>
 
-=item * C<$title> can only be omitted, when there are no other arguments to C<panel>. If you don't want a title, set it C<undef>.
+Usually mandatory, but can be omitted if there are no other arguments to the C<panel>. Otherwise, if you don't want a title, set it C<undef>.
 
-=item * C<%arguments> is a hash, ordering is not important. 
-        You can also use shortcuts.
-        They contain both a key and a value.
-        No html attributes can (currently) be added to panels.
+B<C<%arguments>>
+
+A hash. Currently the only use is for shortcuts. No html attributes can (currently) be added to panels.
 
 =back
 
@@ -552,22 +551,17 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
     %  end
 
     # %arguments:
-    text_field     => [ $name, $value, %field_arguments ]
-    password_field => I<(same)>
-    datetime_field => I<(same)>
-    date_field     => I<(same)>
-    month_field    => I<(same)>
-    time_field     => I<(same)>
-    week_field     => I<(same)>
-    number_field   => I<(same)>
-    email_field    => I<(same)>
-    url_field      => I<(same)>
-    search_field   => I<(same)>
-    tel_field      => I<(same)>
-    color_field    => I<(same)>
+    cols => { $size => [ $label_columns, $input_columns ], ... },
+    @shortcuts
+    $fieldtype => $field_setting[],
+    
+    # $field_setting[]
+    $name,
+    $value,
+    %field_arguments
 
-    cols => { $size => [ $label_columns, $input_columns ], ... }
-
+    # %field_arguments
+    %html_attributes,
     @shortcuts
 
 B<C<$labeltext>>
@@ -576,35 +570,50 @@ Mandatory. It is either the first argument, or placed in the body.
 
 B<C<%arguments>>
 
-A hash.
+A hash:
 
 =over 4
 
-=item * C<cols> takes a hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
-        C<$size> is one of C<xsmall>, C<small>, C<medium>, or C<large>. They each
-        take a two item array reference: C<$label_columns> is the number of columns that should be used by the label for 
-        that size, and C<$input_columns> is the number of columns used for the input field for that size. You can defined the widths
-        for one or more or all of the sizes.
+B<C<cols>>
 
-=item * C<@shortcuts> is one or more shortcuts that you want applied to the C<.form-group> element.
+Is a hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
+C<$size> is one of C<xsmall>, C<small>, C<medium>, or C<large>. C<$size> takes a two item array 
+reference: C<$label_columns> is the number of columns that should be used by the label for 
+that size, and C<$input_columns> is the number of columns used for the input field for that size.
 
-=item * Only B<one> of the many C<_field> arguments is permitted per C<formgroup>. Behavior if having more than one is not defined.
-        They each take an array reference:
+You can defined the widths for one or more or all of the sizes.
+
+B<C<@shortcuts>> is one or more shortcuts that you want applied to the C<.form-group> element.
+
+B<C<$fieldtype>
+
+Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
+C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
+
+There can be only one C<$fieldtype> per C<formgroup>. (Behavior if having more than one is not defined.)
+
+B<C<$field_setting[]>>
+
+An array reference:
 
 =over 4
 
-=item * C<$name> is mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes, those are translated
-        into underscores. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
+B<C<$name>>
 
-=item * C<$value> is optional. It is the same as setting C<$field_arguments{'value'}>. (But don't do both for the same field.)
+Mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes, those are translated
+into underscores. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
 
-=item * C<%field_arguments> is a hash. It takes all shortcuts and html attributes you want applied to the C<input>.
+B<C<$value>>
+
+Optional. It is the same as setting C<$field_arguments{'value'}>. (But don't do both for the same field.)
+
+B<C<%field_arguments>> is a hash. It takes all shortcuts and html attributes you want applied to the C<input>.
 
 =back
 
 =back
 
-=back
+
 
 =head4 Basic form group
     

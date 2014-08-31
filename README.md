@@ -108,11 +108,13 @@ If there is no corresponding class for the element you add the shortcut to it is
     %= panel $title, %arguments, begin
     %  end
 
-- `$title` can only be omitted, when there are no other arguments to `panel`. If you don't want a title, set it `undef`.
-- `%arguments` is a hash, ordering is not important. 
-        You can also use shortcuts.
-        They contain both a key and a value.
-        No html attributes can (currently) be added to panels.
+**`$title`**
+
+Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
+
+**`%arguments`**
+
+A hash. Currently the only use is for shortcuts. No html attributes can (currently) be added to panels.
 
 ### Examples
 
@@ -186,22 +188,17 @@ The first shortcut, `success`. This applies `.panel-success`.
     %  end
 
     # %arguments:
-    text_field     => [ $name, $value, %field_arguments ]
-    password_field => I<(same)>
-    datetime_field => I<(same)>
-    date_field     => I<(same)>
-    month_field    => I<(same)>
-    time_field     => I<(same)>
-    week_field     => I<(same)>
-    number_field   => I<(same)>
-    email_field    => I<(same)>
-    url_field      => I<(same)>
-    search_field   => I<(same)>
-    tel_field      => I<(same)>
-    color_field    => I<(same)>
+    cols => { $size => [ $label_columns, $input_columns ], ... },
+    @shortcuts
+    $fieldtype => $field_setting[],
+    
+    # $field_setting[]
+    $name,
+    $value,
+    %field_arguments
 
-    cols => { $size => [ $label_columns, $input_columns ], ... }
-
+    # %field_arguments
+    %html_attributes,
     @shortcuts
 
 **`$labeltext`**
@@ -210,20 +207,40 @@ Mandatory. It is either the first argument, or placed in the body.
 
 **`%arguments`**
 
-A hash.
+A hash:
 
-- `cols` takes a hash reference. It is only used when the `form` is a `.form-horizontal`. 
-        `$size` is one of `xsmall`, `small`, `medium`, or `large`. They each
-        take a two item array reference: `$label_columns` is the number of columns that should be used by the label for 
-        that size, and `$input_columns` is the number of columns used for the input field for that size. You can defined the widths
-        for one or more or all of the sizes.
-- `@shortcuts` is one or more shortcuts that you want applied to the `.form-group` element.
-- Only **one** of the many `_field` arguments is permitted per `formgroup`. Behavior if having more than one is not defined.
-        They each take an array reference:
-    - `$name` is mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
-            into underscores. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
-    - `$value` is optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
-    - `%field_arguments` is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
+> **`cols`**
+>
+> Is a hash reference. It is only used when the `form` is a `.form-horizontal`. 
+> `$size` is one of `xsmall`, `small`, `medium`, or `large`. `$size` takes a two item array 
+> reference: `$label_columns` is the number of columns that should be used by the label for 
+> that size, and `$input_columns` is the number of columns used for the input field for that size.
+>
+> You can defined the widths for one or more or all of the sizes.
+>
+> **`@shortcuts`** is one or more shortcuts that you want applied to the `.form-group` element.
+>
+> **`$fieldtype`**
+>
+> Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
+> `number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
+>
+> There can be only one `$fieldtype` per `formgroup`. (Behavior if having more than one is not defined.)
+>
+> **`$field_setting[]`**
+>
+> An array reference:
+>
+> > **`$name`**
+> >
+> > Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
+> > into underscores. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
+> >
+> > **`$value`**
+> >
+> > Optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
+> >
+> > **`%field_arguments`** is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
 
 #### Basic form group
 
@@ -392,6 +409,10 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 257:
+- Around line 128:
 
     &#x3d;back without =over
+
+- Around line 238:
+
+    Unterminated B<...> sequence
