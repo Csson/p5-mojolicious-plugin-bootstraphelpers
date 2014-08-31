@@ -204,7 +204,7 @@ The first shortcut, `success`. This applies `.panel-success`.
 
     @shortcuts
 
-- `$labeltext` is mandatory. It is either the first argument, or placed in the body.
+- **`$labeltext`** is mandatory. It is either the first argument, or placed in the body.
 - `%arguments` is a hash:
     - `cols` takes a hash reference. It is only used when the `form` is a `.form-horizontal`. 
             `$size` is one of `xsmall`, `small`, `medium`, or `large`. They each

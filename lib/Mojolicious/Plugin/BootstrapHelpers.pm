@@ -572,7 +572,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 =over 4
 
-=item * C<$labeltext> is mandatory. It is either the first argument, or placed in the body.
+=item * B<C<$labeltext>> is mandatory. It is either the first argument, or placed in the body.
 
 =item * C<%arguments> is a hash:
 
