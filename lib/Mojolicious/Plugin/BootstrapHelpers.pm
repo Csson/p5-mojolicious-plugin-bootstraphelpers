@@ -532,6 +532,32 @@ An ordinary button, with applied shortcuts.
 If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
 The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
 
+
+
+=head2 Tables
+
+L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
+
+    <%= table begin %>
+        <tr><td>Table 1</td></tr>
+    <% end %>
+
+    <table class="table">
+        <tr><td>Table 1</td></tr>
+    </table>
+
+A basic table.
+
+    %= table hover, striped, condensed, begin
+        <tr><td>Table 2</td></tr>
+    %  end
+
+    <table class="table table-condensed table-hover table-striped">
+        <tr><td>Table 2</td></tr>
+    </table>
+
+Several classes applied to the table.
+
 =head1 OPTIONS
 
 Some options are available:

@@ -144,10 +144,12 @@ test($test, 'button', @buttons);
 my @tables = (
     q{
         <table class="table">
+            <tr><td>Table 1</td></tr>
         </table>
     },
     q{
         <table class="table table-condensed table-hover table-striped">
+            <tr><td>Table 2</td></tr>
         </table>
     }
 
@@ -249,8 +251,11 @@ __DATA__
 
 
 @@ table_1.html.ep
-%= table
+<%= table begin %>
+    <tr><td>Table 1</td></tr>
+<% end %>
 
 @@ table_2.html.ep
 %= table hover, striped, condensed, begin
+    <tr><td>Table 2</td></tr>
 %  end

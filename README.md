@@ -36,11 +36,11 @@ For sizes, you can only use `xsmall`, `small`, `medium` and `large`, they are sh
 
 The following shortcuts are available:
 
-    xsmall    default
-    small     primary
-    medium    success
-    large     info
-              warning
+    xsmall    default     striped
+    small     primary     bordered
+    medium    success     hover
+    large     info        condensed
+              warning     responsive
               danger
 
 See below for usage. **Important:** You can't follow a shortcut with a fat comma (`=>`). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
@@ -194,6 +194,30 @@ An ordinary button, with applied shortcuts.
 
 If the first argument after the button text is an array ref, it is used to populate `href` and turns the button into a link. 
 The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+
+## Tables
+
+[Bootstrap documentation](http://getbootstrap.com/css/#tables)
+
+    <%= table begin %>
+        <tr><td>Table 1</td></tr>
+    <% end %>
+
+    <table class="table">
+        <tr><td>Table 1</td></tr>
+    </table>
+
+A basic table.
+
+    %= table hover, striped, condensed, begin
+        <tr><td>Table 2</td></tr>
+    %  end
+
+    <table class="table table-condensed table-hover table-striped">
+        <tr><td>Table 2</td></tr>
+    </table>
+
+Several classes applied to the table.
 
 # OPTIONS
 
