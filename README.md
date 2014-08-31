@@ -226,7 +226,7 @@ Mandatory. It is either the first argument, or placed in the body.
 
 **`%arguments`**
 
-A hash:
+Mandatory. A hash:
 
 > **`cols`**
 >
