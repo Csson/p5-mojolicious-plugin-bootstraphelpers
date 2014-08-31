@@ -12,7 +12,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use experimental 'postderef';
 
-    our $VERSION = 0.003;
+    our $VERSION = 0.004;
 
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
