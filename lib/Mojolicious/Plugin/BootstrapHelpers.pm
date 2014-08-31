@@ -413,6 +413,8 @@ If you want a panel without title, set the title to C<undef>. Note that you can'
 
 The first shortcut, C<success>. This applies C<.panel-success>.
 
+
+
 =head2 Form groups
 
 L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
@@ -426,21 +428,23 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-The first item in the array ref is used for both C<id> and C<name>.
+The first item in the array ref is used for both C<id> and C<name>. Except...
 
 =head3 Input group (before), and large input field
 
-    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
+    %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
         <div class="input-group">
-            <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
+            <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
             <span class="input-group-addon">.00</span>
         </div>
     </div>
 
 Shortcuts can also be used in this context. Here C<large> applies C<.input-lg>.
+
+If the input name (the first item in the text_field array ref) contains dashes, those are replaced (in the C<name>) to underscores.
 
 =head3 Input group (before and after), and with value
 
@@ -480,6 +484,25 @@ Note the difference with the earlier example. Here C<large> is outside the C<tex
     </div>
 
 If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
+
+
+
+=head2 Buttons
+
+L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
+
+    %= button 'The example 5' => large, warning
+
+    <button class="btn btn-lg btn-warning">The example 5</button>
+
+An ordinary button, with applied shortcuts.
+    
+    %= button 'The example 1' => ['http://www.example.com/'], small
+
+    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+
+If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
+The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Controller#link_to> with Bootstrap classes.
 
 =head1 OPTIONS
 

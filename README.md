@@ -121,21 +121,23 @@ The first shortcut, `success`. This applies `.panel-success`.
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-The first item in the array ref is used for both `id` and `name`.
+The first item in the array ref is used for both `id` and `name`. Except...
 
 ### Input group (before), and large input field
 
-    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
+    %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
         <div class="input-group">
-            <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
+            <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
             <span class="input-group-addon">.00</span>
         </div>
     </div>
 
 Shortcuts can also be used in this context. Here `large` applies `.input-lg`.
+
+If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
 
 ### Input group (before and after), and with value
 
@@ -174,7 +176,24 @@ Note the difference with the earlier example. Here `large` is outside the `text_
         </div>
     </div>
 
-If the `form` `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
+If the `form` is `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
+
+## Buttons
+
+[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+
+    %= button 'The example 5' => large, warning
+
+    <button class="btn btn-lg btn-warning">The example 5</button>
+
+An ordinary button, with applied shortcuts.
+
+    %= button 'The example 1' => ['http://www.example.com/'], small
+
+    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+
+If the first argument after the button text is an array ref, it is used to populate `href` and turns the button into a link. 
+The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Controller#link_to) with Bootstrap classes.
 
 # OPTIONS
 
