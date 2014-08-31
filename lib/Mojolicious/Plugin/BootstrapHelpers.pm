@@ -12,19 +12,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     our $VERSION = 0.002;
 
-    sub register {
-        my $self = shift;
-        my $app = shift;
-
-        $app->helper(panel => \&bootstrap_panel);
-        $app->helper(formgroup => \&bootstrap_formgroup);
-        $app->helper(button => \&bootstrap_button);
-        $app->helper(submit_button => \&bootstrap_submit);
-        $app->helper(large => sub { (large => 1) });
-        $app->helper(success => sub { (success => 1) });
-
-    }
-
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
         
@@ -264,6 +251,46 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $tag =~ s{>[ \n\t\s]+<}{><}mg;
         $tag =~ s{[ \s]+$}{}g;
         return Mojo::ByteStream->new($tag);
+    }
+
+    sub register {
+        my $self = shift;
+        my $app = shift;
+        my $args = shift;
+
+        my $px = setup_prefix($args->{'global_prefix'});
+        my $spx = setup_prefix($args->{'shortcut_prefix'});
+        my $suppress_shortcuts = $args->{'suppress_shortcuts'} //= 0;
+
+        add_helper($app, $px, panel => \&bootstrap_panel);
+        add_helper($app, $px, formgroup => \&bootstrap_formgroup);
+        add_helper($app, $px, button => \&bootstrap_button);
+        add_helper($app, $px, submit_button => \&bootstrap_submit);
+
+        if(!$suppress_shortcuts) {
+            add_helper($app, $spx, large => sub { (large => 1) });
+            add_helper($app, $spx, success => sub { (success => 1) });
+        }
+
+    }
+
+    sub setup_prefix {
+        my $prefix = shift;
+
+        return defined $prefix && !length $prefix   ?   '_'
+             : defined $prefix && $prefix eq '_'    ?   '_'
+             : defined $prefix                      ?   $prefix.'_'
+             :                                          ''
+             ;
+    }
+
+    sub add_helper {
+        my $app = shift;
+        my $prefix = shift;
+        my $helper = shift;
+        my $method = shift;
+
+        $app->helper($prefix.$helper => $method);
     }
 }
 __END__
