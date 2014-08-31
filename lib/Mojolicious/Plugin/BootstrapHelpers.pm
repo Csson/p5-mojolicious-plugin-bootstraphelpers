@@ -268,16 +268,16 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $app = shift;
         my $args = shift;
 
-        my $px = setup_prefix($args->{'global_prefix'});
+        my $px = setup_prefix($args->{'tag_prefix'});
         my $spx = setup_prefix($args->{'shortcut_prefix'});
-        my $suppress_shortcuts = $args->{'suppress_shortcuts'} //= 0;
+        my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
 
         $app->helper($px.'panel' => \&bootstrap_panel);
         $app->helper($px.'formgroup' => \&bootstrap_formgroup);
         $app->helper($px.'button' => \&bootstrap_button);
         $app->helper($px.'submit_button' => \&bootstrap_submit);
 
-        if(!$suppress_shortcuts) {
+        if($init_shortcuts) {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default primary success info warning danger/;
 
@@ -328,7 +328,7 @@ Mojolicious::Plugin::BootstrapHelpers is a convenience plugin that reduces some 
 
 The goal is not to have tag helpers for everything, but for common use cases.
 
-All examples below (and more, see tests) currently works.
+All examples below (and more, see tests) is expected to work.
 
 =head2 Shortcuts
 
@@ -364,6 +364,8 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
         </div>
     </div>
 
+The class is set to C<panel-default>, by default.
+
 =head3 Body, no title
 
     %= panel undef ,=> begin
@@ -375,6 +377,8 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
             <p>A short text.</p>
         </div>
     </div>
+
+If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string.
 
 =head3 Body and title
 
@@ -393,7 +397,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Body and title, with context
     
-    %= panel 'Panel 5', success => 1 => begin
+    %= panel 'Panel 5', success, begin
         <p>A short text.</p>
     %  end
     
@@ -405,6 +409,8 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
             <p>A short text.</p>
         </div>
     </div>
+
+The first shortcut, C<success>. This applies C<.panel-success>.
 
 =head2 Form groups
 
@@ -423,7 +429,7 @@ The first item in the array ref is used for both C<id> and C<name>.
 
 =head3 Input group (before), and large input field
 
-    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large => 1]
+    %= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 4</label>
@@ -432,6 +438,8 @@ The first item in the array ref is used for both C<id> and C<name>.
             <span class="input-group-addon">.00</span>
         </div>
     </div>
+
+Shortcuts can also be used in this context. Here C<large> applies C<.input-lg>.
 
 =head3 Input group (before and after), and with value
 
@@ -450,14 +458,14 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 =head3 Large input group
 
-    %= formgroup 'Text test 6', text_field => ['test_text'], large => 1
+    %= formgroup 'Text test 6', text_field => ['test_text'], large
 
     <div class="form-group form-group-lg">
         <label class="control-label" for="test_text">Text test 6</label>
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-Note the difference with the earlier example. Here C<large =E<gt> 1> is outside the C<text_field> array ref, and therefore is applied to the form group. 
+Note the difference with the earlier example. Here C<large> is outside the C<text_field> array ref, and therefore C<.form-group-lg> is applied to the form group. 
 
 =head3 Horizontal form groups
     
@@ -470,7 +478,51 @@ Note the difference with the earlier example. Here C<large =E<gt> 1> is outside 
         </div>
     </div>
 
-If the C<form> has the C<form-horizontal> class, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
+If the C<form> C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
+
+=head1 OPTIONS
+
+Some options are available:
+
+    $app->plugin('BootstrapHelpers', {
+        tag_prefix => 'bs',
+        shortcut_prefix => 'set',
+        init_shortcuts => 1,
+    });
+
+=head2 tag_prefix
+
+Default: C<undef>
+
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
+by using the prefix to original names are no longer available. The following rules are used:
+
+=over 4
+
+=item *
+If the option is missing, or is C<undef>, there is no prefix.
+
+=item *
+If the option is set to the empty string, the prefix is C<_>. That is, C<panel> is now used as C<_panel>.
+
+=item *
+If the option is set to any other string, the prefix is that string followed by C<_>. If you set C<tag_prefix =E<gt> 'bs'>, then C<panel> is now used as C<bs_panel>.
+
+=back
+
+
+=head2 shortcut_prefix
+
+Default: C<undef>
+
+This is similar to C<tag_prefix>, but is instead applied to the shortcuts. The same rules applies.
+
+
+=head2 init_shortcuts
+
+If you don't want the shortcuts setup at all, set this option to a defined but false value.
+
+All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>. That is why they are shortcuts.
 
 =head1 AUTHOR
 
