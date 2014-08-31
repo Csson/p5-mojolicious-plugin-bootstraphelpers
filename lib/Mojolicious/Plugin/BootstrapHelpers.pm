@@ -613,7 +613,7 @@ B<C<%field_arguments>> is a hash. It takes all shortcuts and html attributes you
 
 =back
 
-
+=head3 Examples
 
 =head4 Basic form group
     

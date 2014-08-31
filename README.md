@@ -242,6 +242,8 @@ A hash:
 > >
 > > **`%field_arguments`** is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
 
+### Examples
+
 #### Basic form group
 
     %= formgroup 'Text test 1', text_field => ['test_text']
