@@ -492,7 +492,6 @@ B<C<$body>>
 
 Optional (but panels are not much use without it). The html inside the C<panel>.
 
-=back
 
 =head3 Examples
 
@@ -606,7 +605,7 @@ B<C<@shortcuts>>
 
 Optional. One or more shortcuts that you want applied to the C<.form-group> element.
 
-B<C<$fieldtype>
+B<C<$fieldtype>>
 
 Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
 C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
