@@ -448,9 +448,9 @@ See below for usage. B<Important:> You can't follow a shortcut with a fat comma 
 
 If there is no corresponding class for the element you add the shortcut to it is silently not applied.
 
-=html
+=begin html
 You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
-=end
+=end html
 
 =head2 Panels
 

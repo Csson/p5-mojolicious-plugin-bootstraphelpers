@@ -92,234 +92,242 @@ See below for usage. **Important:** You can't follow a shortcut with a fat comma
 
 If there is no corresponding class for the element you add the shortcut to it is silently not applied.
 
-## Panels
+<div>
+    ## Panels
 
-[Bootstrap documentation](http://getbootstrap.com/components/#panels)
+    L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
-### No body, no title
+    ### No body, no title
 
-    %= panel
+        %= panel
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-body">
+            </div>
         </div>
-    </div>
 
-The class is set to `panel-default`, by default.
 
-### Body, no title
+    The class is set to C<panel-default>, by default.
 
-    %= panel undef ,=> begin
-        <p>A short text.</p>
-    %  end
+    ### Body, no title
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+        %= panel undef ,=> begin
             <p>A short text.</p>
+        %  end
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>A short text.</p>
+            </div>
         </div>
-    </div>
 
-If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string.
 
-### Body and title
+    If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string.
 
-    %= panel 'The header' => begin
-        <p>A short text.</p>
-    %  end
+    ### Body and title
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">The Header</h3>
-        </div>
-        <div class="panel-body">
+        %= panel 'The header' => begin
             <p>A short text.</p>
-        </div>
-    </div>
+        %  end
 
-### Body and title, with context
-
-    %= panel 'Panel 5', success, begin
-        <p>A short text.</p>
-    %  end
-    
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Panel 5</h3>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">The Header</h3>
+            </div>
+            <div class="panel-body">
+                <p>A short text.</p>
+            </div>
         </div>
-        <div class="panel-body">
+
+
+    ### Body and title, with context
+
+        %= panel 'Panel 5', success, begin
             <p>A short text.</p>
+        %  end
+        
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Panel 5</h3>
+            </div>
+            <div class="panel-body">
+                <p>A short text.</p>
+            </div>
         </div>
-    </div>
 
-The first shortcut, `success`. This applies `.panel-success`.
 
-## Form groups
+    The first shortcut, C<success>. This applies C<.panel-success>.
 
-[Bootstrap documentation](http://getbootstrap.com/css/#forms)
+    ## Form groups
 
-### Basic form group
+    L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
-    %= formgroup 'Text test 1', text_field => ['test_text']
+    ### Basic form group
 
-    <div class="form-group">
-        <label class="control-label" for="test_text">Text test 1</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" />
-    </div>
+        %= formgroup 'Text test 1', text_field => ['test_text']
 
-The first item in the array ref is used for both `id` and `name`. Except...
-
-### Input group (before), and large input field
-
-    %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
-
-    <div class="form-group">
-        <label class="control-label" for="test_text">Text test 4</label>
-        <div class="input-group">
-            <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
-            <span class="input-group-addon">.00</span>
-        </div>
-    </div>
-
-Shortcuts can also be used in this context. Here `large` applies `.input-lg`.
-
-If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
-
-### Input group (before and after), and with value
-
-    %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
-
-    <div class="form-group">
-        <label class="control-label" for="test_text">Text test 5</label>
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
-            <span class="input-group-addon">.00</span>
-        </div>
-    </div>
-
-The (optional) second item in the array ref is the value, if any, that should populate the input tag.
-
-### Large input group
-
-    %= formgroup 'Text test 6', text_field => ['test_text'], large
-
-    <div class="form-group form-group-lg">
-        <label class="control-label" for="test_text">Text test 6</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" />
-    </div>
-
-Note the difference with the earlier example. Here `large` is outside the `text_field` array ref, and therefore `.form-group-lg` is applied to the form group. 
-
-### Horizontal form groups
-
-    %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
-
-    <div class="form-group">
-        <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
-        <div class="col-md-10 col-sm-8">
+        <div class="form-group">
+            <label class="control-label" for="test_text">Text test 1</label>
             <input class="form-control" id="test_text" name="test_text" type="text" />
         </div>
-    </div>
 
-If the `form` is `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
 
-## Buttons
+    The first item in the array ref is used for both C<id> and C<name>. Except...
 
-[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+    ### Input group (before), and large input field
 
-    %= button 'The example 5' => large, warning
+        %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
-    <button class="btn btn-lg btn-warning">The example 5</button>
+        <div class="form-group">
+            <label class="control-label" for="test_text">Text test 4</label>
+            <div class="input-group">
+                <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
+                <span class="input-group-addon">.00</span>
+            </div>
+        </div>
 
-An ordinary button, with applied shortcuts.
 
-    %= button 'The example 1' => ['http://www.example.com/'], small
+    Shortcuts can also be used in this context. Here C<large> applies C<.input-lg>.
 
-    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+    If the input name (the first item in the text_field array ref) contains dashes, those are replaced (in the C<name>) to underscores.
 
-If the first argument after the button text is an array ref, it is used to populate `href` and turns the button into a link. 
-The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+    ### Input group (before and after), and with value
 
-## Tables
+        %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
-[Bootstrap documentation](http://getbootstrap.com/css/#tables)
+        <div class="form-group">
+            <label class="control-label" for="test_text">Text test 5</label>
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
+                <span class="input-group-addon">.00</span>
+            </div>
+        </div>
 
-    <%= table begin %>
-        <tr><td>Table 1</td></tr>
-    <% end %>
 
-    <table class="table">
-        <tr><td>Table 1</td></tr>
-    </table>
+    The (optional) second item in the array ref is the value, if any, that should populate the input tag.
 
-A basic table.
+    ### Large input group
 
-    %= table hover, striped, condensed, begin
-        <tr><td>Table 2</td></tr>
-    %  end
+        %= formgroup 'Text test 6', text_field => ['test_text'], large
 
-    <table class="table table-condensed table-hover table-striped">
-        <tr><td>Table 2</td></tr>
-    </table>
+        <div class="form-group form-group-lg">
+            <label class="control-label" for="test_text">Text test 6</label>
+            <input class="form-control" id="test_text" name="test_text" type="text" />
+        </div>
 
-Several classes applied to the table.
 
-# OPTIONS
+    Note the difference with the earlier example. Here C<large> is outside the C<text_field> array ref, and therefore C<.form-group-lg> is applied to the form group. 
 
-Some options are available:
+    ### Horizontal form groups
 
-    $app->plugin('BootstrapHelpers', {
-        tag_prefix => 'bs',
-        shortcut_prefix => 'set',
-        init_shortcuts => 1,
-    });
+        %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
-## tag\_prefix
+        <div class="form-group">
+            <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
+            <div class="col-md-10 col-sm-8">
+                <input class="form-control" id="test_text" name="test_text" type="text" />
+            </div>
+        </div>
 
-Default: `undef`
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
-by using the prefix to original names are no longer available. The following rules are used:
+    If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
 
-- If the option is missing, or is `undef`, there is no prefix.
-- If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
-- If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
+    ## Buttons
 
-## shortcut\_prefix
+    L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
 
-Default: `undef`
+        %= button 'The example 5' => large, warning
 
-This is similar to `tag_prefix`, but is instead applied to the shortcuts. The same rules applies.
+        <button class="btn btn-lg btn-warning">The example 5</button>
 
-## init\_shortcuts
 
-Default: `1`
+    An ordinary button, with applied shortcuts.
 
-If you don't want the shortcuts setup at all, set this option to a defined but false value.
+        %= button 'The example 1' => ['http://www.example.com/'], small
 
-All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are shortcuts.
+        <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
-# AUTHOR
 
-Erik Carlsson <csson@cpan.org>
+    If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
+    The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
 
-# COPYRIGHT
+    ## Tables
 
-Copyright 2014- Erik Carlsson
+    L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
 
-Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
+        <%= table begin %>
+            <tr><td>Table 1</td></tr>
+        <% end %>
 
-[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
+        <table class="table">
+            <tr><td>Table 1</td></tr>
+        </table>
 
-# LICENSE
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+    A basic table.
 
-# POD ERRORS
+        %= table hover, striped, condensed, begin
+            <tr><td>Table 2</td></tr>
+        %  end
 
-Hey! **The above document had some coding errors, which are explained below:**
+        <table class="table table-condensed table-hover table-striped">
+            <tr><td>Table 2</td></tr>
+        </table>
 
-- Around line 101:
 
-    Unknown directive: =html
+    Several classes applied to the table.
+
+    # OPTIONS
+
+    Some options are available:
+
+        $app->plugin('BootstrapHelpers', {
+            tag_prefix => 'bs',
+            shortcut_prefix => 'set',
+            init_shortcuts => 1,
+        });
+
+
+    ## tag_prefix
+
+    Default: C<undef>
+
+    If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
+    by using the prefix to original names are no longer available. The following rules are used:
+
+    - If the option is missing, or is `undef`, there is no prefix.
+    - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
+    - If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
+
+    ## shortcut_prefix
+
+    Default: C<undef>
+
+    This is similar to C<tag_prefix>, but is instead applied to the shortcuts. The same rules applies.
+
+    ## init_shortcuts
+
+    Default: C<1>
+
+    If you don't want the shortcuts setup at all, set this option to a defined but false value.
+
+    All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>. That is why they are shortcuts.
+
+    # AUTHOR
+
+    Erik Carlsson E<lt>csson@cpan.orgE<gt>
+
+    # COPYRIGHT
+
+    Copyright 2014- Erik Carlsson
+
+    Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
+
+    L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
+
+    # LICENSE
+
+    This library is free software; you can redistribute it and/or modify
+    it under the same terms as Perl itself.
+</div>
