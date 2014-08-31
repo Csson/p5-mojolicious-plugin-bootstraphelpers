@@ -193,7 +193,7 @@ An ordinary button, with applied shortcuts.
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
 If the first argument after the button text is an array ref, it is used to populate `href` and turns the button into a link. 
-The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Controller#link_to) with Bootstrap classes.
+The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
 
 # OPTIONS
 

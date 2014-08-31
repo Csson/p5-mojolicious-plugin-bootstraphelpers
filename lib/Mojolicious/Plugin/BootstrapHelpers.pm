@@ -502,7 +502,7 @@ An ordinary button, with applied shortcuts.
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
 If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
-The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Controller#link_to> with Bootstrap classes.
+The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
 
 =head1 OPTIONS
 
