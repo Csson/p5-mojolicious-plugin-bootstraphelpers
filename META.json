@@ -40,7 +40,6 @@
             "Mojolicious" : "5.00",
             "Scalar::Util" : "1.29",
             "String::Trim" : "0.004",
-            "Syntax::Collection::Basic" : "0.02",
             "experimental" : "0.008",
             "perl" : "5.020000"
          }
