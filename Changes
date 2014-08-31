@@ -1,9 +1,11 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Added table helpers
+    - Added helper to include bootstrap css and js (and possibly jquery)
 
 0.005  2014-08-31 15:01:23 CEST
-    - Allow dashes in id, but change them to underscores in name
+    - Allow dashes in id, but change them to underscores in nam
     - Documented buttons
 
 0.004  2014-08-31 14:14:19 CEST
