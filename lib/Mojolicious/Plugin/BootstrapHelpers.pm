@@ -601,7 +601,7 @@ An array reference:
 B<C<$name>>
 
 Mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes, those are translated
-into underscores. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
+into underscores when setting the C<name>. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
 
 B<C<$value>>
 
