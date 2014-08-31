@@ -12,7 +12,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use experimental 'postderef';
 
-    our $VERSION = 0.005;
+    our $VERSION = 0.006;
 
     sub bootstraps_bootstraps {
         my $c = shift;

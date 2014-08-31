@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+
+0.006  2014-08-31 17:37:26 CEST
     - Added table helpers
     - Added helper to include bootstrap css and js (and possibly jquery)
 
