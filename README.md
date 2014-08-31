@@ -204,20 +204,26 @@ The first shortcut, `success`. This applies `.panel-success`.
 
     @shortcuts
 
-- **`$labeltext`** is mandatory. It is either the first argument, or placed in the body.
-- `%arguments` is a hash:
-    - `cols` takes a hash reference. It is only used when the `form` is a `.form-horizontal`. 
-            `$size` is one of `xsmall`, `small`, `medium`, or `large`. They each
-            take a two item array reference: `$label_columns` is the number of columns that should be used by the label for 
-            that size, and `$input_columns` is the number of columns used for the input field for that size. You can defined the widths
-            for one or more or all of the sizes.
-    - `@shortcuts` is one or more shortcuts that you want applied to the `.form-group` element.
-    - Only **one** of the many `_field` arguments is permitted per `formgroup`. Behavior if having more than one is not defined.
-            They each take an array reference:
-        - `$name` is mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
-                into underscores. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
-        - `$value` is optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
-        - `%field_arguments` is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
+**`$labeltext`**
+
+Mandatory. It is either the first argument, or placed in the body.
+
+**`%arguments`**
+
+A hash.
+
+- `cols` takes a hash reference. It is only used when the `form` is a `.form-horizontal`. 
+        `$size` is one of `xsmall`, `small`, `medium`, or `large`. They each
+        take a two item array reference: `$label_columns` is the number of columns that should be used by the label for 
+        that size, and `$input_columns` is the number of columns used for the input field for that size. You can defined the widths
+        for one or more or all of the sizes.
+- `@shortcuts` is one or more shortcuts that you want applied to the `.form-group` element.
+- Only **one** of the many `_field` arguments is permitted per `formgroup`. Behavior if having more than one is not defined.
+        They each take an array reference:
+    - `$name` is mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
+            into underscores. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
+    - `$value` is optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
+    - `%field_arguments` is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
 
 #### Basic form group
 
@@ -381,3 +387,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 257:
+
+    &#x3d;back without =over

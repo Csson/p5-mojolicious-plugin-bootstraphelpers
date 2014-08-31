@@ -570,11 +570,13 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
     @shortcuts
 
-=over 4
+B<C<$labeltext>>
 
-=item * B<C<$labeltext>> is mandatory. It is either the first argument, or placed in the body.
+Mandatory. It is either the first argument, or placed in the body.
 
-=item * C<%arguments> is a hash:
+B<C<%arguments>>
+
+A hash.
 
 =over 4
 
