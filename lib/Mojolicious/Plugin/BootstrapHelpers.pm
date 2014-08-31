@@ -17,8 +17,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
         
-        #$attr = replace_context('panel_context');
-        $attr = add_classes($attr, 'panel', { panel_context => 'panel-%s', default => 'default'});
+        $attr = add_classes($attr, 'panel', { panel => 'panel-%s', panel_default => 'default'});
         
         my $tag = qq{
             <div class="$attr->{'class'}">
@@ -35,6 +34,23 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         return out($tag);
 
+    }
+
+    sub bootstrap_table {
+        my $c = shift;
+        my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
+        my $content = undef; #scalar @_ % 2 ? pop : '';
+        my $attr = parse_attributes(@_);
+       
+        $attr = add_classes($attr, 'table', { table => 'table-%s' });
+
+        my $tag = qq{
+            <table class="$attr->{'class'}">
+            } . contents($callback, $content) . qq{
+            </table>
+        };
+
+        return out($tag);
     }
 
     sub bootstrap_formgroup {
@@ -68,7 +84,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
         my $attr = { @_ };
         
-        $attr = add_classes($attr, 'btn', { size => 'btn-%s', button_context => 'btn-%s' });
+        $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s' });
         $attr = cleanup_attrs($attr);
 
         # We have an url
@@ -103,7 +119,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         my @column_classes = get_column_classes($attr->{'column_information'}, 1);
         $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
-        $tag_attr->{'id'} = $id;
+        $tag_attr->{'id'} //= $id;
         my $name_attr = $id =~ s{-}{_}r;
 
         my $prepend = delete $tag_attr->{'prepend'};
@@ -189,13 +205,16 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my @classes = ($attr->{'class'}, @_);
 
         if(exists $formatter->{'size'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'size'}, $formatter->{'default'}, _sizes());
+            push @classes => sprintfify_class($attr, $formatter->{'size'}, $formatter->{'size_default'}, _sizes());
         }
-        if(exists $formatter->{'button_context'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'button_context'}, $formatter->{'default'}, _button_contexts());
+        if(exists $formatter->{'button'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'button'}, $formatter->{'button_default'}, _button_contexts());
         }
-        if(exists $formatter->{'panel_context'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'panel_context'}, $formatter->{'default'}, _panel_contexts());
+        if(exists $formatter->{'panel'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'panel'}, $formatter->{'panel_default'}, _panel_contexts());
+        }
+        if(exists $formatter->{'table'}) {
+            push @classes => sprintfify_class($attr, $formatter->{'table'}, $formatter->{'table_default'}, _table_contexts());
         }
 
         $attr->{'class'} = trim join ' ' => sort @classes;
@@ -210,12 +229,12 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $possibilities = pop;
         my $default = shift;
 
-        my $found = (grep { exists $attr->{ $_ } } (keys $possibilities->%*))[0];
+        my @founds = (grep { exists $attr->{ $_ } } (keys $possibilities->%*));
 
-        return if !defined $found && !defined $default;
-        $found = $default if !defined $found;
+        return if !scalar @founds && !defined $default;
+        push @founds => $default if !scalar @founds;
 
-        return sprintf $format => $possibilities->{ $found };
+        return map { sprintf $format => $possibilities->{ $_ } } @founds;
 
     }
 
@@ -229,7 +248,11 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub cleanup_attrs {
         my $hash = shift;
         
-        map { delete $hash->{ $_ } } ('column_information', keys _sizes()->%*, keys _button_contexts()->%*, keys _panel_contexts()->%*);
+        map { delete $hash->{ $_ } } ('column_information',
+                                      keys _sizes()->%*,
+                                      keys _button_contexts()->%*,
+                                      keys _panel_contexts()->%*,
+                                      keys _table_contexts()->%*);
         # delete all attributes starting with __
         map { delete $hash->{ $_ } } grep { substr $_, 0 => 2 eq '__' } keys $hash->%*;
         return $hash;
@@ -256,6 +279,9 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub _panel_contexts {
         return { map { ("__$_" => $_, $_ => $_) } qw/default primary success info warning danger/ };
     }
+    sub _table_contexts {
+        return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
+    }
 
     sub out {
         my $tag = shift;
@@ -273,6 +299,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $spx = setup_prefix($args->{'shortcut_prefix'});
         my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
 
+        $app->helper($px.'table' => \&bootstrap_table);
         $app->helper($px.'panel' => \&bootstrap_panel);
         $app->helper($px.'formgroup' => \&bootstrap_formgroup);
         $app->helper($px.'button' => \&bootstrap_button);
@@ -281,8 +308,9 @@ package Mojolicious::Plugin::BootstrapHelpers {
         if($init_shortcuts) {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default primary success info warning danger/;
+            my @table = qw/striped bordered hover condensed responsive/;
 
-            foreach my $helper (@sizes, @contexts) {
+            foreach my $helper (@sizes, @contexts, @table) {
                $app->helper($spx.$helper, sub { ("__$helper" => 1) });
             }
         }
@@ -341,11 +369,11 @@ For sizes, you can only use C<xsmall>, C<small>, C<medium> and C<large>, they ar
 
 The following shortcuts are available:
 
-   xsmall    default
-   small     primary
-   medium    success
-   large     info
-             warning
+   xsmall    default     striped
+   small     primary     bordered
+   medium    success     hover
+   large     info        condensed
+             warning     responsive
              danger
 
 See below for usage. B<Important:> You can't follow a shortcut with a fat comma (C<=E<gt>>). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
