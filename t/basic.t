@@ -13,18 +13,6 @@ plugin 'BootstrapHelpers';
 
 my $test = Test::Mojo::Trim->new;
 
-for (1..5) {
-    get '/panel_'.$_ => 'panel_'.$_;
-}
-
-for (1..8) {
-    get '/formgroup_'.$_;
-}
-for (1..8) {
-    get '/button_'.$_;
-}
-
-
 my @panels = (
     qq{
         <div class="panel panel-default">
@@ -69,6 +57,7 @@ my @panels = (
         </div>
     },
 );
+
 test($test, 'panel', @panels);
 
 
@@ -137,6 +126,7 @@ my @formgroups = (
 );
 test($test, 'formgroup', @formgroups);
 
+
 my @buttons = (
     q{<a class="btn btn-lg" href="http://www.example.com/">The example 1</a>},
     q{<a class="btn" href="/button_2">The example 2</a>},
@@ -160,7 +150,10 @@ sub test {
     my @tests = @_;
 
     for (1..scalar @tests) {
-        $test->get_ok("/${url_base}_$_")->status_is(200)->trimmed_content_is($tests[$_ - 1]);
+        my $named = "${url_base}_$_";
+        my $url = "/$named";
+        get $url => $named;
+        $test->get_ok($url)->status_is(200)->trimmed_content_is($tests[$_ - 1]);
     }
 }
 
