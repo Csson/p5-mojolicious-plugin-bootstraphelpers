@@ -128,7 +128,7 @@ test($test, 'formgroup', @formgroups);
 
 
 my @buttons = (
-    q{<a class="btn btn-lg" href="http://www.example.com/">The example 1</a>},
+    q{<a class="btn btn-sm" href="http://www.example.com/">The example 1</a>},
     q{<a class="btn" href="/button_2">The example 2</a>},
     q{<a class="btn" href="/panel_1">The example 3</a>},
     q{<button class="btn">The example 4</button>},
@@ -208,7 +208,7 @@ __DATA__
 
 
 @@ button_1.html.ep
-%= button 'The example 1' => ['http://www.example.com/'], lg => 1
+%= button 'The example 1' => ['http://www.example.com/'], small
 
 @@ button_2.html.ep
 %= button 'The example 2' => [url_for]
