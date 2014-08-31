@@ -10,13 +10,25 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     # ::Lite
     plugin 'BootstrapHelpers';
 
+    # Meanwhile, somewhere in a template...
+    %= formgroup 'Email' => text_field => ['email-address', prepend => '@'], large
+
+    # ...that renders into
+    <div class="form-group form-group-lg">
+        <label class="control-label" for="email-address">Email</label>
+        <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input class="form-control" id="email-address" name="email_address" type="text" />
+        </div>
+    </div>
+
 # STATUS
 
 This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
 
 Currently supported Bootstrap version: 3.2.0.
 
-Only Perl 5.20+ is supported (thanks to postderef). This might change.
+Only Perl 5.20+ is supported (thanks to postderef). This _might_ change.
 
 # DESCRIPTION
 
@@ -199,6 +211,8 @@ The first shortcut, `success`. This applies `.panel-success`.
 
     # %field_arguments
     %html_attributes,
+    %prepend,
+    %append,
     @shortcuts
 
 **`$labeltext`**
@@ -211,25 +225,27 @@ A hash:
 
 > **`cols`**
 >
-> Is a hash reference. It is only used when the `form` is a `.form-horizontal`. 
+> Optional hash reference. It is only used when the `form` is a `.form-horizontal`. 
 > `$size` is one of `xsmall`, `small`, `medium`, or `large`. `$size` takes a two item array 
 > reference: `$label_columns` is the number of columns that should be used by the label for 
 > that size, and `$input_columns` is the number of columns used for the input field for that size.
 >
 > You can defined the widths for one or more or all of the sizes.
 >
-> **`@shortcuts`** is one or more shortcuts that you want applied to the `.form-group` element.
+> **`@shortcuts`**
+>
+> Optional. One or more shortcuts that you want applied to the `.form-group` element.
 >
 > **`$fieldtype`**
 >
-> Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
+> Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
 > `number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
 >
 > There can be only one `$fieldtype` per `formgroup`. (Behavior if having more than one is not defined.)
 >
 > **`$field_setting[]`**
 >
-> An array reference:
+> Mandatory. An array reference:
 >
 > > **`$name`**
 > >
@@ -240,7 +256,21 @@ A hash:
 > >
 > > Optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
 > >
-> > **`%field_arguments`** is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
+> > **`%field_arguments`**
+> >
+> > Optional. A hash:
+> >
+> > > **`%html_attributes`**
+> > >
+> > > Optional. All html attributes you want to set on the `input`.
+> > >
+> > > **`%prepend`** and **`%append`**
+> > >
+> > > Optional. Can be used individually or together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
+> > >
+> > > **`@shortcuts`**
+> > >
+> > > Optional. All shortcuts you want applied to the `input`.
 
 ### Examples
 
@@ -411,10 +441,10 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 128:
+- Around line 140:
 
     &#x3d;back without =over
 
-- Around line 238:
+- Around line 254:
 
     Unterminated B<...> sequence

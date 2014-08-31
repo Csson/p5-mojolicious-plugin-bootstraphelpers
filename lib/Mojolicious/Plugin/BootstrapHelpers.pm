@@ -358,11 +358,23 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 =head1 SYNOPSIS
 
-  # Mojolicious
-  $self->plugin('BootstrapHelpers');
+    # Mojolicious
+    $self->plugin('BootstrapHelpers');
 
-  # ::Lite
-  plugin 'BootstrapHelpers';
+    # ::Lite
+    plugin 'BootstrapHelpers';
+
+    # Meanwhile, somewhere in a template...
+    %= formgroup 'Email' => text_field => ['email-address', prepend => '@'], large
+
+    # ...that renders into
+    <div class="form-group form-group-lg">
+        <label class="control-label" for="email-address">Email</label>
+        <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input class="form-control" id="email-address" name="email_address" type="text" />
+        </div>
+    </div>
 
 =head1 STATUS
 
@@ -370,7 +382,7 @@ This is an unstable work in progress. Backwards compatibility is currently not t
 
 Currently supported Bootstrap version: 3.2.0.
 
-Only Perl 5.20+ is supported (thanks to postderef). This might change.
+Only Perl 5.20+ is supported (thanks to postderef). This I<might> change.
 
 =head1 DESCRIPTION
 
@@ -562,6 +574,8 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
     # %field_arguments
     %html_attributes,
+    %prepend,
+    %append,
     @shortcuts
 
 B<C<$labeltext>>
@@ -576,25 +590,27 @@ A hash:
 
 B<C<cols>>
 
-Is a hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
+Optional hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
 C<$size> is one of C<xsmall>, C<small>, C<medium>, or C<large>. C<$size> takes a two item array 
 reference: C<$label_columns> is the number of columns that should be used by the label for 
 that size, and C<$input_columns> is the number of columns used for the input field for that size.
 
 You can defined the widths for one or more or all of the sizes.
 
-B<C<@shortcuts>> is one or more shortcuts that you want applied to the C<.form-group> element.
+B<C<@shortcuts>>
+
+Optional. One or more shortcuts that you want applied to the C<.form-group> element.
 
 B<C<$fieldtype>
 
-Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
+Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
 C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
 
 There can be only one C<$fieldtype> per C<formgroup>. (Behavior if having more than one is not defined.)
 
 B<C<$field_setting[]>>
 
-An array reference:
+Mandatory. An array reference:
 
 =over 4
 
@@ -607,7 +623,25 @@ B<C<$value>>
 
 Optional. It is the same as setting C<$field_arguments{'value'}>. (But don't do both for the same field.)
 
-B<C<%field_arguments>> is a hash. It takes all shortcuts and html attributes you want applied to the C<input>.
+B<C<%field_arguments>>
+
+Optional. A hash:
+
+=over 4
+
+B<C<%html_attributes>>
+
+Optional. All html attributes you want to set on the C<input>.
+
+B<C<%prepend>> and B<C<%append>>
+
+Optional. Can be used individually or together. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
+
+B<C<@shortcuts>>
+
+Optional. All shortcuts you want applied to the C<input>.
+
+=back
 
 =back
 
