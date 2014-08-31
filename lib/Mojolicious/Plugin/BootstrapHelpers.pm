@@ -433,7 +433,7 @@ There are several shortcuts for context and size classes, that automatically exp
 
 For instance, if you apply the C<info> shortcut to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
 
-For sizes, you can only use C<xsmall>, C<small>, C<medium> and C<large>, they are shortened to the Bootstrap type classes.
+For sizes, you can only use the longform (C<xsmall>, C<small>, C<medium> and C<large>), they are shortened to the Bootstrap type classes.
 
 The following shortcuts are available:
 
