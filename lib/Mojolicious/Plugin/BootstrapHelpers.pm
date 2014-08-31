@@ -589,7 +589,7 @@ Mandatory. It is either the first argument, or placed in the body.
 
 B<C<%arguments>>
 
-A hash:
+Mandatory. A hash:
 
 =over 4
 
