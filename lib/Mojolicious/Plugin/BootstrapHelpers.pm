@@ -588,6 +588,8 @@ Note the difference with the earlier example. Here C<large> is outside the C<tex
 
 If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
 
+(Note that in this context, C<medium> and C<large> are not shortcuts. Shortcuts don't take arguments.)
+
 
 
 =head2 Buttons
@@ -647,8 +649,8 @@ Some options are available:
 
 Default: C<undef>
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
-by using the prefix to original names are no longer available. The following rules are used:
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
+by setting a prefix the original names are no longer available. The following rules are used:
 
 =over 4
 
@@ -677,7 +679,9 @@ Default: C<1>
 
 If you don't want the shortcuts setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>. That is why they are shortcuts.
+All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>. That is why they are called shortcuts.
+
+With shortcuts turned off, sizes are only supported in longform: C<__xsmall>, C<__small>, C<__medium> and C<__large>.
 
 =head1 AUTHOR
 
