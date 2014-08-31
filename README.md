@@ -74,10 +74,11 @@ It is also possible to automatically include jQuery (2.\*)
 ## Shortcuts
 
 There are several shortcuts for context and size classes, that automatically expands to the correct class depending on which tag it is applied to.
+They can be seen as a hash key and value merged into one.
 
 For instance, if you apply the `info` shortcut to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
 
-For sizes, you can only use `xsmall`, `small`, `medium` and `large`, they are shortened to the Bootstrap type classes.
+For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`), they are shortened to the Bootstrap type classes.
 
 The following shortcuts are available:
 
@@ -100,7 +101,22 @@ If there is no corresponding class for the element you add the shortcut to it is
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
 
-### No body, no title
+#### Syntax
+
+    %= panel
+
+    %= panel $title, %arguments, begin
+    %  end
+
+- `$title` can only be omitted, when there are no other arguments to `panel`. If you don't want a title, set it `undef`.
+- `%arguments` is a hash, ordering is not important. 
+        You can also use shortcuts.
+        They contain both a key and a value.
+        No html attributes can (currently) be added to panels.
+
+### Examples
+
+#### No body, no title
 
     %= panel
 
@@ -111,7 +127,7 @@ If there is no corresponding class for the element you add the shortcut to it is
 
 The class is set to `panel-default`, by default.
 
-### Body, no title
+#### Body, no title
 
     %= panel undef ,=> begin
         <p>A short text.</p>
@@ -123,9 +139,9 @@ The class is set to `panel-default`, by default.
         </div>
     </div>
 
-If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string.
+If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-### Body and title
+#### Body and title
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -140,7 +156,7 @@ If you want a panel without title, set the title to `undef`. Note that you can't
         </div>
     </div>
 
-### Body and title, with context
+#### Body and title, with context
 
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
@@ -161,7 +177,49 @@ The first shortcut, `success`. This applies `.panel-success`.
 
 [Bootstrap documentation](http://getbootstrap.com/css/#forms)
 
-### Basic form group
+### Syntax
+
+    %= formgroup $labeltext, %arguments
+
+    %= formgroup %arguments, begin
+        $labeltext
+    %  end
+
+    # %arguments:
+    text_field     => [ $name, $value, %field_arguments ]
+    password_field => I<(same)>
+    datetime_field => I<(same)>
+    date_field     => I<(same)>
+    month_field    => I<(same)>
+    time_field     => I<(same)>
+    week_field     => I<(same)>
+    number_field   => I<(same)>
+    email_field    => I<(same)>
+    url_field      => I<(same)>
+    search_field   => I<(same)>
+    tel_field      => I<(same)>
+    color_field    => I<(same)>
+
+    cols => { $size => [ $label_columns, $input_columns ], ... }
+
+    @shortcuts
+
+- `$labeltext` is mandatory. It is either the first argument, or placed in the body.
+- `%arguments` is a hash:
+    - `cols` takes a hash reference. It is only used when the `form` is a `.form-horizontal`. 
+            `$size` is one of `xsmall`, `small`, `medium`, or `large`. They each
+            take a two item array reference: `$label_columns` is the number of columns that should be used by the label for 
+            that size, and `$input_columns` is the number of columns used for the input field for that size. You can defined the widths
+            for one or more or all of the sizes.
+    - `@shortcuts` is one or more shortcuts that you want applied to the `.form-group` element.
+    - Only **one** of the many `_field` arguments is permitted per `formgroup`. Behavior if having more than one is not defined.
+            They each take an array reference:
+        - `$name` is mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes, those are translated
+                into underscores. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
+        - `$value` is optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
+        - `%field_arguments` is a hash. It takes all shortcuts and html attributes you want applied to the `input`.
+
+#### Basic form group
 
     %= formgroup 'Text test 1', text_field => ['test_text']
 
@@ -172,7 +230,7 @@ The first shortcut, `success`. This applies `.panel-success`.
 
 The first item in the array ref is used for both `id` and `name`. Except...
 
-### Input group (before), and large input field
+#### Input group (before), and large input field
 
     %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
@@ -188,7 +246,7 @@ Shortcuts can also be used in this context. Here `large` applies `.input-lg`.
 
 If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
 
-### Input group (before and after), and with value
+#### Input group (before and after), and with value
 
     %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
@@ -203,7 +261,7 @@ If the input name (the first item in the text\_field array ref) contains dashes,
 
 The (optional) second item in the array ref is the value, if any, that should populate the input tag.
 
-### Large input group
+#### Large input group
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
@@ -214,7 +272,7 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 Note the difference with the earlier example. Here `large` is outside the `text_field` array ref, and therefore `.form-group-lg` is applied to the form group. 
 
-### Horizontal form groups
+#### Horizontal form groups
 
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
@@ -226,6 +284,8 @@ Note the difference with the earlier example. Here `large` is outside the `text_
     </div>
 
 If the `form` is `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
+
+(Note that in this context, `medium` and `large` are not shortcuts. Shortcuts don't take arguments.)
 
 ## Buttons
 
@@ -282,8 +342,8 @@ Some options are available:
 
 Default: `undef`
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases, 
-by using the prefix to original names are no longer available. The following rules are used:
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
+by setting a prefix the original names are no longer available. The following rules are used:
 
 - If the option is missing, or is `undef`, there is no prefix.
 - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
@@ -301,7 +361,9 @@ Default: `1`
 
 If you don't want the shortcuts setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are shortcuts.
+All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are called shortcuts.
+
+With shortcuts turned off, sizes are only supported in longform: `__xsmall`, `__small`, `__medium` and `__large`.
 
 # AUTHOR
 

@@ -430,6 +430,7 @@ It is also possible to automatically include jQuery (2.*)
 =head2 Shortcuts
 
 There are several shortcuts for context and size classes, that automatically expands to the correct class depending on which tag it is applied to.
+They can be seen as a hash key and value merged into one.
 
 For instance, if you apply the C<info> shortcut to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
 
@@ -459,7 +460,27 @@ You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
 
 L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
-=head3 No body, no title
+=head4 Syntax
+
+    %= panel
+
+    %= panel $title, %arguments, begin
+    %  end
+
+=over 4
+
+=item * C<$title> can only be omitted, when there are no other arguments to C<panel>. If you don't want a title, set it C<undef>.
+
+=item * C<%arguments> is a hash, ordering is not important. 
+        You can also use shortcuts.
+        They contain both a key and a value.
+        No html attributes can (currently) be added to panels.
+
+=back
+
+=head3 Examples
+
+=head4 No body, no title
 
     %= panel
 
@@ -470,7 +491,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 The class is set to C<panel-default>, by default.
 
-=head3 Body, no title
+=head4 Body, no title
 
     %= panel undef ,=> begin
         <p>A short text.</p>
@@ -482,9 +503,9 @@ The class is set to C<panel-default>, by default.
         </div>
     </div>
 
-If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string.
+If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-=head3 Body and title
+=head4 Body and title
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -499,7 +520,7 @@ If you want a panel without title, set the title to C<undef>. Note that you can'
         </div>
     </div>
 
-=head3 Body and title, with context
+=head4 Body and title, with context
     
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
@@ -522,7 +543,68 @@ The first shortcut, C<success>. This applies C<.panel-success>.
 
 L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
-=head3 Basic form group
+=head3 Syntax
+
+    %= formgroup $labeltext, %arguments
+
+    %= formgroup %arguments, begin
+        $labeltext
+    %  end
+
+    # %arguments:
+    text_field     => [ $name, $value, %field_arguments ]
+    password_field => I<(same)>
+    datetime_field => I<(same)>
+    date_field     => I<(same)>
+    month_field    => I<(same)>
+    time_field     => I<(same)>
+    week_field     => I<(same)>
+    number_field   => I<(same)>
+    email_field    => I<(same)>
+    url_field      => I<(same)>
+    search_field   => I<(same)>
+    tel_field      => I<(same)>
+    color_field    => I<(same)>
+
+    cols => { $size => [ $label_columns, $input_columns ], ... }
+
+    @shortcuts
+
+=over 4
+
+=item * C<$labeltext> is mandatory. It is either the first argument, or placed in the body.
+
+=item * C<%arguments> is a hash:
+
+=over 4
+
+=item * C<cols> takes a hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
+        C<$size> is one of C<xsmall>, C<small>, C<medium>, or C<large>. They each
+        take a two item array reference: C<$label_columns> is the number of columns that should be used by the label for 
+        that size, and C<$input_columns> is the number of columns used for the input field for that size. You can defined the widths
+        for one or more or all of the sizes.
+
+=item * C<@shortcuts> is one or more shortcuts that you want applied to the C<.form-group> element.
+
+=item * Only B<one> of the many C<_field> arguments is permitted per C<formgroup>. Behavior if having more than one is not defined.
+        They each take an array reference:
+
+=over 4
+
+=item * C<$name> is mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes, those are translated
+        into underscores. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
+
+=item * C<$value> is optional. It is the same as setting C<$field_arguments{'value'}>. (But don't do both for the same field.)
+
+=item * C<%field_arguments> is a hash. It takes all shortcuts and html attributes you want applied to the C<input>.
+
+=back
+
+=back
+
+=back
+
+=head4 Basic form group
     
     %= formgroup 'Text test 1', text_field => ['test_text']
 
@@ -533,7 +615,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 The first item in the array ref is used for both C<id> and C<name>. Except...
 
-=head3 Input group (before), and large input field
+=head4 Input group (before), and large input field
 
     %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
@@ -549,7 +631,7 @@ Shortcuts can also be used in this context. Here C<large> applies C<.input-lg>.
 
 If the input name (the first item in the text_field array ref) contains dashes, those are replaced (in the C<name>) to underscores.
 
-=head3 Input group (before and after), and with value
+=head4 Input group (before and after), and with value
 
     %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
@@ -564,7 +646,7 @@ If the input name (the first item in the text_field array ref) contains dashes, 
 
 The (optional) second item in the array ref is the value, if any, that should populate the input tag.
 
-=head3 Large input group
+=head4 Large input group
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
@@ -575,7 +657,7 @@ The (optional) second item in the array ref is the value, if any, that should po
 
 Note the difference with the earlier example. Here C<large> is outside the C<text_field> array ref, and therefore C<.form-group-lg> is applied to the form group. 
 
-=head3 Horizontal form groups
+=head4 Horizontal form groups
     
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
