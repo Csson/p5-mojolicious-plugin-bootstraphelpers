@@ -446,7 +446,9 @@ The following shortcuts are available:
 
 See below for usage. B<Important:> You can't follow a shortcut with a fat comma (C<=E<gt>>). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
 
-If there is no corresponding class for the element you add the shortcut to it is automatically removed.
+If there is no corresponding class for the element you add the shortcut to it is silently not applied.
+
+You can turn off shortcuts, see L<#init_shortcuts>.
 
 =head2 Panels
 
@@ -679,6 +681,10 @@ Erik Carlsson E<lt>csson@cpan.orgE<gt>
 =head1 COPYRIGHT
 
 Copyright 2014- Erik Carlsson
+
+Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
+
+L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
 
 =head1 LICENSE
 

@@ -90,7 +90,9 @@ The following shortcuts are available:
 
 See below for usage. **Important:** You can't follow a shortcut with a fat comma (`=>`). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
 
-If there is no corresponding class for the element you add the shortcut to it is automatically removed.
+If there is no corresponding class for the element you add the shortcut to it is silently not applied.
+
+You can turn off shortcuts, see [#init\_shortcuts](https://metacpan.org/pod/#init_shortcuts).
 
 ## Panels
 
@@ -306,6 +308,10 @@ Erik Carlsson <csson@cpan.org>
 # COPYRIGHT
 
 Copyright 2014- Erik Carlsson
+
+Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
+
+[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
 
 # LICENSE
 
