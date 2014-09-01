@@ -847,7 +847,9 @@ Optional. A hash of the strappings to apply to the table.
 B<C<panel =E<gt> $strappings{}>>
 
 An optional key-value pair. $strappings{} is hash reference containing any strapping you want to set on the panel.
-        
+
+=back
+
 
 =head3 Examples
 
