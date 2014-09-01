@@ -225,7 +225,7 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     # %arguments:
     (cols => $size_definitions{})
-    (%strappings)
+    (%group_strappings)
     $fieldtype => $field_setting[],
     
     # $field_setting[]
@@ -238,9 +238,9 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     # %field_arguments
     (%html_attributes,)
-    (%prepend,)
-    (%append,)
-    (%strappings)
+    (prepend => $to_prepend,)
+    (append => $to_append,)
+    (%field_strappings)
 
 **`$labeltext`**
 
@@ -267,7 +267,7 @@ Mandatory:
 > > >
 > > > Mandatory. The number of columns used for the input field for that size.
 >
-> **`%strappings`**
+> **`%group_strappings`**
 >
 > Optional hash. One or more strappings you want applied to the `.form-group` element.
 >
@@ -299,11 +299,23 @@ Mandatory:
 > > >
 > > > Optional. All html attributes you want to set on the `input`.
 > > >
-> > > **`%prepend`** and **`%append`**
+> > > **`prepend => $to_prepend`**
 > > >
-> > > Optional. Can be used individually or together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
+> > > Optional key-value pair. Can be used with `append`. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
 > > >
-> > > **`%strappings`**
+> > > > **`$prepend`**
+> > > >
+> > > > This string is placed directly in front of the `input`.
+> > >
+> > > **`append => $to_append`**
+> > >
+> > > Optional key-value pair. Can be used with `prepend`.
+> > >
+> > > > **`$append`**
+> > > >
+> > > > This string is placed directly after the `input`.
+> > >
+> > > **`%field_strappings`**
 > > >
 > > > Optional. All strappings you want applied to the `input`.
 
@@ -383,11 +395,11 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
 ### Syntax
 
-    %= button $button_text, $url[], %arguments
+    %= button $button_text(, $url[])(, %arguments)
 
     # %arguments
-    %html_attributes,
-    %strappings
+    (%html_attributes,)
+    (%strappings)
 
 **`$button_text`**
 
@@ -400,7 +412,7 @@ basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#li
 
 **`%arguments`**
 
-Optional hash.
+Optional hash:
 
 > **`%html_attributes`**
 >
@@ -428,13 +440,14 @@ With a url the button turns into a link.
 
 ### Syntax
 
-    %= table $title, %arguments, begin
+    %= table ($title,) (%arguments,) begin
            $body
     %  end
 
     # %arguments
-    %strappings
-    panel => $strappings{}
+    (%html_attributes,)
+    (%strappings,)
+    (panel => $strappings{})
 
 **`$title`**
 
@@ -444,13 +457,21 @@ Optional. If set the table will be wrapped in a panel. The table replaces the bo
 
 Optional hash:
 
+> **`%html_attributes`**
+>
+> Optional. A hash of html attributes you want applied to the table.
+>
 > **`%strappings`**
 >
 > Optional. A hash of the strappings to apply to the table.
 >
 > **`panel => $strappings{}`**
 >
-> An optional key-value pair. $strappings{} is hash reference containing any strapping you want to set on the panel.
+> An optional key-value pair:
+>
+> > **`$strappings{}`**
+> >
+> > A hash reference containing any strapping you want to set on the panel.
 
 ### Examples
 
@@ -476,7 +497,7 @@ A basic table.
 
 Several classes applied to the table.
 
-    %= table 'Heading Table 4', panel => { success }, condensed, begin
+    %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
         <tr><td>Table 4</td></tr>
     %  end
 
@@ -489,7 +510,7 @@ Several classes applied to the table.
         </table>
     </div>
 
-A `condensed` table wrapped in a `success` panel.
+A `condensed` table with an `id` wrapped in a `success` panel.
 
 # OPTIONS
 
@@ -544,3 +565,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 344:
+
+    Unterminated B<...> sequence

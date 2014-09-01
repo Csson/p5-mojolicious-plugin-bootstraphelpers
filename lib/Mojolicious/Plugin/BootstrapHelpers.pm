@@ -75,9 +75,10 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $attr = parse_attributes(@_);
         
         $attr = add_classes($attr, 'table', { table => 'table-%s' });
+        my $html = htmlify_attrs($attr);
 
         my $table = qq{
-            <table class="$attr->{'class'}">
+            <table class="$attr->{'class'}"$html>
             } . $callback->() . qq{
             </table>
         };
@@ -88,6 +89,14 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
 
         return defined $title ? create_panel($title, $table, $attr->{'panel'}) : out($table);
+    }
+
+    sub htmlify_attrs {
+        my $attr = cleanup_attrs({shift->%*}); #* Make a copy
+
+        my $html = join ' ' => map { qq{$_="$attr->{ $_ }"} } sort keys $attr->%*;
+        return ' ' . $html if defined $html;
+        return '';
     }
 
     sub bootstrap_formgroup {
@@ -288,6 +297,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $hash = shift;
         
         map { delete $hash->{ $_ } } ('column_information',
+                                      'panel',
                                       keys _sizes()->%*,
                                       keys _button_contexts()->%*,
                                       keys _panel_contexts()->%*,
@@ -606,7 +616,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
     # %arguments:
     (cols => $size_definitions{})
-    (%strappings)
+    (%group_strappings)
     $fieldtype => $field_setting[],
     
     # $field_setting[]
@@ -619,9 +629,9 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
     # %field_arguments
     (%html_attributes,)
-    (%prepend,)
-    (%append,)
-    (%strappings)
+    (prepend => $to_prepend,)
+    (append => $to_append,)
+    (%field_strappings)
 
 B<C<$labeltext>>
 
@@ -659,7 +669,7 @@ Mandatory. The number of columns used for the input field for that size.
 =back
 
 
-B<C<%strappings>>
+B<C<%group_strappings>>
 
 Optional hash. One or more strappings you want applied to the C<.form-group> element.
 
@@ -695,11 +705,33 @@ B<C<%html_attributes>>
 
 Optional. All html attributes you want to set on the C<input>.
 
-B<C<%prepend>> and B<C<%append>>
 
-Optional. Can be used individually or together. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
+B<C<prepend =E<gt> $to_prepend>>
 
-B<C<%strappings>>
+Optional key-value pair. Can be used with C<append>. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
+
+=over 4
+
+B<C<$prepend>>
+
+This string is placed directly in front of the C<input>.
+
+=back
+
+B<C<append =E<gt> $to_append>
+
+Optional key-value pair. Can be used with C<prepend>.
+
+=over 4
+
+B<C<$append>>
+
+This string is placed directly after the C<input>.
+
+=back
+
+
+B<C<%field_strappings>>
 
 Optional. All strappings you want applied to the C<input>.
 
@@ -792,11 +824,11 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
 
 =head3 Syntax
 
-    %= button $button_text, $url[], %arguments
+    %= button $button_text(, $url[])(, %arguments)
 
     # %arguments
-    %html_attributes,
-    %strappings
+    (%html_attributes,)
+    (%strappings)
 
 B<C<$button_text>>
 
@@ -809,7 +841,7 @@ basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap clas
 
 B<C<%arguments>>
 
-Optional hash.
+Optional hash:
 
 =over 4
 
@@ -844,13 +876,14 @@ With a url the button turns into a link.
 
 =head3 Syntax
 
-    %= table $title, %arguments, begin
+    %= table ($title,) (%arguments,) begin
            $body
     %  end
 
     # %arguments
-    %strappings
-    panel => $strappings{}
+    (%html_attributes,)
+    (%strappings,)
+    (panel => $strappings{})
 
 B<C<$title>>
 
@@ -862,13 +895,26 @@ Optional hash:
 
 =over 4
 
+B<C<%html_attributes>>
+
+Optional. A hash of html attributes you want applied to the table.
+
 B<C<%strappings>>
 
 Optional. A hash of the strappings to apply to the table.
 
+
 B<C<panel =E<gt> $strappings{}>>
 
-An optional key-value pair. $strappings{} is hash reference containing any strapping you want to set on the panel.
+An optional key-value pair:
+
+=over 4
+
+B<C<$strappings{}>>
+
+A hash reference containing any strapping you want to set on the panel.
+
+=back
 
 =back
 
@@ -897,7 +943,7 @@ A basic table.
 
 Several classes applied to the table.
 
-    %= table 'Heading Table 4', panel => { success }, condensed, begin
+    %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
         <tr><td>Table 4</td></tr>
     %  end
 
@@ -910,7 +956,7 @@ Several classes applied to the table.
         </table>
     </div>
 
-A C<condensed> table wrapped in a C<success> panel.
+A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 
 =head1 OPTIONS
