@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+
+0.009  2014-09-01 15:20:27 CEST
     - Can add html attributes to table elements
     - Added missing dependencies
     - Documentation: Much improved syntax descriptions
