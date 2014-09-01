@@ -54,8 +54,8 @@ To get going quickly by using the official CDN you can use the following helpers
     # or (if you want to use the theme)
     %= bootstrap 'theme'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
     # And the javascript
     %= bootstrap 'js'
@@ -126,6 +126,8 @@ In the syntax sections below the following conventions are used:
     $name[]   An array reference  (ordering significant)
     %name     A hash              (ordering not significant)
     $name{}   A hash reference    (ordering not significant)
+
+# HELPERS
 
 ## Panels
 
