@@ -522,7 +522,7 @@ Optional (but panels are not much use without it). The html inside the C<panel>.
 
 =head3 Examples
 
-=head4 No body, no title
+B<No body, no title>
 
     %= panel
 
@@ -533,7 +533,7 @@ Optional (but panels are not much use without it). The html inside the C<panel>.
 
 The class is set to C<panel-default>, by default.
 
-=head4 Body, no title
+B<Body, no title>
 
     %= panel undef ,=> begin
         <p>A short text.</p>
@@ -547,7 +547,7 @@ The class is set to C<panel-default>, by default.
 
 If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-=head4 Body and title
+B<ody and title>
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -562,7 +562,7 @@ If you want a panel without title, set the title to C<undef>. Note that you can'
         </div>
     </div>
 
-=head4 Body and title, with context
+B<Body and title, with context>
     
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>

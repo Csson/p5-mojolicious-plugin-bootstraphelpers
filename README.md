@@ -145,7 +145,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 ### Examples
 
-#### No body, no title
+**No body, no title**
 
     %= panel
 
@@ -156,7 +156,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 The class is set to `panel-default`, by default.
 
-#### Body, no title
+**Body, no title**
 
     %= panel undef ,=> begin
         <p>A short text.</p>
@@ -170,7 +170,7 @@ The class is set to `panel-default`, by default.
 
 If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-#### Body and title
+**ody and title**
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -185,7 +185,7 @@ If you want a panel without title, set the title to `undef`. Note that you can't
         </div>
     </div>
 
-#### Body and title, with context
+**Body and title, with context**
 
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
