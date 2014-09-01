@@ -718,7 +718,7 @@ This string is placed directly in front of the C<input>.
 
 =back
 
-B<C<append =E<gt> $to_append>
+B<C<append =E<gt> $to_append>>
 
 Optional key-value pair. Can be used with C<prepend>.
 
