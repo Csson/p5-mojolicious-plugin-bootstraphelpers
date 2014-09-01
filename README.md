@@ -121,11 +121,12 @@ If there is no corresponding class for the element you add the strapping to it i
 
 In the syntax sections below the following conventions are used:
 
-    name      A specific string
-    $name     Any string
-    $name[]   An array reference  (ordering significant)
-    %name     A hash              (ordering not significant)
-    $name{}   A hash reference    (ordering not significant)
+    name        A specific string
+    $name       Any string
+    $name[]     An array reference  (ordering significant)
+    %name       A hash              (ordering not significant)
+    $name{}     A hash reference    (ordering not significant)
+    (optional)  Anything inside parenthesis is optional
 
 # HELPERS
 
@@ -135,11 +136,9 @@ In the syntax sections below the following conventions are used:
 
 ### Syntax
 
-    %= panel
-
-    %= panel $title, %strappings, begin
+    %= panel ($title, ((%strappings,) begin
         $body
-    %  end
+    %  end))
 
 **`$title`**
 
@@ -147,7 +146,7 @@ Usually mandatory, but can be omitted if there are no other arguments to the `pa
 
 **`%strappings`**
 
-Optional hash. Any strapping you want applied to the `panel`.
+Optional. Any strapping you want applied to the `panel`.
 
 **`$body`**
 
@@ -218,44 +217,55 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
 ### Syntax
 
-    %= formgroup $labeltext, %arguments
+    %= formgroup ($labeltext,) %arguments
 
-    %= formgroup %arguments, begin
+    %= formgroup (%arguments,) begin
         $labeltext
     %  end
 
     # %arguments:
-    cols => { $size => [ $label_columns, $input_columns ], ... },
-    %strappings
+    (cols => $size_definitions{})
+    (%strappings)
     $fieldtype => $field_setting[],
     
     # $field_setting[]
     $name,
-    $value,
-    %field_arguments
+    ($value,)
+    (%field_arguments)
+    
+    # $size_definitions{}
+    { $size => [ $label_columns, $input_columns ](, ...) },
 
     # %field_arguments
-    %html_attributes,
-    %prepend,
-    %append,
-    %strappings
+    (%html_attributes,)
+    (%prepend,)
+    (%append,)
+    (%strappings)
 
 **`$labeltext`**
 
-Mandatory. It is either the first argument, or placed in the body.
+Optional. It is either the first argument, or placed in the body. It creates a `label` element before the `input`.
 
 **`%arguments`**
 
-Mandatory. A hash:
+Mandatory:
 
-> **`cols`**
+> **`cols => $size_definitions{}`**
 >
-> Optional hash reference. It is only used when the `form` is a `.form-horizontal`. 
-> `$size` is one of `xsmall`, `small`, `medium`, or `large`. `$size` takes a two item array 
-> reference: `$label_columns` is the number of columns that should be used by the label for 
-> that size, and `$input_columns` is the number of columns used for the input field for that size.
+> Optional key-value pair. It is only used when the `form` is a `.form-horizontal`. 
 >
-> You can defined the widths for one or more or all of the sizes.
+> > **`$size`**
+> >
+> > Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. You can define the widths for one or more or all of the sizes. 
+> > `$size` takes a two item array reference:
+> >
+> > > **`$label_columns`**
+> > >
+> > > Mandatory. The number of columns that should be used by the label for that size.
+> > >
+> > > **`$input_columns`**
+> > >
+> > > Mandatory. The number of columns used for the input field for that size.
 >
 > **`%strappings`**
 >

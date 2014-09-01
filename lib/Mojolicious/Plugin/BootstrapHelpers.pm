@@ -92,13 +92,15 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     sub bootstrap_formgroup {
         my $c = shift;
-        my $title = ref $_[-1] eq 'CODE' ? pop : shift;
+        my $title = ref $_[-1] eq 'CODE' ? pop 
+                  : scalar @_ % 2        ? shift
+                  :                        undef;
         my $attr = parse_attributes(@_);
         
         $attr->{'column_information'} = delete $attr->{'cols'} if ref $attr->{'cols'} eq 'HASH';
 
         my($id, $input) = fix_input($c, $attr);
-        my $label = fix_label($c, $id, $title, $attr);
+        my $label = defined $title ? fix_label($c, $id, $title, $attr) : '';
 
         $attr = add_classes($attr, 'form-group', { size => 'form-group-%s'});
         $attr = cleanup_attrs($attr);
@@ -157,7 +159,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my @column_classes = get_column_classes($attr->{'column_information'}, 1);
         $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
         $tag_attr->{'id'} //= $id;
-        my $name_attr = $id =~ s{-}{_}r;
+        my $name_attr = $id =~ s{-}{_}rg;
 
         my $prepend = delete $tag_attr->{'prepend'};
         my $append = delete $tag_attr->{'append'};
@@ -496,11 +498,12 @@ You can turn off the short forms, see <a href="#init_short_strappings">init_shor
 
 In the syntax sections below the following conventions are used:
     
-    name      A specific string
-    $name     Any string
-    $name[]   An array reference  (ordering significant)
-    %name     A hash              (ordering not significant)
-    $name{}   A hash reference    (ordering not significant)
+    name        A specific string
+    $name       Any string
+    $name[]     An array reference  (ordering significant)
+    %name       A hash              (ordering not significant)
+    $name{}     A hash reference    (ordering not significant)
+    (optional)  Anything inside parenthesis is optional
 
 
 =head1 HELPERS
@@ -511,11 +514,9 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Syntax
 
-    %= panel
-
-    %= panel $title, %strappings, begin
+    %= panel ($title, ((%strappings,) begin
         $body
-    %  end
+    %  end))
 
 B<C<$title>>
 
@@ -523,7 +524,7 @@ Usually mandatory, but can be omitted if there are no other arguments to the C<p
 
 B<C<%strappings>>
 
-Optional hash. Any strapping you want applied to the C<panel>.
+Optional. Any strapping you want applied to the C<panel>.
 
 B<C<$body>>
 
@@ -597,46 +598,66 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 =head3 Syntax
 
-    %= formgroup $labeltext, %arguments
+    %= formgroup ($labeltext,) %arguments
 
-    %= formgroup %arguments, begin
+    %= formgroup (%arguments,) begin
         $labeltext
     %  end
 
     # %arguments:
-    cols => { $size => [ $label_columns, $input_columns ], ... },
-    %strappings
+    (cols => $size_definitions{})
+    (%strappings)
     $fieldtype => $field_setting[],
     
     # $field_setting[]
     $name,
-    $value,
-    %field_arguments
+    ($value,)
+    (%field_arguments)
+    
+    # $size_definitions{}
+    { $size => [ $label_columns, $input_columns ](, ...) },
 
     # %field_arguments
-    %html_attributes,
-    %prepend,
-    %append,
-    %strappings
+    (%html_attributes,)
+    (%prepend,)
+    (%append,)
+    (%strappings)
 
 B<C<$labeltext>>
 
-Mandatory. It is either the first argument, or placed in the body.
+Optional. It is either the first argument, or placed in the body. It creates a C<label> element before the C<input>.
 
 B<C<%arguments>>
 
-Mandatory. A hash:
+Mandatory:
 
 =over 4
 
-B<C<cols>>
+B<C<cols =E<gt> $size_definitions{}>>
 
-Optional hash reference. It is only used when the C<form> is a C<.form-horizontal>. 
-C<$size> is one of C<xsmall>, C<small>, C<medium>, or C<large>. C<$size> takes a two item array 
-reference: C<$label_columns> is the number of columns that should be used by the label for 
-that size, and C<$input_columns> is the number of columns used for the input field for that size.
+Optional key-value pair. It is only used when the C<form> is a C<.form-horizontal>. 
 
-You can defined the widths for one or more or all of the sizes.
+=over 4
+
+B<C<$size>>
+
+Mandatory. It is one of C<xsmall>, C<small>, C<medium>, or C<large>. You can define the widths for one or more or all of the sizes. 
+C<$size> takes a two item array reference:
+
+=over 4
+
+B<C<$label_columns>>
+
+Mandatory. The number of columns that should be used by the label for that size.
+
+B<C<$input_columns>>
+
+Mandatory. The number of columns used for the input field for that size.
+
+=back
+
+=back
+
 
 B<C<%strappings>>
 
