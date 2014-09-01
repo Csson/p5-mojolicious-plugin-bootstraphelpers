@@ -83,16 +83,21 @@ It is also possible to automatically include jQuery (2.\*)
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-## Shortcuts
+## Strappings
 
-There are several shortcuts for context and size classes, that automatically expands to the correct class depending on which tag it is applied to.
-They can be seen as a hash key and value merged into one.
+There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending 
+on which tag it is applied to. For instance, if you apply the `info` strapping to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
 
-For instance, if you apply the `info` shortcut to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
+You can use them in two different ways, but internally they are the same. These to lines are exactly identical:
 
-For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`), they are shortened to the Bootstrap type classes.
+    %= button 'Push me', primary
 
-The following shortcuts are available:
+    %= button 'Push me', __primary => 1
+
+For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`) no matter if you use the strapping form or not.
+They are shortened to the Bootstrap type classes.
+
+The following strappings are available:
 
     xsmall    default     striped
     small     primary     bordered
@@ -101,23 +106,28 @@ The following shortcuts are available:
               warning     responsive
               danger
 
-See below for usage. **Important:** You can't follow a shortcut with a fat comma (`=>`). The fat comma auto-quotes the shortcut, and then the shortcut is not a shortcut anymore.
+Add two leading underscores if you don't want to use the short form.
 
-If there is no corresponding class for the element you add the shortcut to it is silently not applied.
+See below for usage. **Important:** You can't follow a short form strapping with a fat comma (`=>`). The fat comma auto-quotes the strapping, and then it breaks.
+
+If there is no corresponding class for the element you add the strapping to it is silently not applied.
+
+In the documentation below strappings are always considered to be part of hashes.
 
 <div>
-    You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
+    <p>The short form is recommended for readability, but it does setup several helpers in your templates. 
+    You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
 </div>
 
 ## Panels
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
 
-#### Syntax
+### Syntax
 
     %= panel
 
-    %= panel $title, @shortcuts, begin
+    %= panel $title, %strappings, begin
         $body
     %  end
 
@@ -125,9 +135,9 @@ If there is no corresponding class for the element you add the shortcut to it is
 
 Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
 
-**`@shortcuts`**
+**`%strappings`**
 
-Optional hash. Any shortcuts you want applied to the `panel`.
+Optional hash. Any strapping you want applied to the `panel`.
 
 **`$body`**
 
@@ -190,7 +200,7 @@ If you want a panel without title, set the title to `undef`. Note that you can't
         </div>
     </div>
 
-The first shortcut, `success`. This applies `.panel-success`.
+Here, the `success` strapping applies `.panel-success` to the panel.
 
 ## Form groups
 
@@ -206,7 +216,7 @@ The first shortcut, `success`. This applies `.panel-success`.
 
     # %arguments:
     cols => { $size => [ $label_columns, $input_columns ], ... },
-    @shortcuts
+    %strappings
     $fieldtype => $field_setting[],
     
     # $field_setting[]
@@ -218,7 +228,7 @@ The first shortcut, `success`. This applies `.panel-success`.
     %html_attributes,
     %prepend,
     %append,
-    @shortcuts
+    %strappings
 
 **`$labeltext`**
 
@@ -237,9 +247,9 @@ Mandatory. A hash:
 >
 > You can defined the widths for one or more or all of the sizes.
 >
-> **`@shortcuts`**
+> **`%strappings`**
 >
-> Optional. One or more shortcuts that you want applied to the `.form-group` element.
+> Optional hash. One or more strappings you want applied to the `.form-group` element.
 >
 > **`$fieldtype`**
 >
@@ -273,9 +283,9 @@ Mandatory. A hash:
 > > >
 > > > Optional. Can be used individually or together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
 > > >
-> > > **`@shortcuts`**
+> > > **`%strappings`**
 > > >
-> > > Optional. All shortcuts you want applied to the `input`.
+> > > Optional. All strappings you want applied to the `input`.
 
 ### Examples
 
@@ -302,7 +312,7 @@ The first item in the array ref is used for both `id` and `name`. Except...
         </div>
     </div>
 
-Shortcuts can also be used in this context. Here `large` applies `.input-lg`.
+Strappings can also be used in this context. Here `large` applies `.input-lg`.
 
 If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
 
@@ -319,7 +329,7 @@ If the input name (the first item in the text\_field array ref) contains dashes,
         </div>
     </div>
 
-The (optional) second item in the array ref is the value, if any, that should populate the input tag.
+Here, the second item in the `text_field` array reference is a value that populates the `input`.
 
 #### Large input group
 
@@ -330,7 +340,7 @@ The (optional) second item in the array ref is the value, if any, that should po
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-Note the difference with the earlier example. Here `large` is outside the `text_field` array ref, and therefore `.form-group-lg` is applied to the form group. 
+Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group. 
 
 #### Horizontal form groups
 
@@ -345,7 +355,7 @@ Note the difference with the earlier example. Here `large` is outside the `text_
 
 If the `form` is `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
 
-(Note that in this context, `medium` and `large` are not shortcuts. Shortcuts don't take arguments.)
+(Note that in this context, `medium` and `large` are not short form strappings. Those don't take arguments.)
 
 ## Buttons
 
@@ -355,7 +365,7 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
     <button class="btn btn-lg btn-warning">The example 5</button>
 
-An ordinary button, with applied shortcuts.
+An ordinary button, with applied strappings.
 
     %= button 'The example 1' => ['http://www.example.com/'], small
 
@@ -394,8 +404,8 @@ Some options are available:
 
     $app->plugin('BootstrapHelpers', {
         tag_prefix => 'bs',
-        shortcut_prefix => 'set',
-        init_shortcuts => 1,
+        short_strappings_prefix => 'set',
+        init_short_strappings => 1,
     });
 
 ## tag\_prefix
@@ -409,21 +419,21 @@ by setting a prefix the original names are no longer available. The following ru
 - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
 - If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
 
-## shortcut\_prefix
+## short\_strappings\_prefix
 
 Default: `undef`
 
-This is similar to `tag_prefix`, but is instead applied to the shortcuts. The same rules applies.
+This is similar to `tag_prefix`, but is instead applied to the short form strappings. The same rules applies.
 
-## init\_shortcuts
+## init\_short\_strappings
 
 Default: `1`
 
-If you don't want the shortcuts setup at all, set this option to a defined but false value.
+If you don't want the short form of strappings setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of `warning` you must now use `__warning => 1`. That is why they are called shortcuts.
+All functionality is available, but instead of `warning` you must now use `<__warning =` 1>>.
 
-With shortcuts turned off, sizes are only supported in longform: `__xsmall`, `__small`, `__medium` and `__large`.
+With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
 
 # AUTHOR
 
