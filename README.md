@@ -227,14 +227,14 @@ Here, the `success` strapping applies `.panel-success` to the panel.
     (cols => $size_definitions{})
     (%group_strappings)
     $fieldtype => $field_setting[],
-    
+
+    # $size_definitions{}
+    { $size => [ $label_columns, $input_columns ](, ...) },
+
     # $field_setting[]
     $name,
     ($value,)
     (%field_arguments)
-    
-    # $size_definitions{}
-    { $size => [ $label_columns, $input_columns ](, ...) },
 
     # %field_arguments
     (%html_attributes,)
@@ -303,7 +303,7 @@ Mandatory:
 > > >
 > > > Optional key-value pair. Can be used with `append`. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
 > > >
-> > > > **`$prepend`**
+> > > > **`$to_prepend`**
 > > > >
 > > > > This string is placed directly in front of the `input`.
 > > >
@@ -311,7 +311,7 @@ Mandatory:
 > > >
 > > > Optional key-value pair. Can be used with `prepend`.
 > > >
-> > > > **`$append`**
+> > > > **`$to_append`**
 > > > >
 > > > > This string is placed directly after the `input`.
 > > >
@@ -453,6 +453,10 @@ With a url the button turns into a link.
 
 Optional. If set the table will be wrapped in a panel. The table replaces the body.
 
+**`$body`**
+
+Mandatory. `thead`, `td` and so on.
+
 **`%arguments`**
 
 Optional hash:
@@ -505,7 +509,7 @@ Several classes applied to the table.
         <div class="panel-heading">
             <h3 class="panel-title">Heading Table 4</h3>
         </div>
-        <table class="table table-condensed">
+        <table class="table table-condensed" id="the-table">
             <tr><td>Table 4</td></tr>
         </table>
     </div>

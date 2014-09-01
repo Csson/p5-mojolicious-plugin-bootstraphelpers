@@ -618,14 +618,14 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
     (cols => $size_definitions{})
     (%group_strappings)
     $fieldtype => $field_setting[],
-    
+
+    # $size_definitions{}
+    { $size => [ $label_columns, $input_columns ](, ...) },
+
     # $field_setting[]
     $name,
     ($value,)
     (%field_arguments)
-    
-    # $size_definitions{}
-    { $size => [ $label_columns, $input_columns ](, ...) },
 
     # %field_arguments
     (%html_attributes,)
@@ -712,7 +712,7 @@ Optional key-value pair. Can be used with C<append>. They are used to create L<i
 
 =over 4
 
-B<C<$prepend>>
+B<C<$to_prepend>>
 
 This string is placed directly in front of the C<input>.
 
@@ -724,7 +724,7 @@ Optional key-value pair. Can be used with C<prepend>.
 
 =over 4
 
-B<C<$append>>
+B<C<$to_append>>
 
 This string is placed directly after the C<input>.
 
@@ -889,6 +889,10 @@ B<C<$title>>
 
 Optional. If set the table will be wrapped in a panel. The table replaces the body.
 
+B<C<$body>>
+
+Mandatory. C<thead>, C<td> and so on.
+
 B<C<%arguments>>
 
 Optional hash:
@@ -951,7 +955,7 @@ Several classes applied to the table.
         <div class="panel-heading">
             <h3 class="panel-title">Heading Table 4</h3>
         </div>
-        <table class="table table-condensed">
+        <table class="table table-condensed" id="the-table">
             <tr><td>Table 4</td></tr>
         </table>
     </div>
