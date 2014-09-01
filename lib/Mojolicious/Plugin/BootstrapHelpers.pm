@@ -39,6 +39,21 @@ package Mojolicious::Plugin::BootstrapHelpers {
         
         $attr = add_classes($attr, 'panel', { panel => 'panel-%s', panel_default => 'default'});
         
+        my $body = qq{
+                <div class="panel-body">
+                    } . contents($callback, $content) . qq{
+                </div>
+        };
+
+        return create_panel($title, $body, $attr);
+
+    }
+
+    sub create_panel {
+        my $title = shift;
+        my $body = shift;
+        my $attr = shift;
+        
         my $tag = qq{
             <div class="$attr->{'class'}">
             } . (defined $title ? qq{
@@ -46,31 +61,33 @@ package Mojolicious::Plugin::BootstrapHelpers {
                     <h3 class="panel-title">$title</h3>
                 </div>
             } : '') . qq{
-                <div class="panel-body">
-                    } . contents($callback, $content) . qq{
-                </div>
+                $body
             </div>
         };
 
         return out($tag);
-
     }
 
     sub bootstrap_table {
         my $c = shift;
         my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
-        my $content = undef; #scalar @_ % 2 ? pop : '';
+        my $title = scalar @_ % 2 ? shift : undef;
         my $attr = parse_attributes(@_);
-       
+        
         $attr = add_classes($attr, 'table', { table => 'table-%s' });
 
-        my $tag = qq{
+        my $table = qq{
             <table class="$attr->{'class'}">
-            } . contents($callback, $content) . qq{
+            } . $callback->() . qq{
             </table>
         };
 
-        return out($tag);
+        if(defined $title) {
+            $attr->{'panel'} = add_classes($attr->{'panel'}, 'panel', { panel => 'panel-%s', panel_default => 'default'});
+        }
+
+
+        return defined $title ? create_panel($title, $table, $attr->{'panel'}) : out($table);
     }
 
     sub bootstrap_formgroup {
@@ -109,7 +126,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         # We have an url
         if(scalar @url) {
-            $attr->{'href'} = $c->url_for(@url);
+            $attr->{'href'} = $c->url_for(@url)->to_string;
             return out(Mojolicious::Plugin::TagHelpers::_tag('a', $attr->%*, $content));
         }
         else {
@@ -305,8 +322,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     sub out {
         my $tag = shift;
-        $tag =~ s{>[ \n\t\s]+<}{><}mg;
-        $tag =~ s{[ \s]+$}{}g;
         return Mojo::ByteStream->new($tag);
     }
 
@@ -463,7 +478,7 @@ If there is no corresponding class for the element you add the shortcut to it is
 
 =begin html
 
-You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
+<p>You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.</p>
 
 =end html
 
@@ -472,7 +487,7 @@ You can turn off shortcuts, see <a href="#init_shortcuts">init_shortcuts</a>.
 
 L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
-=head4 Syntax
+=head3 Syntax
 
     %= panel
 
