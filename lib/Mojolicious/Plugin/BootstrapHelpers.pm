@@ -814,8 +814,7 @@ An ordinary button, with applied strappings.
 
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
-If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
-The url is handed off 
+With a url the button turns into a link.
 
 
 
