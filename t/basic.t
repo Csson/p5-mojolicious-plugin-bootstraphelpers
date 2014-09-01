@@ -183,6 +183,26 @@ my @tables = (
             <tr><td>Table 2</td></tr>
         </table>
     },
+    q{
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Heading Table 3</h3>
+            </div>
+            <table class="table table-condensed table-hover table-striped">
+                <tr><td>Table 3</td></tr>
+            </table>
+        </div>
+    },
+    q{
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Heading Table 4</h3>
+            </div>
+            <table class="table table-condensed">
+                <tr><td>Table 4</td></tr>
+            </table>
+        </div>
+    },
 );
 
 test($test, 'table', @tables);
@@ -308,3 +328,14 @@ __DATA__
 %= table hover, striped, condensed, begin
     <tr><td>Table 2</td></tr>
 %  end
+
+@@ table_3.html.ep
+%= table 'Heading Table 3', hover, striped, condensed, begin
+    <tr><td>Table 3</td></tr>
+%  end
+
+@@ table_4.html.ep
+%= table 'Heading Table 4', panel => { success }, condensed, begin
+    <tr><td>Table 4</td></tr>
+%  end
+
