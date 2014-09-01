@@ -154,6 +154,11 @@ my @formgroups = (
             </div>
         </div>
     },
+    q{
+        <div class="form-group">
+            <input class="form-control" id="test-text-9" name="test_text_9" type="text" />
+        </div>
+    },
 );
 test($test, 'formgroup', @formgroups);
 
@@ -290,6 +295,9 @@ __DATA__
 
 @@ formgroup_8.html.ep
 %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
+
+@@ formgroup_9.html.ep
+%= formgroup text_field => ['test-text-9']
 
 
 @@ button_1.html.ep
