@@ -203,7 +203,7 @@ my @tables = (
             <div class="panel-heading">
                 <h3 class="panel-title">Heading Table 4</h3>
             </div>
-            <table class="table table-condensed">
+            <table class="table table-condensed" id="the-table">
                 <tr><td>Table 4</td></tr>
             </table>
         </div>
@@ -343,7 +343,7 @@ __DATA__
 %  end
 
 @@ table_4.html.ep
-%= table 'Heading Table 4', panel => { success }, condensed, begin
+%= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
     <tr><td>Table 4</td></tr>
 %  end
 
