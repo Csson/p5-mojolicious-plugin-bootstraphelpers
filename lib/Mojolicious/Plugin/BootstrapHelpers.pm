@@ -330,24 +330,24 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $app = shift;
         my $args = shift;
 
-        my $px = setup_prefix($args->{'tag_prefix'});
-        my $spx = setup_prefix($args->{'shortcut_prefix'});
-        my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
+        my $tp = setup_prefix($args->{'tag_prefix'});
+        my $ssp = setup_prefix($args->{'short_strappings_prefix'});
+        my $init_short_strappings = $args->{'init_short_strappings'} //= 1;
 
-        $app->helper($px.'bootstrap' => \&bootstraps_bootstraps);
-        $app->helper($px.'table' => \&bootstrap_table);
-        $app->helper($px.'panel' => \&bootstrap_panel);
-        $app->helper($px.'formgroup' => \&bootstrap_formgroup);
-        $app->helper($px.'button' => \&bootstrap_button);
-        $app->helper($px.'submit_button' => \&bootstrap_submit);
+        $app->helper($tp.'bootstrap' => \&bootstraps_bootstraps);
+        $app->helper($tp.'table' => \&bootstrap_table);
+        $app->helper($tp.'panel' => \&bootstrap_panel);
+        $app->helper($tp.'formgroup' => \&bootstrap_formgroup);
+        $app->helper($tp.'button' => \&bootstrap_button);
+        $app->helper($tp.'submit_button' => \&bootstrap_submit);
 
-        if($init_shortcuts) {
+        if($init_short_strappings) {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
 
             foreach my $helper (@sizes, @contexts, @table) {
-               $app->helper($spx.$helper, sub { ("__$helper" => 1) });
+               $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
             }
         }
     }
@@ -467,7 +467,7 @@ You can use them in two different ways, but internally they are the same. These 
 
 
 
-For sizes, you can only use the longform (C<xsmall>, C<small>, C<medium> and C<large>) no matter if you use the strapping form or not.
+For sizes, you can only use the longform (C<xsmall>, C<small>, C<medium> and C<large>) no matter if you use the short strapping form or not.
 They are shortened to the Bootstrap type classes.
 
 The following strappings are available:
@@ -485,14 +485,23 @@ See below for usage. B<Important:> You can't follow a short form strapping with 
 
 If there is no corresponding class for the element you add the strapping to it is silently not applied.
 
-In the documentation below strappings are always considered to be part of hashes.
-
 =begin html
 
 <p>The short form is recommended for readability, but it does setup several helpers in your templates. 
 You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
 
 =end html
+
+=head2 Syntax convention
+
+In the syntax sections below the following conventions are used:
+    
+    name      A specific string
+    $name     Any string
+    $name[]   An array reference  (ordering significant)
+    %name     A hash              (ordering not significant)
+    $name{}   A hash reference    (ordering not significant)
+
 
 
 =head2 Panels
@@ -547,7 +556,7 @@ B<Body, no title>
 
 If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-B<ody and title>
+B<Body and title>
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -678,9 +687,10 @@ Optional. All strappings you want applied to the C<input>.
 
 =back
 
+
 =head3 Examples
 
-=head4 Basic form group
+B<Basic form group>
     
     %= formgroup 'Text test 1', text_field => ['test_text']
 
@@ -691,7 +701,8 @@ Optional. All strappings you want applied to the C<input>.
 
 The first item in the array ref is used for both C<id> and C<name>. Except...
 
-=head4 Input group (before), and large input field
+
+B<Input group (before), and large input field>
 
     %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
@@ -707,7 +718,8 @@ Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
 
 If the input name (the first item in the text_field array ref) contains dashes, those are replaced (in the C<name>) to underscores.
 
-=head4 Input group (before and after), and with value
+
+B<Input group (before and after), and with value>
 
     %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
@@ -722,7 +734,8 @@ If the input name (the first item in the text_field array ref) contains dashes, 
 
 Here, the second item in the C<text_field> array reference is a value that populates the C<input>.
 
-=head4 Large input group
+
+B<Large input group>
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
@@ -733,7 +746,8 @@ Here, the second item in the C<text_field> array reference is a value that popul
 
 Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group. 
 
-=head4 Horizontal form groups
+
+B<Horizontal form groups>
     
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
@@ -754,6 +768,42 @@ If the C<form> is C<.form-horizontal>, you can set the column widths with the C<
 
 L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
 
+=head3 Syntax
+
+    %= button $button_text, $url[], %arguments
+
+    # %arguments
+    %html_attributes,
+    %strappings
+
+B<C<$button_text>>
+
+Mandatory. The text on the button.
+
+B<C<$url[]>>
+
+Optional array reference. It is handed off to L<url_for|Mojolicious::Controller#url_for>, so with it this is
+basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
+
+B<C<%arguments>>
+
+Optional hash.
+
+=over 4
+
+B<C<%html_attributes>>
+
+Optional hash of any html attributes you want to set on the button/link.
+
+B<C<%strappings>>
+
+Optional hash. Any strappings you want to set on the button/link.
+
+=back
+
+
+=head3 Examples
+
     %= button 'The example 5' => large, warning
 
     <button class="btn btn-lg btn-warning">The example 5</button>
@@ -765,11 +815,42 @@ An ordinary button, with applied strappings.
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
 If the first argument after the button text is an array ref, it is used to populate C<href> and turns the button into a link. 
-The url is handed off L<url_for|Mojolicious::Controller#url_for>, so this is basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
+The url is handed off 
 
 
 
 =head2 Tables
+
+=head3 Syntax
+
+    %= table $title, %arguments, begin
+           $body
+    %  end
+
+    # %arguments
+    %strappings
+    panel => $strappings{}
+
+B<C<$title>>
+
+Optional. If set the table will be wrapped in a panel. The table replaces the body.
+
+B<C<%arguments>>
+
+Optional hash:
+
+=over 4
+
+B<C<%strappings>>
+
+Optional. A hash of the strappings to apply to the table.
+
+B<C<<panel => $strappings{}>>>
+
+An optional key-value pair. $strappings{} is hash reference containing any strapping you want to set on the panel.
+        
+
+=head3 Examples
 
 L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
 
@@ -793,6 +874,20 @@ A basic table.
 
 Several classes applied to the table.
 
+    %= table 'Heading Table 4', panel => { success }, condensed, begin
+        <tr><td>Table 4</td></tr>
+    %  end
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Heading Table 4</h3>
+        </div>
+        <table class="table table-condensed">
+            <tr><td>Table 4</td></tr>
+        </table>
+    </div>
+
+A C<condensed> table wrapped in a C<success> panel.
 
 
 =head1 OPTIONS

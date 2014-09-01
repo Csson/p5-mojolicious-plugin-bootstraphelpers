@@ -94,7 +94,7 @@ You can use them in two different ways, but internally they are the same. These 
 
     %= button 'Push me', __primary => 1
 
-For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`) no matter if you use the strapping form or not.
+For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`) no matter if you use the short strapping form or not.
 They are shortened to the Bootstrap type classes.
 
 The following strappings are available:
@@ -112,12 +112,20 @@ See below for usage. **Important:** You can't follow a short form strapping with
 
 If there is no corresponding class for the element you add the strapping to it is silently not applied.
 
-In the documentation below strappings are always considered to be part of hashes.
-
 <div>
     <p>The short form is recommended for readability, but it does setup several helpers in your templates. 
     You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
 </div>
+
+## Syntax convention
+
+In the syntax sections below the following conventions are used:
+
+    name      A specific string
+    $name     Any string
+    $name[]   An array reference  (ordering significant)
+    %name     A hash              (ordering not significant)
+    $name{}   A hash reference    (ordering not significant)
 
 ## Panels
 
@@ -170,7 +178,7 @@ The class is set to `panel-default`, by default.
 
 If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
 
-**ody and title**
+**Body and title**
 
     %= panel 'The header' => begin
         <p>A short text.</p>
@@ -289,7 +297,7 @@ Mandatory. A hash:
 
 ### Examples
 
-#### Basic form group
+**Basic form group**
 
     %= formgroup 'Text test 1', text_field => ['test_text']
 
@@ -300,7 +308,7 @@ Mandatory. A hash:
 
 The first item in the array ref is used for both `id` and `name`. Except...
 
-#### Input group (before), and large input field
+**Input group (before), and large input field**
 
     %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
 
@@ -316,7 +324,7 @@ Strappings can also be used in this context. Here `large` applies `.input-lg`.
 
 If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
 
-#### Input group (before and after), and with value
+**Input group (before and after), and with value**
 
     %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
 
@@ -331,7 +339,7 @@ If the input name (the first item in the text\_field array ref) contains dashes,
 
 Here, the second item in the `text_field` array reference is a value that populates the `input`.
 
-#### Large input group
+**Large input group**
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
@@ -342,7 +350,7 @@ Here, the second item in the `text_field` array reference is a value that popula
 
 Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group. 
 
-#### Horizontal form groups
+**Horizontal form groups**
 
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
@@ -361,6 +369,37 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
 [Bootstrap documentation](http://getbootstrap.com/css/#buttons)
 
+### Syntax
+
+    %= button $button_text, $url[], %arguments
+
+    # %arguments
+    %html_attributes,
+    %strappings
+
+**`$button_text`**
+
+Mandatory. The text on the button.
+
+**`$url[]`**
+
+Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
+basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+
+**`%arguments`**
+
+Optional hash.
+
+> **`%html_attributes`**
+>
+> Optional hash of any html attributes you want to set on the button/link.
+>
+> **`%strappings`**
+>
+> Optional hash. Any strappings you want to set on the button/link.
+
+### Examples
+
     %= button 'The example 5' => large, warning
 
     <button class="btn btn-lg btn-warning">The example 5</button>
@@ -372,9 +411,37 @@ An ordinary button, with applied strappings.
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
 If the first argument after the button text is an array ref, it is used to populate `href` and turns the button into a link. 
-The url is handed off [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so this is basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+The url is handed off 
 
 ## Tables
+
+### Syntax
+
+    %= table $title, %arguments, begin
+           $body
+    %  end
+
+    # %arguments
+    %strappings
+    panel => $strappings{}
+
+**`$title`**
+
+Optional. If set the table will be wrapped in a panel. The table replaces the body.
+
+**`%arguments`**
+
+Optional hash:
+
+> **`%strappings`**
+>
+> Optional. A hash of the strappings to apply to the table.
+>
+> **`<panel =` $strappings{}**>>
+>
+> An optional key-value pair. $strappings{} is hash reference containing any strapping you want to set on the panel.
+
+### Examples
 
 [Bootstrap documentation](http://getbootstrap.com/css/#tables)
 
@@ -397,6 +464,21 @@ A basic table.
     </table>
 
 Several classes applied to the table.
+
+    %= table 'Heading Table 4', panel => { success }, condensed, begin
+        <tr><td>Table 4</td></tr>
+    %  end
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Heading Table 4</h3>
+        </div>
+        <table class="table table-condensed">
+            <tr><td>Table 4</td></tr>
+        </table>
+    </div>
+
+A `condensed` table wrapped in a `success` panel.
 
 # OPTIONS
 
@@ -451,3 +533,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 488:
+
+    You forgot a '=back' before '=head3'
