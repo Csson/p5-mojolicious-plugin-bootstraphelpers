@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+
+0.008  2014-09-01 10:52:55 CEST
     - Added support for placing a table in panel without a .panel-body
     - Documentation: Described syntax conventions
     - Documentation: Added syntax descriptions for table and button.
