@@ -600,7 +600,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
     %= formgroup ($labeltext,) %arguments
 
-    %= formgroup (%arguments,) begin
+    %= formgroup %arguments, begin
         $labeltext
     %  end
 
@@ -635,13 +635,13 @@ Mandatory:
 
 B<C<cols =E<gt> $size_definitions{}>>
 
-Optional key-value pair. It is only used when the C<form> is a C<.form-horizontal>. 
+Optional key-value pair. It is only used when the C<form> is a C<.form-horizontal>. You can define the widths for one or more or all of the sizes.
 
 =over 4
 
 B<C<$size>>
 
-Mandatory. It is one of C<xsmall>, C<small>, C<medium>, or C<large>. You can define the widths for one or more or all of the sizes. 
+Mandatory. It is one of C<xsmall>, C<small>, C<medium>, or C<large>. 
 C<$size> takes a two item array reference:
 
 =over 4

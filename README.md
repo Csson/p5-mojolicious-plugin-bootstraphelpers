@@ -219,7 +219,7 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     %= formgroup ($labeltext,) %arguments
 
-    %= formgroup (%arguments,) begin
+    %= formgroup %arguments, begin
         $labeltext
     %  end
 
@@ -252,11 +252,11 @@ Mandatory:
 
 > **`cols => $size_definitions{}`**
 >
-> Optional key-value pair. It is only used when the `form` is a `.form-horizontal`. 
+> Optional key-value pair. It is only used when the `form` is a `.form-horizontal`. You can define the widths for one or more or all of the sizes.
 >
 > > **`$size`**
 > >
-> > Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. You can define the widths for one or more or all of the sizes. 
+> > Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. 
 > > `$size` takes a two item array reference:
 > >
 > > > **`$label_columns`**
