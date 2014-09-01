@@ -41,11 +41,13 @@
             "Scalar::Util" : "1.29",
             "String::Trim" : "0.004",
             "experimental" : "0.008",
-            "perl" : "5.020000"
+            "perl" : "5.020000",
+            "true" : "0.18"
          }
       },
       "test" : {
          "requires" : {
+            "Test::Mojo::Trim" : "0.03",
             "Test::More" : "0.96"
          }
       }
