@@ -520,7 +520,7 @@ A `condensed` table with an `id` wrapped in a `success` panel.
 
 ### Syntax
 
-    %= badge $text, [ %attr [, right] ]
+    %= badge $text[, %attr[, right] ]
 
 **`$text`**
 
