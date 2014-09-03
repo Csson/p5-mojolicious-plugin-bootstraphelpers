@@ -999,7 +999,7 @@ A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 =head3 Syntax
 
-    %= badge $text, [ %attr [, right] ]
+    %= badge $text[, %attr[, right] ]
 
 B<C<$text>>
 
