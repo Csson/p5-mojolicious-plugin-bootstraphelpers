@@ -516,6 +516,39 @@ Several classes applied to the table.
 
 A `condensed` table with an `id` wrapped in a `success` panel.
 
+## Badges
+
+### Syntax
+
+    %= badge $text, [ %attr [, right] ]
+
+**`$text`**
+
+Mandatory. If it is `undef` no output is produced.
+
+**`%attr`**
+
+Optional. Any html attributes to apply on the badge.
+
+**`right`**
+
+Optional. The only strapping available.
+
+### Examples
+
+    <%= badge '3' %>
+
+    <span class="badge">3</span></a>
+    
+
+A basic badge.
+
+    <%= badge '4', data => { custom => 'yes' }, right %>
+    
+    <span class="badge pull-right" data-custom="yes">4</span>
+
+A right aligned badge with a data attribute.
+
 # OPTIONS
 
 Some options are available:
