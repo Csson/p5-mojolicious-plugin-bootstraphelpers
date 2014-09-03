@@ -4,13 +4,13 @@ package Mojolicious::Plugin::BootstrapHelpers {
     
     use Mojo::Base 'Mojolicious::Plugin';
     
-    use List::AllUtils 'first_index';
+    use List::AllUtils qw/uniq first_index/;
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
 
-    use experimental 'postderef';
+    use experimental 'postderef'; # requires 5.20
 
     our $VERSION = 0.009;
 
@@ -92,7 +92,9 @@ package Mojolicious::Plugin::BootstrapHelpers {
     }
 
     sub htmlify_attrs {
-        my $attr = cleanup_attrs({shift->%*}); #* Make a copy
+        my $attr = shift;
+        return '' if !defined $attr;
+        $attr = cleanup_attrs({$attr->%*}); #* Make a copy
 
         my $html = join ' ' => map { qq{$_="$attr->{ $_ }"} } sort keys $attr->%*;
         return ' ' . $html if defined $html;
@@ -149,6 +151,25 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub bootstrap_submit {
         push @_ => (type => 'submit');
         return bootstrap_button(@_);
+    }
+
+
+    sub bootstrap_badge {
+        my $c = shift;
+        my $content = iscoderef($_[-1]) ? pop : shift;
+        my $attr = parse_attributes(@_);
+
+        $attr = add_classes($attr, 'badge', { direction => 'pull-%s' });
+        $attr = cleanup_attrs($attr);
+        my $html = htmlify_attrs($attr);
+
+        my $badge = defined $content && length $content ? qq{<span$html>$content</span>} : '';
+
+        return out($badge);
+    }
+
+    sub iscoderef {
+        return shift eq 'CODE';
     }
 
     sub fix_input {
@@ -252,20 +273,25 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         my @classes = ($attr->{'class'}, @_);
 
-        if(exists $formatter->{'size'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'size'}, $formatter->{'size_default'}, _sizes());
+        if($formatter) {
+            if(exists $formatter->{'size'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'size'}, $formatter->{'size_default'}, _sizes());
+            }
+            if(exists $formatter->{'button'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'button'}, $formatter->{'button_default'}, _button_contexts());
+            }
+            if(exists $formatter->{'panel'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'panel'}, $formatter->{'panel_default'}, _panel_contexts());
+            }
+            if(exists $formatter->{'table'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'table'}, $formatter->{'table_default'}, _table_contexts());
+            }
+            if(exists $formatter->{'direction'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'direction'}, $formatter->{'direction_default'}, _direction_contexts());
+            }
         }
-        if(exists $formatter->{'button'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'button'}, $formatter->{'button_default'}, _button_contexts());
-        }
-        if(exists $formatter->{'panel'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'panel'}, $formatter->{'panel_default'}, _panel_contexts());
-        }
-        if(exists $formatter->{'table'}) {
-            push @classes => sprintfify_class($attr, $formatter->{'table'}, $formatter->{'table_default'}, _table_contexts());
-        }
-
-        $attr->{'class'} = trim join ' ' => sort @classes;
+       
+        $attr->{'class'} = trim join ' ' => uniq sort @classes;
 
         return $attr;
         
@@ -301,7 +327,8 @@ package Mojolicious::Plugin::BootstrapHelpers {
                                       keys _sizes()->%*,
                                       keys _button_contexts()->%*,
                                       keys _panel_contexts()->%*,
-                                      keys _table_contexts()->%*);
+                                      keys _table_contexts()->%*,
+                                      keys _direction_contexts()->%*);
         # delete all attributes starting with __
         map { delete $hash->{ $_ } } grep { substr $_, 0 => 2 eq '__' } keys $hash->%*;
         return $hash;
@@ -331,6 +358,9 @@ package Mojolicious::Plugin::BootstrapHelpers {
     sub _table_contexts {
         return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
     }
+    sub _direction_contexts {
+        return { map { ("__$_" => $_, $_ => $_) } qw/right/ };
+    }
 
     sub out {
         my $tag = shift;
@@ -352,13 +382,15 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'formgroup' => \&bootstrap_formgroup);
         $app->helper($tp.'button' => \&bootstrap_button);
         $app->helper($tp.'submit_button' => \&bootstrap_submit);
+        $app->helper($tp.'badge' => \&bootstrap_badge);
 
         if($init_short_strappings) {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
+            my @direction = qw/right/;
 
-            foreach my $helper (@sizes, @contexts, @table) {
+            foreach my $helper (@sizes, @contexts, @table, @direction) {
                $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
             }
         }
@@ -961,6 +993,40 @@ Several classes applied to the table.
     </div>
 
 A C<condensed> table with an C<id> wrapped in a C<success> panel.
+
+
+=head2 Badges
+
+=head3 Syntax
+
+    %= badge $text, [ %attr [, right] ]
+
+B<C<$text>>
+
+Mandatory. If it is C<undef> no output is produced.
+
+B<C<%attr>>
+
+Optional. Any html attributes to apply on the badge.
+
+B<C<right>>
+
+Optional. The only strapping available.
+
+
+=head3 Examples
+
+    <%= badge '3' %>
+
+    <span class="badge">3</span></a>
+    
+A basic badge.
+
+    <%= badge '4', data => { custom => 'yes' }, right %>
+    
+    <span class="badge pull-right" data-custom="yes">4</span>
+
+A right aligned badge with a data attribute.
 
 
 =head1 OPTIONS

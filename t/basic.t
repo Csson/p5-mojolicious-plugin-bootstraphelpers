@@ -213,6 +213,24 @@ my @tables = (
 test($test, 'table', @tables);
 
 
+
+my @badges = (
+    q{
+        <span class="badge">Badge 1</span></a>
+    },
+    q{
+        <span class="badge pull-right">Badge 2</span>
+    },
+    q{
+
+    },
+    q{
+        <span class="badge pull-right" data-custom="yes">Badge 4</span>
+    },
+);
+
+test($test, 'badge', @badges);
+
 done_testing();
 
 sub test {
@@ -327,6 +345,17 @@ __DATA__
 %= submit_button 'Save 2', primary
 
 
+@@ button_group_1.html.ep
+<%= button_group justified,
+    contents => [
+        button => ['Button Group 1', ['http://www.example.com/'], medium],
+        button => ['Button Group 1 button 2', dropdown],
+
+    ],
+      
+%>
+
+
 @@ table_1.html.ep
 <%= table begin %>
     <tr><td>Table 1</td></tr>
@@ -347,3 +376,16 @@ __DATA__
     <tr><td>Table 4</td></tr>
 %  end
 
+
+@@ badge_1.html.ep 
+%= badge 'Badge 1'
+
+@@ badge_2.html.ep
+%= badge 'Badge 2', right
+
+@@ badge_3.html.ep
+% my $empty_badge = '';
+%= badge $empty_badge
+
+@@ badge_4.html.ep
+<%= badge 'Badge 4', data => { custom => 'yes' }, right %>
