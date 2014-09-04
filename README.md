@@ -146,13 +146,14 @@ The following applies to all `%has` hashes below:
 - When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
-- Sometimes on nested helpers (such as tables in panels just below), `%har` is the only thing that can be applied to 
+- Sometimes on nested helpers (such as tables in panels just below), `%has` is the only thing that can be applied to 
         the other element. In this case `panel => { %panel_har }`. It follows from above that in those cases this entire
-        expression is _also_ optional. Such cases are also left out of syntax definitions.
+        expression is _also_ optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
+        in syntax description, unless they need further comment.
 
 From this definition:
 
-    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+    %= table ($title,) %table_har, panel => { %panel_har }, begin
            $body
     %  end
 
@@ -177,7 +178,7 @@ Both of these are legal:
 
 ### Syntax
 
-    %= panel ($title, %har, begin
+    %= panel ($title, %has, begin
         $body
     %  end)
 
@@ -399,7 +400,9 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
 ### Syntax
 
-    %= button $button_text(, [$url]), %har
+    %= button $button_text(, [$url]), %has
+
+    %= submit_button $text, %has
 
 **`$button_text`**
 
@@ -409,6 +412,8 @@ Mandatory. The text on the button.
 
 Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
 basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+
+Not available for `submit_button`.
 
 ### Examples
 
@@ -423,6 +428,12 @@ An ordinary button, with applied strappings.
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
 
 With a url the button turns into a link.
+
+    %= submit_button 'Save', __primary
+
+    <button class="btn btn-primary" type="submit">Save 2</button>
+
+A submit button for use in forms. It overrides the build-in submit\_button helper.
 
 ## Tables
 
@@ -488,7 +499,7 @@ A `condensed` table with an `id` wrapped in a `success` panel.
 
 ### Syntax
 
-    %= badge $text, %har
+    %= badge $text, %has
 
 **`$text`**
 
@@ -509,6 +520,26 @@ A basic badge.
 
 A right aligned badge with a data attribute.
 
+## Icons
+
+This helper needs to be activated separately, see options below.
+
+### Syntax
+
+    %= icon $icon_name
+
+**`$icon_name`**
+
+Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
+
+### Examples
+
+    <%= icon 'copyright-mark' %>
+    %= icon 'sort-by-attributes-alt'
+
+    <span class="glyphicon glyphicon-copyright-mark"></span>
+    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+
 # OPTIONS
 
 Some options are available:
@@ -517,6 +548,10 @@ Some options are available:
         tag_prefix => 'bs',
         short_strappings_prefix => 'set',
         init_short_strappings => 1,
+        icons => {
+            class => 'glyphicon'
+            formatter => 'glyphicon-%s',
+        },
     });
 
 ## tag\_prefix
@@ -546,6 +581,20 @@ All functionality is available, but instead of `warning` you must now use `<__wa
 
 With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
 
+## icons
+
+Default: not set
+
+By setting these keys you activate the `icon` helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
+
+> `**class**`
+>
+> This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
+>
+> `**formatter**`
+>
+> This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `**icon**` helper.
+
 # AUTHOR
 
 Erik Carlsson <csson@cpan.org>
@@ -562,3 +611,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 655:
+
+    You forgot a '=back' before '=head1'
