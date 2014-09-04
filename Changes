@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+
+0.011  2014-09-04 14:03:53 CEST
     - Much improved syntax definitions (no functional changes)
 
 0.010  2014-09-03 16:53:37 CEST
