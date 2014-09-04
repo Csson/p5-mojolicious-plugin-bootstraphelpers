@@ -565,7 +565,7 @@ Ordering between two hashes that follows each other is also not significant.
 
 B<About C<%has>>
 
-The following applies to all %has hashes below:
+The following applies to all C<%has> hashes below:
 
 =over 4
 
