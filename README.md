@@ -99,8 +99,8 @@ They are shortened to the Bootstrap type classes.
 
 The following strappings are available:
 
-    xsmall    default     striped
-    small     primary     bordered
+    xsmall    default     striped       caret     right
+    small     primary     bordered      divider
     medium    success     hover
     large     info        condensed
               warning     responsive
@@ -257,12 +257,9 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     <%= formgroup ($labeltext,)
                    %formgroup_has,
-                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...](, ...)) },)
                    $fieldtype => [
                        $input_name,
                       ($input_value,)
-                      (prepend => $to_prepend,)
-                      (append  => $to_append,)
                        %input_has,
                   ]
 
@@ -276,23 +273,6 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 **`$labeltext`**
 
 Optional. It is either the first argument, or placed in the body. It creates a `label` element before the `input`.
-
-**`cols`**
-
-Optional. It is only used when the `form` is a `.form-horizontal`. You can define the widths for one or more or all of the sizes. See examples.
-
-> **`$size`**
->
-> Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. 
-> `$size` takes a two item array reference.
->
-> **`$label_columns`**
->
-> Mandatory. The number of columns that should be used by the label for that size.
->
-> **`$input_columns`**
->
-> Mandatory. The number of columns used for the input field for that size.
 
 **`$fieldtype`**
 
@@ -309,20 +289,6 @@ There can be only one `$fieldtype` per `formgroup`.
 > **`$value`**
 >
 > Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
->
-> **`prepend => $to_prepend`**
->
-> **`append => $to_append`**
->
-> Optional key-value pairs. Can also be used together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
->
-> > **`$to_prepend`**
-> >
-> > This string is placed directly in front of the `input`.
-> >
-> > **`$to_append`**
-> >
-> > This string is placed directly after the `input`.
 
 ### Examples
 
@@ -540,6 +506,47 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
     <span class="glyphicon glyphicon-copyright-mark"></span>
     <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 
+## Dropdowns
+
+### Syntax
+
+    <%= dropdown  $button_text,
+                 (caret,)
+                  %has,
+                 (button => [%button_has],)
+                  items  => [ 
+                      [ $itemtext, [ $url ], %item_has ],
+                     (divider,)
+                  ]
+
+**`$button_text`**
+
+Mandatory. The text that appears on the menu opening button.
+
+**`caret`**
+
+It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+
+**`items`**
+
+Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+
+> **`[ $itemtext, [ $url ], %item_has ]`**
+>
+> This creates a linked menu item.
+>
+> > **`$itemtext`**
+> >
+> > Mandatory. The text on the link.
+> >
+> > **`$url`**
+> >
+> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+
+**`divider`**
+
+Creates a horizontal separator in the menu.
+
 # OPTIONS
 
 Some options are available:
@@ -616,6 +623,6 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 655:
+- Around line 661:
 
     You forgot a '=back' before '=head1'
