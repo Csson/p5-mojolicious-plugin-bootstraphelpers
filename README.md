@@ -593,7 +593,7 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 >
 > **`formatter`**
 >
-> This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `**icon**` helper.
+> This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `icon` helper.
 
 # AUTHOR
 

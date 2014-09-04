@@ -1079,7 +1079,7 @@ This is the main icon class. If you use the glyphicon pack, this should be set t
 
 B<C<formatter>>
 
-This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<B<icon>> helper.
+This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<icon> helper.
 
 =head1 AUTHOR
 
