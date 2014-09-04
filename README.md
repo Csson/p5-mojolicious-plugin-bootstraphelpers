@@ -146,6 +146,9 @@ The following applies to all `%has` hashes below:
 - When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
+- Sometimes on nested helpers (such as tables in panels just below), `%har` is the only thing that can be applied to 
+        the other element. In this case `panel => { %panel_har }. It follows from above that in those cases this entire
+        expression is _also_ optional. Such cases are also left out of syntax definitions.`
 
 From this definition:
 
@@ -425,7 +428,7 @@ With a url the button turns into a link.
 
 ### Syntax
 
-    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+    %= table ($title,) %table_har, panel => { %panel_har }, begin
            $body
     %  end
     
@@ -440,7 +443,7 @@ Mandatory. `thead`, `td` and so on.
 
 **`panel => { %panel_har }`**
 
-Optional. Set stuff on the panel if the `table` has a `$title`.
+Optional if the table has a `$title`, otherwise without use.
 
 ### Examples
 
@@ -559,3 +562,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 165:
+
+    Unterminated C<...> sequence

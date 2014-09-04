@@ -571,6 +571,10 @@ The following applies to all C<%has> hashes below:
 
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
+=item * Sometimes on nested helpers (such as tables in panels just below), C<%har> is the only thing that can be applied to 
+        the other element. In this case C<panel =E<gt> { %panel_har }. It follows from above that in those cases this entire
+        expression is I<also> optional. Such cases are also left out of syntax definitions.
+
 =back
 
 From this definition:
@@ -877,7 +881,7 @@ With a url the button turns into a link.
 
 =head3 Syntax
     
-    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+    %= table ($title,) %table_har, panel => { %panel_har }, begin
            $body
     %  end
     
@@ -891,7 +895,7 @@ Mandatory. C<thead>, C<td> and so on.
 
 B<C<panel =E<gt> { %panel_har }>>
 
-Optional. Set stuff on the panel if the C<table> has a C<$title>.
+Optional if the table has a C<$title>, otherwise without use.
 
 
 =head3 Examples
