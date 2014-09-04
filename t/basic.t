@@ -169,13 +169,13 @@ test($test, 'formgroup', @formgroups);
 
 
 my @buttons = (
-    q{<a class="btn btn-sm" href="http://www.example.com/">The example 1</a>},
-    q{<a class="btn" href="/button_2">The example 2</a>},
-    q{<a class="btn" href="/panel_1">The example 3</a>},
-    q{<button class="btn">The example 4</button>},
+    q{<a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>},
+    q{<a class="btn btn-default" href="/button_2">The example 2</a>},
+    q{<a class="btn btn-default" href="/panel_1">The example 3</a>},
+    q{<button class="btn btn-default">The example 4</button>},
     q{<button class="btn btn-lg btn-warning">The example 5</button>},
-    q{<a class="btn" href="/button_6"> The Example 6 </a>},
-    q{<button class="btn" type="submit">Save 1</button>},
+    q{<a class="btn btn-default" href="/button_6"> The Example 6 </a>},
+    q{<button class="btn btn-default" type="submit">Save 1</button>},
     q{<button class="btn btn-primary" type="submit">Save 2</button>},
 );
 
@@ -242,6 +242,36 @@ my @icons = (
 );
 
 test($test, 'icon', @icons);
+
+
+my @dropdowns = (
+    q{
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
+    },
+    q{
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 1<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
+    },
+);
+
+test($test, 'dropdown', @dropdowns);
 
 done_testing();
 
@@ -356,11 +386,10 @@ __DATA__
 @@ button_8.html.ep
 %= submit_button 'Save 2', primary
 
-
 @@ button_group_1.html.ep
 <%= button_group justified,
     contents => [
-        button => ['Button Group 1', ['http://www.example.com/'], medium],
+        button => ['Button Group 1', ['#'], medium],
         button => ['Button Group 1 button 2', dropdown],
 
     ],
@@ -410,4 +439,21 @@ __DATA__
 %= icon 'sort-by-attributes-alt'
 
 
+@@ dropdown_1.html.ep
+<%= dropdown 'Dropdown 1', caret,
+             button => [id => 'a_custom_id'],
+             items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                divider,
+                ['Item 3', ['item3'] ]
+             ] %>
 
+@@ dropdown_2.html.ep
+<%= dropdown 'Dropdown 1', caret,
+             items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                divider,
+                ['Item 3', ['item3'] ]
+             ] %>

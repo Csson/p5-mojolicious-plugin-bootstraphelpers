@@ -1,6 +1,11 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Added simple dropdown support
+    - Added icon support
+    - Fixed version number
+    - Removed support for input group (was incorrect)
+    - Put the helpers in a separate module
 
 0.011  2014-09-04 14:03:53 CEST
     - Much improved syntax definitions (no functional changes)

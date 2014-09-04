@@ -8,7 +8,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-
+    use String::Random;
+    use Data::Dumper 'Dumper';
     use experimental 'postderef'; # requires 5.20
 
     our $VERSION = '0.011';
@@ -133,18 +134,26 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $content = ref $_[-1] eq 'CODE' ? pop : shift;
 
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
-        my $attr = { @_ };
+        my $attr = parse_attributes(@_);
         
-        $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s' });
+        my $caret = exists $attr->{'__caret'} ? q{<span class="caret"></span>} : '';
+
+        $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
         $attr = cleanup_attrs($attr);
+
+
 
         # We have an url
         if(scalar @url) {
             $attr->{'href'} = $c->url_for(@url)->to_string;
-            return out(Mojolicious::Plugin::TagHelpers::_tag('a', $attr->%*, $content));
+            my $html = htmlify_attrs($attr);
+            return out(qq{<a$html>} . content_single($content) . qq{$caret</a>});
+#            return out(Mojolicious::Plugin::TagHelpers::_tag('a', $attr->%*, $content));
         }
         else {
-            return out(Mojolicious::Plugin::TagHelpers::_tag('button', $attr->%*, $content));
+            my $html = htmlify_attrs($attr);
+            return out(qq{<button$html>} . content_single($content) . qq{$caret</button>});
+            #return out(Mojolicious::Plugin::TagHelpers::_tag('button', $attr->%*, $content));
         }
 
     }
@@ -154,6 +163,68 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return bootstrap_button(@_);
     }
 
+    sub bootstrap_dropdown {
+        my $c = shift;
+        my $button_text = iscoderef($_[-1]) ? pop : shift;
+        my $attr = parse_attributes(@_);
+        my $button_info = delete $attr->{'button'};
+        my $button_attr = ref $button_info eq 'ARRAY' ? { $button_info->@* } : {};
+        my $items_info = delete $attr->{'items'};
+
+        $button_attr = add_classes($button_attr, 'dropdown-toggle');
+        $button_attr->{'data'}{'toggle'} = 'dropdown';
+        $button_attr->{'type'} = 'button';
+        #$button_attr->{'id'} ||= String::Random->new->randregex('[a-z]\w{19}'); # when aria
+
+        my $button = bootstrap_button($c, $button_text, $button_attr->%*, __caret => $attr->{'__caret'});
+
+        my $menuitems = '';
+        foreach my $item ($items_info->@*) {
+            $menuitems .= q{<li class="divider"></li>} if $item eq '__divider';
+            $menuitems .= create_dropdown_menuitem($c, $item->@*) if ref $item eq 'ARRAY';
+        }
+
+        my $dropdown = qq{
+            <div class="dropdown">
+                $button
+                <ul class="dropdown-menu">
+                    $menuitems
+                </ul>
+            </div>
+        };
+
+        return out($dropdown);
+
+    }
+
+    sub create_dropdown_menuitem {use Data::Dumper 'Dumper';
+        my $c = shift;
+        my $item_text = iscoderef($_[-1]) ? pop : shift;
+        
+        
+        my @url = shift->@*;
+        
+        my $attr = parse_attributes(@_);
+        
+        $attr = add_classes($attr, 'menuitem');
+        $attr->{'tabindex'} ||= -1;
+        $attr->{'href'} = $c->url_for(@url)->to_string;
+        
+        my $html = htmlify_attrs($attr);
+        
+
+        my $tag = qq{<li><a$html>$item_text</a></li>};
+
+        return out($tag);
+    }
+
+    # %= dropdown 'Dropdown', button => [key => 'value'], 
+    #                         items => [
+    #                             item => ['Action', ['url'], %has], 
+    #                             divider,
+    #                             item => []
+    #                         ],
+    #                         caret
 
     sub bootstrap_badge {
         my $c = shift;
@@ -335,6 +406,12 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return defined $callback ? $callback->() : xml_escape($content);
     }
 
+    sub content_single {
+        my $content = shift;
+
+        return ref $content eq 'CODE' ? $content->() : xml_escape($content);
+    }
+
     sub cleanup_attrs {
         my $hash = shift;
         
@@ -344,7 +421,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
                                       keys _button_contexts()->%*,
                                       keys _panel_contexts()->%*,
                                       keys _table_contexts()->%*,
-                                      keys _direction_contexts()->%*);
+                                      keys _direction_contexts()->%*,
+                                      keys _menu_contexts()->%*);
         # delete all attributes starting with __
         map { delete $hash->{ $_ } } grep { substr $_, 0 => 2 eq '__' } keys $hash->%*;
         return $hash;
@@ -376,6 +454,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     }
     sub _direction_contexts {
         return { map { ("__$_" => $_, $_ => $_) } qw/right/ };
+    }
+    sub _menu_contexts {
+        return { map { ("__$_" => $_, $_ => $_) } qw/caret divider/ };
     }
 
     sub out {
