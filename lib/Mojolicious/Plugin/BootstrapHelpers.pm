@@ -849,37 +849,16 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
 
 =head3 Syntax
 
-    %= button $button_text(, $url[])(, %arguments)
-
-    # %arguments
-    (%html_attributes,)
-    (%strappings)
+    %= button $button_text(, [$url]), %har
 
 B<C<$button_text>>
 
 Mandatory. The text on the button.
 
-B<C<$url[]>>
+B<C<[$url]>>
 
 Optional array reference. It is handed off to L<url_for|Mojolicious::Controller#url_for>, so with it this is
 basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
-
-B<C<%arguments>>
-
-Optional hash:
-
-=over 4
-
-B<C<%html_attributes>>
-
-Optional hash of any html attributes you want to set on the button/link.
-
-B<C<%strappings>>
-
-Optional hash. Any strappings you want to set on the button/link.
-
-=back
-
 
 =head3 Examples
 

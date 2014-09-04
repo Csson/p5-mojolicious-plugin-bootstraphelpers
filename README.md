@@ -404,32 +404,16 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
 ### Syntax
 
-    %= button $button_text(, $url[])(, %arguments)
-
-    # %arguments
-    (%html_attributes,)
-    (%strappings)
+    %= button $button_text(, [$url]), %har
 
 **`$button_text`**
 
 Mandatory. The text on the button.
 
-**`$url[]`**
+**`[$url]`**
 
 Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
 basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
-
-**`%arguments`**
-
-Optional hash:
-
-> **`%html_attributes`**
->
-> Optional hash of any html attributes you want to set on the button/link.
->
-> **`%strappings`**
->
-> Optional hash. Any strappings you want to set on the button/link.
 
 ### Examples
 
