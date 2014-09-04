@@ -618,6 +618,8 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
                      (divider,)
                   ]
 
+Nesting is currently not supported.
+
 B<C<$button_text>>
 
 Mandatory. The text that appears on the menu opening button.
@@ -631,6 +633,10 @@ B<C<items>>
 Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
 
 =over 4
+
+B<C<divider>>
+
+Creates a horizontal separator in the menu.
 
 B<C<[ $itemtext, [ $url ], %item_has ]>>
 
@@ -650,9 +656,54 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 =back
 
-B<C<divider>>
+=head3 Examples
 
-Creates a horizontal separator in the menu.
+    <%= dropdown 'Dropdown 1', caret,
+                 button => [id => 'a_custom_id'],
+                 items => [
+                    ['Item 1', ['item1'] ],
+                    ['Item 2', ['item2'] ],
+                    divider,
+                    ['Item 3', ['item3'] ]
+                 ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+        </ul>
+    </div>
+
+    By default, C<tabindex> is set to C<-1>...
+
+    <%= dropdown 'Dropdown 2', caret,
+                 items => [
+                    ['Item 1', ['item1'], data => { attr => 2 } ],
+                    ['Item 2', ['item2'], data => { attr => 4 } ],
+                    divider,
+                    ['Item 3', ['item3'], data => { attr => 7 } ],
+                    divider,
+                    ['Item 4', ['item4'], tabindex => 4 ],
+                 ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+        </ul>
+    </div>
+
+    ...but it can be overridden.
 
 =head1 OPTIONS
 
