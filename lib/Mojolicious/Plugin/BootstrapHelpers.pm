@@ -1073,11 +1073,11 @@ By setting these keys you activate the C<icon> helper. You can pick any icon pac
 
 =over 4
 
-C<B<class>>
+B<C<class>>
 
 This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
 
-C<B<formatter>>
+B<C<formatter>>
 
 This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<B<icon>> helper.
 

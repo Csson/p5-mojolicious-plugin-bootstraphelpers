@@ -587,11 +587,11 @@ Default: not set
 
 By setting these keys you activate the `icon` helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
 
-> `**class**`
+> **`class`**
 >
 > This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
 >
-> `**formatter**`
+> **`formatter`**
 >
 > This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `**icon**` helper.
 
