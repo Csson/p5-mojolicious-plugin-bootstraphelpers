@@ -543,7 +543,9 @@ In the syntax sections below the following conventions are used:
     name            A specific string
     $name           Any string
     %name           One or more key-value pairs, written as:
-                      key => 'value'
+                      key => 'value', key2 => 'value2'
+                         or, if you use short form strappings:
+                      primary, large
     $key => [...]   Both of these are array references where the ordering of strings
     key  => [...]     are significant, for example:
                       key => [ $thing, $thing2, %hash ]
