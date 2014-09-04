@@ -577,6 +577,8 @@ The following applies to all %HaS hashes below:
 
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
+=back
+
 From this definition:
 
     %= table ($title,) %table_har, (panel => { %panel_har },) begin
