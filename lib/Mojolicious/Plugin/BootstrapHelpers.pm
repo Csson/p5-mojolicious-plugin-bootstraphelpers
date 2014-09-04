@@ -658,7 +658,7 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 =head3 Examples
 
-    <%= dropdown 'Dropdown 1', caret,
+    <%= dropdown 'Dropdown 1',
                  button => [id => 'a_custom_id'],
                  items => [
                     ['Item 1', ['item1'] ],
@@ -668,9 +668,7 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
                  ] %>
 
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">
-            Dropdown 1<span class="caret"></span>
-        </button>
+        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
         <ul class="dropdown-menu">
             <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
             <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
