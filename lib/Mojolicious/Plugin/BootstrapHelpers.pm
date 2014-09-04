@@ -773,6 +773,8 @@ B<C<formatter>>
 
 This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<icon> helper.
 
+=back
+
 =head1 AUTHOR
 
 Erik Carlsson E<lt>csson@cpan.orgE<gt>
