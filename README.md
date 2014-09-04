@@ -146,7 +146,7 @@ Ordering between two hashes that follows each other is also not significant.
 
 **About `%has`**
 
-The following applies to all %HaS hashes below:
+The following applies to all %has hashes below:
 
 - They refer to any html attributes and/or strappings to apply to the current element.
 - When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
