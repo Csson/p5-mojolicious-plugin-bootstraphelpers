@@ -879,48 +879,22 @@ With a url the button turns into a link.
 =head2 Tables
 
 =head3 Syntax
-
-    %= table ($title,) (%arguments,) begin
+    
+    %= table ($title,) %table_har, (panel => { %panel_har },) begin
            $body
     %  end
-
-    # %arguments
-    (%html_attributes,)
-    (%strappings,)
-    (panel => $strappings{})
-
+    
 B<C<$title>>
 
-Optional. If set the table will be wrapped in a panel. The table replaces the body.
+Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
 
 B<C<$body>>
 
 Mandatory. C<thead>, C<td> and so on.
 
-B<C<%arguments>>
+B<C<panel =E<gt> { %panel_har }>>
 
-Optional hash:
-
-=over 4
-
-B<C<%html_attributes>>
-
-Optional. A hash of html attributes you want applied to the table.
-
-B<C<%strappings>>
-
-Optional. A hash of the strappings to apply to the table.
-
-
-B<C<panel =E<gt> $strappings{}>>
-
-An optional key-value pair:
-
-=over 4
-
-B<C<$strappings{}>>
-
-A hash reference containing any strapping you want to set on the panel.
+Optional. Set stuff on the panel if the C<table> has a C<$title>.
 
 =back
 
@@ -971,17 +945,11 @@ A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 =head3 Syntax
 
-    %= badge $text[, %attr_and_strappings]
+    %= badge $text, %har
 
 B<C<$text>>
 
 Mandatory. If it is C<undef> no output is produced.
-
-B<C<%attr_and_strappings>>
-
-Optional. Any html attributes or strappings to apply on the badge.
-
-
 
 =head3 Examples
 
