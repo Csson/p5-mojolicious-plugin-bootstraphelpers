@@ -587,7 +587,7 @@ From this definition:
 
 Both of these are legal:
     
-    # since both panel_har => { %hash } and %table_har are hashes, their ordering is not significant.
+    # since both panel => { %panel_har } and %table_har are hashes, their ordering is not significant.
     %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
          <tr><td>A Table Cell</td></tr>
     %  end
