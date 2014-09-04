@@ -689,7 +689,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
     
     <%= formgroup ($labeltext,)
                    %formgroup_has,
-                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...])(, ...) },)
+                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...](, ...)) },)
                    $fieldtype => [
                        $input_name,
                       ($input_value,)

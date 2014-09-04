@@ -259,7 +259,7 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     <%= formgroup ($labeltext,)
                    %formgroup_has,
-                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...])(, ...) },)
+                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...](, ...)) },)
                    $fieldtype => [
                        $input_name,
                       ($input_value,)
