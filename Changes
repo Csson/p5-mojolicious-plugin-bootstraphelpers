@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+
+0.012  2014-09-04 22:58:34 CEST
     - Added simple dropdown support
     - Added icon support
     - Fixed version number

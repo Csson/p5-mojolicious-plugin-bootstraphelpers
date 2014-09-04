@@ -12,7 +12,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Data::Dumper 'Dumper';
     use experimental 'postderef'; # requires 5.20
 
-    our $VERSION = '0.011';
+    our $VERSION = '0.012';
 
 
 
