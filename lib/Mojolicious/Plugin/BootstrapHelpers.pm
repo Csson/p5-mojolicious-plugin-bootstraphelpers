@@ -678,7 +678,7 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
         </ul>
     </div>
 
-    By default, C<tabindex> is set to C<-1>...
+By default, C<tabindex> is set to C<-1>...
 
     <%= dropdown 'Dropdown 2', caret,
                  items => [
@@ -703,7 +703,7 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
         </ul>
     </div>
 
-    ...but it can be overridden.
+...but it can be overridden.
 
 =head1 OPTIONS
 

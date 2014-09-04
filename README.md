@@ -571,7 +571,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
         </ul>
     </div>
 
-    By default, C<tabindex> is set to C<-1>...
+By default, `tabindex` is set to `-1`...
 
     <%= dropdown 'Dropdown 2', caret,
                  items => [
@@ -596,7 +596,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
         </ul>
     </div>
 
-    ...but it can be overridden.
+...but it can be overridden.
 
 # OPTIONS
 
