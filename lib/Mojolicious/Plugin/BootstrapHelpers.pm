@@ -540,14 +540,6 @@ You can turn off the short forms, see <a href="#init_short_strappings">init_shor
 
 In the syntax sections below the following conventions are used:
     
-    name        A specific string
-    $name       Any string
-    $name[]     An array reference  (ordering significant)
-    %name       A hash              (ordering not significant)
-    $name{}     A hash reference    (ordering not significant)
-    (optional)  Anything inside parenthesis is optional
-
-    # Or...
     name            A specific string
     $name           Any string
     %name           One or more key-value pairs, written as:
@@ -749,16 +741,15 @@ B<C<$value>>
 Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don't do both for the same field.)
 
 B<C<prepend =E<gt> $to_prepend>>
+B<C<append =E<gt> $to_append>>
 
-Optional key-value pair. Can be used together with C<append>. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
+Optional key-value pairs. Can also be used together. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
 
+=over 4
+ 
 B<C<$to_prepend>>
 
 This string is placed directly in front of the C<input>.
-
-B<C<append =E<gt> $to_append>>
-
-Optional key-value pair. Can be used together with C<prepend>.
 
 B<C<$to_append>>
 

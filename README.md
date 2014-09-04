@@ -121,14 +121,6 @@ If there is no corresponding class for the element you add the strapping to it i
 
 In the syntax sections below the following conventions are used:
 
-    name        A specific string
-    $name       Any string
-    $name[]     An array reference  (ordering significant)
-    %name       A hash              (ordering not significant)
-    $name{}     A hash reference    (ordering not significant)
-    (optional)  Anything inside parenthesis is optional
-
-    # Or...
     name            A specific string
     $name           Any string
     %name           One or more key-value pairs, written as:
@@ -313,20 +305,17 @@ There can be only one `$fieldtype` per `formgroup`.
 > Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
 >
 > **`prepend => $to_prepend`**
->
-> Optional key-value pair. Can be used together with `append`. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
->
-> **`$to_prepend`**
->
-> This string is placed directly in front of the `input`.
->
 > **`append => $to_append`**
 >
-> Optional key-value pair. Can be used together with `prepend`.
+> Optional key-value pairs. Can also be used together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
 >
-> **`$to_append`**
->
-> This string is placed directly after the `input`.
+> > **`$to_prepend`**
+> >
+> > This string is placed directly in front of the `input`.
+> >
+> > **`$to_append`**
+> >
+> > This string is placed directly after the `input`.
 
 ### Examples
 
@@ -572,10 +561,14 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 490:
+- Around line 352:
+
+    You forgot a '=back' before '=head3'
+
+- Around line 481:
 
     &#x3d;back without =over
 
-- Around line 492:
+- Around line 483:
 
     &#x3d;back without =over
