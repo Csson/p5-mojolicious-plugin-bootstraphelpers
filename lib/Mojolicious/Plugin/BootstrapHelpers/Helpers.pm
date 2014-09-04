@@ -136,7 +136,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
         my $attr = parse_attributes(@_);
         
-        my $caret = exists $attr->{'__caret'} ? q{<span class="caret"></span>} : '';
+        my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? q{<span class="caret"></span>} : '';
 
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
         $attr = cleanup_attrs($attr);

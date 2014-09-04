@@ -561,7 +561,8 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
                  ] %>
 
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1<span class="caret"></span>
+        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">
+            Dropdown 1<span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
