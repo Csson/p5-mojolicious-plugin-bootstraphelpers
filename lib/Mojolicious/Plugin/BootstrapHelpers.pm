@@ -722,7 +722,6 @@ Mandatory. The number of columns used for the input field for that size.
 
 =back
 
-=back
 
 B<C<$fieldtype>>
 
@@ -757,6 +756,8 @@ This string is placed directly in front of the C<input>.
 B<C<$to_append>>
 
 This string is placed directly after the C<input>.
+
+=back
 
 =back
 
