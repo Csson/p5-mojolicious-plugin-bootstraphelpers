@@ -572,7 +572,7 @@ The following applies to all C<%has> hashes below:
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
 =item * Sometimes on nested helpers (such as tables in panels just below), C<%har> is the only thing that can be applied to 
-        the other element. In this case C<panel =E<gt> { %panel_har }. It follows from above that in those cases this entire
+        the other element. In this case C<panel =E<gt> { %panel_har }>. It follows from above that in those cases this entire
         expression is I<also> optional. Such cases are also left out of syntax definitions.
 
 =back

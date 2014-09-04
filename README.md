@@ -147,8 +147,8 @@ The following applies to all `%has` hashes below:
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 - Sometimes on nested helpers (such as tables in panels just below), `%har` is the only thing that can be applied to 
-        the other element. In this case `panel => { %panel_har }. It follows from above that in those cases this entire
-        expression is _also_ optional. Such cases are also left out of syntax definitions.`
+        the other element. In this case `panel => { %panel_har }`. It follows from above that in those cases this entire
+        expression is _also_ optional. Such cases are also left out of syntax definitions.
 
 From this definition:
 
@@ -562,11 +562,3 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 165:
-
-    Unterminated C<...> sequence
