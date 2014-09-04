@@ -433,42 +433,22 @@ With a url the button turns into a link.
 
 ### Syntax
 
-    %= table ($title,) (%arguments,) begin
+    %= table ($title,) %table_har, (panel => { %panel_har },) begin
            $body
     %  end
-
-    # %arguments
-    (%html_attributes,)
-    (%strappings,)
-    (panel => $strappings{})
+    
 
 **`$title`**
 
-Optional. If set the table will be wrapped in a panel. The table replaces the body.
+Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
 
 **`$body`**
 
 Mandatory. `thead`, `td` and so on.
 
-**`%arguments`**
+**`panel => { %panel_har }`**
 
-Optional hash:
-
-> **`%html_attributes`**
->
-> Optional. A hash of html attributes you want applied to the table.
->
-> **`%strappings`**
->
-> Optional. A hash of the strappings to apply to the table.
->
-> **`panel => $strappings{}`**
->
-> An optional key-value pair:
->
-> > **`$strappings{}`**
-> >
-> > A hash reference containing any strapping you want to set on the panel.
+Optional. Set stuff on the panel if the `table` has a `$title`.
 
 ### Examples
 
@@ -513,15 +493,11 @@ A `condensed` table with an `id` wrapped in a `success` panel.
 
 ### Syntax
 
-    %= badge $text[, %attr_and_strappings]
+    %= badge $text, %har
 
 **`$text`**
 
 Mandatory. If it is `undef` no output is produced.
-
-**`%attr_and_strappings`**
-
-Optional. Any html attributes or strappings to apply on the badge.
 
 ### Examples
 
@@ -591,3 +567,15 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 490:
+
+    &#x3d;back without =over
+
+- Around line 492:
+
+    &#x3d;back without =over
