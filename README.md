@@ -513,7 +513,7 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
     <%= dropdown  $button_text,
                  (caret,)
                   %has,
-                 (button => [%button_has],)
+                 (button => [ %button_has ],)
                   items  => [ 
                       [ $itemtext, [ $url ], %item_has ],
                      (divider,)
