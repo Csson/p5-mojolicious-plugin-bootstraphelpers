@@ -128,6 +128,50 @@ In the syntax sections below the following conventions are used:
     $name{}     A hash reference    (ordering not significant)
     (optional)  Anything inside parenthesis is optional
 
+    # Or...
+    name            A specific string
+    $name           Any string
+    %name           One or more key-value pairs, written as:
+                      key => 'value'
+    $key => [...]   Both of these are array references where the ordering of strings
+    key  => [...]     are significant, for example:
+                      key => [ $thing, $thing2, %hash ]
+    $key => {...}   Both of these are hash references where the ordering of pairs are
+    key  => {...}     are insignificant, for example:
+                      key => { key2 => $value, key3 => 'othervalue' }
+    (...)           Anything between parenthesis is optional. The parenthesis is not part of the
+                      actual syntax
+
+Ordering between two hashes that follows each other is also not significant.
+
+**About `%has`**
+
+The following applies to all %HaS hashes below:
+
+- They refer to any html attributes and/or strappings to apply to the current element.
+- When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
+- This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
+- Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
+
+    From this definition:
+
+        %= table ($title,) %table_har, (panel => { %panel_har },) begin
+               $body
+        %  end
+
+    Both of these are legal:
+
+        # since both panel_har => { %hash } and %table_har are hashes, their ordering is not significant.
+        %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
+             <tr><td>A Table Cell</td></tr>
+        %  end
+        
+
+        %= table begin
+             <tr><td>A Table Cell</td></tr>
+        %  end
+            
+
 # HELPERS
 
 ## Panels
@@ -136,17 +180,13 @@ In the syntax sections below the following conventions are used:
 
 ### Syntax
 
-    %= panel ($title, ((%strappings,) begin
+    %= panel ($title, %har, begin
         $body
-    %  end))
+    %  end)
 
 **`$title`**
 
 Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
-
-**`%strappings`**
-
-Optional. Any strapping you want applied to the `panel`.
 
 **`$body`**
 
@@ -217,107 +257,76 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
 ### Syntax
 
-    %= formgroup ($labeltext,) %arguments
+    <%= formgroup ($labeltext,)
+                   %formgroup_has,
+                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...])(, ...) },)
+                   $fieldtype => [
+                       $input_name,
+                      ($input_value,)
+                      (prepend => $to_prepend,)
+                      (append  => $to_append,)
+                       %input_has,
+                  ]
 
-    %= formgroup %arguments, begin
+    %>
+    
+    # The $labeltext can also be given in the body
+    %= formgroup %arguments_as_above, begin
         $labeltext
     %  end
-
-    # %arguments:
-    (cols => $size_definitions{})
-    (%group_strappings)
-    $fieldtype => $field_setting[],
-
-    # $size_definitions{}
-    { $size => [ $label_columns, $input_columns ](, ...) },
-
-    # $field_setting[]
-    $name,
-    ($value,)
-    (%field_arguments)
-
-    # %field_arguments
-    (%html_attributes,)
-    (prepend => $to_prepend,)
-    (append => $to_append,)
-    (%field_strappings)
 
 **`$labeltext`**
 
 Optional. It is either the first argument, or placed in the body. It creates a `label` element before the `input`.
 
-**`%arguments`**
+**`cols`**
 
-Mandatory:
+Optional. It is only used when the `form` is a `.form-horizontal`. You can define the widths for one or more or all of the sizes. See examples.
 
-> **`cols => $size_definitions{}`**
+> **`$size`**
 >
-> Optional key-value pair. It is only used when the `form` is a `.form-horizontal`. You can define the widths for one or more or all of the sizes.
+> Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. 
+> `$size` takes a two item array reference.
 >
-> > **`$size`**
-> >
-> > Mandatory. It is one of `xsmall`, `small`, `medium`, or `large`. 
-> > `$size` takes a two item array reference:
-> >
-> > > **`$label_columns`**
-> > >
-> > > Mandatory. The number of columns that should be used by the label for that size.
-> > >
-> > > **`$input_columns`**
-> > >
-> > > Mandatory. The number of columns used for the input field for that size.
+> **`$label_columns`**
 >
-> **`%group_strappings`**
+> Mandatory. The number of columns that should be used by the label for that size.
 >
-> Optional hash. One or more strappings you want applied to the `.form-group` element.
+> **`$input_columns`**
 >
-> **`$fieldtype`**
+> Mandatory. The number of columns used for the input field for that size.
+
+**`$fieldtype`**
+
+Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
+`number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
+
+There can be only one `$fieldtype` per `formgroup`.
+
+> **`$name`**
 >
-> Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
-> `number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
+> Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes then those are translated
+> into underscores when setting the `name`. If `id` exists in `%input_has` then that is used for the `id` instead.
 >
-> There can be only one `$fieldtype` per `formgroup`. (Behavior if having more than one is not defined.)
+> **`$value`**
 >
-> **`$field_setting[]`**
+> Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
 >
-> Mandatory. An array reference:
+> **`prepend => $to_prepend`**
 >
-> > **`$name`**
-> >
-> > Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes then those are translated
-> > into underscores when setting the `name`. If `$field_arguments{'id'}` exists then that is used for the `id` instead.
-> >
-> > **`$value`**
-> >
-> > Optional. It is the same as setting `$field_arguments{'value'}`. (But don't do both for the same field.)
-> >
-> > **`%field_arguments`**
-> >
-> > Optional. A hash:
-> >
-> > > **`%html_attributes`**
-> > >
-> > > Optional. All html attributes you want to set on the `input`.
-> > >
-> > > **`prepend => $to_prepend`**
-> > >
-> > > Optional key-value pair. Can be used with `append`. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
-> > >
-> > > > **`$to_prepend`**
-> > > >
-> > > > This string is placed directly in front of the `input`.
-> > >
-> > > **`append => $to_append`**
-> > >
-> > > Optional key-value pair. Can be used with `prepend`.
-> > >
-> > > > **`$to_append`**
-> > > >
-> > > > This string is placed directly after the `input`.
-> > >
-> > > **`%field_strappings`**
-> > >
-> > > Optional. All strappings you want applied to the `input`.
+> Optional key-value pair. Can be used together with `append`. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
+>
+> **`$to_prepend`**
+>
+> This string is placed directly in front of the `input`.
+>
+> **`append => $to_append`**
+>
+> Optional key-value pair. Can be used together with `prepend`.
+>
+> **`$to_append`**
+>
+> This string is placed directly after the `input`.
 
 ### Examples
 
@@ -520,19 +529,15 @@ A `condensed` table with an `id` wrapped in a `success` panel.
 
 ### Syntax
 
-    %= badge $text[, %attr[, right] ]
+    %= badge $text[, %attr_and_strappings]
 
 **`$text`**
 
 Mandatory. If it is `undef` no output is produced.
 
-**`%attr`**
+**`%attr_and_strappings`**
 
-Optional. Any html attributes to apply on the badge.
-
-**`right`**
-
-Optional. The only strapping available.
+Optional. Any html attributes or strappings to apply on the badge.
 
 ### Examples
 
@@ -602,3 +607,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 191:
+
+    You forgot a '=back' before '=head1'

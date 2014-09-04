@@ -547,6 +547,55 @@ In the syntax sections below the following conventions are used:
     $name{}     A hash reference    (ordering not significant)
     (optional)  Anything inside parenthesis is optional
 
+    # Or...
+    name            A specific string
+    $name           Any string
+    %name           One or more key-value pairs, written as:
+                      key => 'value'
+    $key => [...]   Both of these are array references where the ordering of strings
+    key  => [...]     are significant, for example:
+                      key => [ $thing, $thing2, %hash ]
+    $key => {...}   Both of these are hash references where the ordering of pairs are
+    key  => {...}     are insignificant, for example:
+                      key => { key2 => $value, key3 => 'othervalue' }
+    (...)           Anything between parenthesis is optional. The parenthesis is not part of the
+                      actual syntax
+
+Ordering between two hashes that follows each other is also not significant.
+
+B<About C<%has>>
+
+The following applies to all %HaS hashes below:
+
+=over 4
+
+=item * They refer to any html attributes and/or strappings to apply to the current element.
+
+=item * When helpers are nested, all occurrencies are change to tag-specific names, such as C<%panel_has>.
+
+=item * This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
+
+=item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
+
+From this definition:
+
+    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+           $body
+    %  end
+
+Both of these are legal:
+    
+    # since both panel_har => { %hash } and %table_har are hashes, their ordering is not significant.
+    %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
+         <tr><td>A Table Cell</td></tr>
+    %  end
+    
+
+    %= table begin
+         <tr><td>A Table Cell</td></tr>
+    %  end
+        
+
 
 =head1 HELPERS
 
@@ -556,17 +605,13 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Syntax
 
-    %= panel ($title, ((%strappings,) begin
+    %= panel ($title, %har, begin
         $body
-    %  end))
+    %  end)
 
 B<C<$title>>
 
 Usually mandatory, but can be omitted if there are no other arguments to the C<panel>. Otherwise, if you don't want a title, set it C<undef>.
-
-B<C<%strappings>>
-
-Optional. Any strapping you want applied to the C<panel>.
 
 B<C<$body>>
 
@@ -639,54 +684,39 @@ Here, the C<success> strapping applies C<.panel-success> to the panel.
 L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 =head3 Syntax
+    
+    <%= formgroup ($labeltext,)
+                   %formgroup_has,
+                  (cols => { $size => [ $label_columns, $input_columns ](, $other_size => [...])(, ...) },)
+                   $fieldtype => [
+                       $input_name,
+                      ($input_value,)
+                      (prepend => $to_prepend,)
+                      (append  => $to_append,)
+                       %input_has,
+                  ]
 
-    %= formgroup ($labeltext,) %arguments
-
-    %= formgroup %arguments, begin
+    %>
+    
+    # The $labeltext can also be given in the body
+    %= formgroup %arguments_as_above, begin
         $labeltext
     %  end
-
-    # %arguments:
-    (cols => $size_definitions{})
-    (%group_strappings)
-    $fieldtype => $field_setting[],
-
-    # $size_definitions{}
-    { $size => [ $label_columns, $input_columns ](, ...) },
-
-    # $field_setting[]
-    $name,
-    ($value,)
-    (%field_arguments)
-
-    # %field_arguments
-    (%html_attributes,)
-    (prepend => $to_prepend,)
-    (append => $to_append,)
-    (%field_strappings)
 
 B<C<$labeltext>>
 
 Optional. It is either the first argument, or placed in the body. It creates a C<label> element before the C<input>.
 
-B<C<%arguments>>
+B<C<cols>>
 
-Mandatory:
-
-=over 4
-
-B<C<cols =E<gt> $size_definitions{}>>
-
-Optional key-value pair. It is only used when the C<form> is a C<.form-horizontal>. You can define the widths for one or more or all of the sizes.
+Optional. It is only used when the C<form> is a C<.form-horizontal>. You can define the widths for one or more or all of the sizes. See examples.
 
 =over 4
 
 B<C<$size>>
 
 Mandatory. It is one of C<xsmall>, C<small>, C<medium>, or C<large>. 
-C<$size> takes a two item array reference:
-
-=over 4
+C<$size> takes a two item array reference.
 
 B<C<$label_columns>>
 
@@ -698,78 +728,39 @@ Mandatory. The number of columns used for the input field for that size.
 
 =back
 
-=back
-
-
-B<C<%group_strappings>>
-
-Optional hash. One or more strappings you want applied to the C<.form-group> element.
-
 B<C<$fieldtype>>
 
 Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
 C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
 
-There can be only one C<$fieldtype> per C<formgroup>. (Behavior if having more than one is not defined.)
-
-B<C<$field_setting[]>>
-
-Mandatory. An array reference:
+There can be only one C<$fieldtype> per C<formgroup>.
 
 =over 4
 
 B<C<$name>>
 
 Mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes then those are translated
-into underscores when setting the C<name>. If C<$field_arguments{'id'}> exists then that is used for the C<id> instead.
+into underscores when setting the C<name>. If C<id> exists in C<%input_has> then that is used for the C<id> instead.
 
 B<C<$value>>
 
-Optional. It is the same as setting C<$field_arguments{'value'}>. (But don't do both for the same field.)
-
-B<C<%field_arguments>>
-
-Optional. A hash:
-
-=over 4
-
-B<C<%html_attributes>>
-
-Optional. All html attributes you want to set on the C<input>.
-
+Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don't do both for the same field.)
 
 B<C<prepend =E<gt> $to_prepend>>
 
-Optional key-value pair. Can be used with C<append>. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
-
-=over 4
+Optional key-value pair. Can be used together with C<append>. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
 
 B<C<$to_prepend>>
 
 This string is placed directly in front of the C<input>.
 
-=back
-
 B<C<append =E<gt> $to_append>>
 
-Optional key-value pair. Can be used with C<prepend>.
-
-=over 4
+Optional key-value pair. Can be used together with C<prepend>.
 
 B<C<$to_append>>
 
 This string is placed directly after the C<input>.
-
-=back
-
-
-B<C<%field_strappings>>
-
-Optional. All strappings you want applied to the C<input>.
-
-=back
-
-=back
 
 =back
 
@@ -999,19 +990,16 @@ A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 =head3 Syntax
 
-    %= badge $text[, %attr[, right] ]
+    %= badge $text[, %attr_and_strappings]
 
 B<C<$text>>
 
 Mandatory. If it is C<undef> no output is produced.
 
-B<C<%attr>>
+B<C<%attr_and_strappings>>
 
-Optional. Any html attributes to apply on the badge.
+Optional. Any html attributes or strappings to apply on the badge.
 
-B<C<right>>
-
-Optional. The only strapping available.
 
 
 =head3 Examples
