@@ -153,24 +153,24 @@ The following applies to all %HaS hashes below:
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
-    From this definition:
+From this definition:
 
-        %= table ($title,) %table_har, (panel => { %panel_har },) begin
-               $body
-        %  end
+    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+           $body
+    %  end
 
-    Both of these are legal:
+Both of these are legal:
 
-        # since both panel_har => { %hash } and %table_har are hashes, their ordering is not significant.
-        %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
-             <tr><td>A Table Cell</td></tr>
-        %  end
+    # since both panel_har => { %hash } and %table_har are hashes, their ordering is not significant.
+    %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
+         <tr><td>A Table Cell</td></tr>
+    %  end
+    
+
+    %= table begin
+         <tr><td>A Table Cell</td></tr>
+    %  end
         
-
-        %= table begin
-             <tr><td>A Table Cell</td></tr>
-        %  end
-            
 
 # HELPERS
 
@@ -607,11 +607,3 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 191:
-
-    You forgot a '=back' before '=head1'
