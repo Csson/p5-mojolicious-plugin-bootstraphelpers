@@ -305,6 +305,7 @@ There can be only one `$fieldtype` per `formgroup`.
 > Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
 >
 > **`prepend => $to_prepend`**
+>
 > **`append => $to_append`**
 >
 > Optional key-value pairs. Can also be used together. They are used to create [input groups](http://getbootstrap.com/components/#input-groups).
@@ -561,14 +562,14 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 352:
+- Around line 353:
 
     You forgot a '=back' before '=head3'
 
-- Around line 481:
+- Around line 482:
 
     &#x3d;back without =over
 
-- Around line 483:
+- Around line 484:
 
     &#x3d;back without =over

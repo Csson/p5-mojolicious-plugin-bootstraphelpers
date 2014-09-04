@@ -741,6 +741,7 @@ B<C<$value>>
 Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don't do both for the same field.)
 
 B<C<prepend =E<gt> $to_prepend>>
+
 B<C<append =E<gt> $to_append>>
 
 Optional key-value pairs. Can also be used together. They are used to create L<input groups|http://getbootstrap.com/components/#input-groups>.
