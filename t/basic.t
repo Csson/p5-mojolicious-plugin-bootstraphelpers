@@ -9,7 +9,12 @@ use Test::More;
 use Mojolicious::Lite;
 use Test::Mojo::Trim;
 
-plugin 'BootstrapHelpers';
+plugin 'BootstrapHelpers', {
+    icons => { 
+        class => 'glyphicon',
+        formatter => 'glyphicon-%s',
+    },
+};
 
 my $test = Test::Mojo::Trim->new;
 
@@ -231,6 +236,13 @@ my @badges = (
 
 test($test, 'badge', @badges);
 
+my @icons = (
+    q{<span class="glyphicon glyphicon-copyright-mark"></span>},
+    q{<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>},
+);
+
+test($test, 'icon', @icons);
+
 done_testing();
 
 sub test {
@@ -389,3 +401,13 @@ __DATA__
 
 @@ badge_4.html.ep
 <%= badge 'Badge 4', data => { custom => 'yes' }, right %>
+
+
+@@ icon_1.html.ep
+<%= icon 'copyright-mark' %>
+
+@@ icon_2.html.ep
+%= icon 'sort-by-attributes-alt'
+
+
+

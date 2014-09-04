@@ -12,7 +12,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
     use experimental 'postderef'; # requires 5.20
 
-    our $VERSION = 0.010;
+    our $VERSION = '0.011';
 
     sub bootstraps_bootstraps {
         my $c = shift;
@@ -160,12 +160,27 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $attr = parse_attributes(@_);
 
         $attr = add_classes($attr, 'badge', { direction => 'pull-%s' });
-        $attr = cleanup_attrs($attr);
         my $html = htmlify_attrs($attr);
 
         my $badge = defined $content && length $content ? qq{<span$html>$content</span>} : '';
 
         return out($badge);
+    }
+
+    sub bootstrap_icon {
+        my $c = shift;
+        my $icon = shift;
+
+        my $icon_class = $c->config->{'Plugin::BootstrapHelpers'}{'icons'}{'class'};
+        my $formatter = $c->config->{'Plugin::BootstrapHelpers'}{'icons'}{'formatter'};
+
+        my $this_icon = sprintf $formatter => $icon;
+        my $attr = parse_attributes(@_);
+        $attr = add_classes($attr, $icon_class, $this_icon);
+        my $html = htmlify_attrs($attr);
+
+        return '' if !defined $icon || !length $icon;
+        return out(qq{<span$html></span>});
     }
 
     sub iscoderef {
@@ -383,6 +398,11 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'button' => \&bootstrap_button);
         $app->helper($tp.'submit_button' => \&bootstrap_submit);
         $app->helper($tp.'badge' => \&bootstrap_badge);
+        
+        if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
+            $app->config->{'Plugin::BootstrapHelpers'} = $args;
+            $app->helper($tp.'icon' => \&bootstrap_icon);
+        }
 
         if($init_short_strappings) {
             my @sizes = qw/xsmall small medium large/;
@@ -571,15 +591,16 @@ The following applies to all C<%has> hashes below:
 
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
-=item * Sometimes on nested helpers (such as tables in panels just below), C<%har> is the only thing that can be applied to 
+=item * Sometimes on nested helpers (such as tables in panels just below), C<%has> is the only thing that can be applied to 
         the other element. In this case C<panel =E<gt> { %panel_har }>. It follows from above that in those cases this entire
-        expression is I<also> optional. Such cases are also left out of syntax definitions.
+        expression is I<also> optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
+        in syntax description, unless they need further comment.
 
 =back
 
 From this definition:
 
-    %= table ($title,) %table_har, (panel => { %panel_har },) begin
+    %= table ($title,) %table_har, panel => { %panel_har }, begin
            $body
     %  end
 
@@ -605,7 +626,7 @@ L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
 
 =head3 Syntax
 
-    %= panel ($title, %har, begin
+    %= panel ($title, %has, begin
         $body
     %  end)
 
@@ -850,7 +871,9 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
 
 =head3 Syntax
 
-    %= button $button_text(, [$url]), %har
+    %= button $button_text(, [$url]), %has
+
+    %= submit_button $text, %has
 
 B<C<$button_text>>
 
@@ -860,6 +883,8 @@ B<C<[$url]>>
 
 Optional array reference. It is handed off to L<url_for|Mojolicious::Controller#url_for>, so with it this is
 basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
+
+Not available for C<submit_button>.
 
 =head3 Examples
 
@@ -875,7 +900,11 @@ An ordinary button, with applied strappings.
 
 With a url the button turns into a link.
 
+    %= submit_button 'Save', __primary
 
+    <button class="btn btn-primary" type="submit">Save 2</button>
+
+A submit button for use in forms. It overrides the build-in submit_button helper.
 
 =head2 Tables
 
@@ -942,7 +971,7 @@ A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 =head3 Syntax
 
-    %= badge $text, %har
+    %= badge $text, %has
 
 B<C<$text>>
 
@@ -963,6 +992,27 @@ A basic badge.
 A right aligned badge with a data attribute.
 
 
+=head2 Icons
+
+This helper needs to be activated separately, see options below.
+
+=head3 Syntax
+
+    %= icon $icon_name
+
+B<C<$icon_name>>
+
+Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
+
+=head3 Examples
+    
+    <%= icon 'copyright-mark' %>
+    %= icon 'sort-by-attributes-alt'
+
+    <span class="glyphicon glyphicon-copyright-mark"></span>
+    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+
+
 =head1 OPTIONS
 
 Some options are available:
@@ -971,6 +1021,10 @@ Some options are available:
         tag_prefix => 'bs',
         short_strappings_prefix => 'set',
         init_short_strappings => 1,
+        icons => {
+            class => 'glyphicon'
+            formatter => 'glyphicon-%s',
+        },
     });
 
 =head2 tag_prefix
@@ -1010,6 +1064,22 @@ If you don't want the short form of strappings setup at all, set this option to 
 All functionality is available, but instead of C<warning> you must now use C<<__warning => 1>>.
 
 With short form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not used.
+
+=head2 icons
+
+Default: not set
+
+By setting these keys you activate the C<icon> helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
+
+=over 4
+
+C<B<class>>
+
+This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
+
+C<B<formatter>>
+
+This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<B<icon>> helper.
 
 =head1 AUTHOR
 
