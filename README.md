@@ -562,14 +562,10 @@ it under the same terms as Perl itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 353:
+- Around line 316:
+
+    &#x3d;back without =over
+
+- Around line 355:
 
     You forgot a '=back' before '=head3'
-
-- Around line 482:
-
-    &#x3d;back without =over
-
-- Around line 484:
-
-    &#x3d;back without =over

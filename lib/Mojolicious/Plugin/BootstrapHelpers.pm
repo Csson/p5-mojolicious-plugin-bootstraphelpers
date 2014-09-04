@@ -722,6 +722,8 @@ Mandatory. The number of columns used for the input field for that size.
 
 =back
 
+=back
+
 B<C<$fieldtype>>
 
 Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
@@ -887,10 +889,6 @@ Mandatory. C<thead>, C<td> and so on.
 B<C<panel =E<gt> { %panel_har }>>
 
 Optional. Set stuff on the panel if the C<table> has a C<$title>.
-
-=back
-
-=back
 
 
 =head3 Examples
