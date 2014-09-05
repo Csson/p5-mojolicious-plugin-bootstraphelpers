@@ -435,8 +435,6 @@ The first item in the array ref is used for both C<id> and C<name>. Except...
 Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
 
 
-B<Input group (before and after), and with value>
-
     %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 
     <div class="form-group">
@@ -446,8 +444,6 @@ B<Input group (before and after), and with value>
 
 Here, the second item in the C<text_field> array reference is a value that populates the C<input>.
 
-
-B<Large input group>
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 

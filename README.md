@@ -334,8 +334,6 @@ The first item in the array ref is used for both `id` and `name`. Except...
 
 Strappings can also be used in this context. Here `large` applies `.input-lg`.
 
-**Input group (before and after), and with value**
-
     %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 
     <div class="form-group">
@@ -344,8 +342,6 @@ Strappings can also be used in this context. Here `large` applies `.input-lg`.
     </div>
 
 Here, the second item in the `text_field` array reference is a value that populates the `input`.
-
-**Large input group**
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
