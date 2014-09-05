@@ -196,7 +196,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
     %= panel
 
-> &nbsp;
+&nbsp;
 
     <div class="panel panel-default">
         <div class="panel-body">

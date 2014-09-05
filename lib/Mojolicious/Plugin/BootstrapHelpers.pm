@@ -280,11 +280,8 @@ B<No body, no title>
 
     %= panel
 
-=over 4
-
 &nbsp;
 
-=back
 
     <div class="panel panel-default">
         <div class="panel-body">
