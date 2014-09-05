@@ -445,7 +445,9 @@ Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
 Here, the second item in the C<text_field> array reference is a value that populates the C<input>.
 
 =begin html
+
 <p><hr></p>
+
 =end html 
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
