@@ -4,6 +4,7 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
     - Restored the accidentally removed cols support for form groups
     - Documentation: Minor typos fixed
     - Documentation: Removed unsupported input groups examples
+    - There is no 0.013.
 
 0.012  2014-09-04 22:58:34 CEST
     - Added simple dropdown support
