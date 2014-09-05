@@ -344,7 +344,7 @@ Strappings can also be used in this context. Here `large` applies `.input-lg`.
 Here, the second item in the `text_field` array reference is a value that populates the `input`.
 
 <div>
-    <p><hr></p>
+    <p style="height: 5px; background-color: #565656;">&nbsp;</p>
 </div>
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large

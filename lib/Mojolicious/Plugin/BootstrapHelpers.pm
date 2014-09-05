@@ -280,6 +280,10 @@ B<No body, no title>
 
     %= panel
 
+=over 4
+
+=back
+
     <div class="panel panel-default">
         <div class="panel-body">
         </div>
@@ -449,14 +453,6 @@ Here, the second item in the C<text_field> array reference is a value that popul
 <p style="height: 5px; background-color: #565656;">&nbsp;</p>
 
 =end html
-
-----
-
----
-
---
-
--
 
     %= formgroup 'Text test 6', text_field => ['test_text'], large
 
