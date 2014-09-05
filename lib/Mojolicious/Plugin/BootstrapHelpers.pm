@@ -446,7 +446,7 @@ Here, the second item in the C<text_field> array reference is a value that popul
 
 =begin html
 
-<p><hr></p>
+<p style="height: 5px; background-color: #565656;">&nbsp;</p>
 
 =end html 
 
