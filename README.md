@@ -200,6 +200,8 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 <hr>&nbsp;</hr>
 
+<hr />
+
     <div class="panel panel-default">
         <div class="panel-body">
         </div>

@@ -284,6 +284,8 @@ B<No body, no title>
 
 <hr>&nbsp;</hr>
 
+<hr />
+
 
     <div class="panel panel-default">
         <div class="panel-body">
