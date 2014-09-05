@@ -343,337 +343,357 @@ Strappings can also be used in this context. Here `large` applies `.input-lg`.
 
 Here, the second item in the `text_field` array reference is a value that populates the `input`.
 
-    %= formgroup 'Text test 6', text_field => ['test_text'], large
+<div>
+        %= formgroup 'Text test 6', text_field => ['test_text'], large
 
-    <div class="form-group form-group-lg">
-        <label class="control-label" for="test_text">Text test 6</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" />
-    </div>
-
-Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group. 
-
-**Horizontal form groups**
-
-    %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
-
-    <div class="form-group">
-        <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
-        <div class="col-md-10 col-sm-8">
+        <div class="form-group form-group-lg">
+            <label class="control-label" for="test_text">Text test 6</label>
             <input class="form-control" id="test_text" name="test_text" type="text" />
         </div>
-    </div>
 
-If the `form` is `.form-horizontal`, you can set the column widths with the `cols` attribute. The first item in each array ref is for the label, and the second for the input.
 
-(Note that in this context, `medium` and `large` are not short form strappings. Those don't take arguments.)
+    Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group. 
 
-## Buttons
+    B<Horizontal form groups>
 
-[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+        %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
-### Syntax
-
-    %= button $button_text(, [$url]), %has
-
-    %= submit_button $text, %has
-
-**`$button_text`**
-
-Mandatory. The text on the button.
-
-**`[$url]`**
-
-Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
-basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
-
-Not available for `submit_button`.
-
-### Examples
-
-    %= button 'The example 5' => large, warning
-
-    <button class="btn btn-lg btn-warning">The example 5</button>
-
-An ordinary button, with applied strappings.
-
-    %= button 'The example 1' => ['http://www.example.com/'], small
-
-    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
-
-With a url the button turns into a link.
-
-    %= submit_button 'Save', __primary
-
-    <button class="btn btn-primary" type="submit">Save 2</button>
-
-A submit button for use in forms. It overrides the build-in submit\_button helper.
-
-## Tables
-
-### Syntax
-
-    %= table ($title,) %table_has, panel => { %panel_has }, begin
-           $body
-    %  end
-    
-
-**`$title`**
-
-Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
-
-**`$body`**
-
-Mandatory. `thead`, `td` and so on.
-
-**`panel => { %panel_has }`**
-
-Optional if the table has a `$title`, otherwise without use.
-
-### Examples
-
-[Bootstrap documentation](http://getbootstrap.com/css/#tables)
-
-    <%= table begin %>
-        <tr><td>Table 1</td></tr>
-    <% end %>
-
-    <table class="table">
-        <tr><td>Table 1</td></tr>
-    </table>
-
-A basic table.
-
-    %= table hover, striped, condensed, begin
-        <tr><td>Table 2</td></tr>
-    %  end
-
-    <table class="table table-condensed table-hover table-striped">
-        <tr><td>Table 2</td></tr>
-    </table>
-
-Several classes applied to the table.
-
-    %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
-        <tr><td>Table 4</td></tr>
-    %  end
-
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Heading Table 4</h3>
+        <div class="form-group">
+            <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
+            <div class="col-md-10 col-sm-8">
+                <input class="form-control" id="test_text" name="test_text" type="text" />
+            </div>
         </div>
-        <table class="table table-condensed" id="the-table">
-            <tr><td>Table 4</td></tr>
+
+
+    If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
+
+    (Note that in this context, C<medium> and C<large> are not short form strappings. Those don't take arguments.)
+
+    ## Buttons
+
+    L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
+
+    ### Syntax
+
+        %= button $button_text(, [$url]), %has
+
+        %= submit_button $text, %has
+
+
+    B<C<$button_text>>
+
+    Mandatory. The text on the button.
+
+    B<C<[$url]>>
+
+    Optional array reference. It is handed off to L<url_for|Mojolicious::Controller#url_for>, so with it this is
+    basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
+
+    Not available for C<submit_button>.
+
+    ### Examples
+
+        %= button 'The example 5' => large, warning
+
+        <button class="btn btn-lg btn-warning">The example 5</button>
+
+
+    An ordinary button, with applied strappings.
+
+        %= button 'The example 1' => ['http://www.example.com/'], small
+
+        <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+
+
+    With a url the button turns into a link.
+
+        %= submit_button 'Save', __primary
+
+        <button class="btn btn-primary" type="submit">Save 2</button>
+
+
+    A submit button for use in forms. It overrides the build-in submit_button helper.
+
+    ## Tables
+
+    ### Syntax
+
+        %= table ($title,) %table_has, panel => { %panel_has }, begin
+               $body
+        %  end
+        
+
+    B<C<$title>>
+
+    Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
+
+    B<C<$body>>
+
+    Mandatory. C<thead>, C<td> and so on.
+
+    B<C<panel =E<gt> { %panel_has }>>
+
+    Optional if the table has a C<$title>, otherwise without use.
+
+    ### Examples
+
+    L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
+
+        <%= table begin %>
+            <tr><td>Table 1</td></tr>
+        <% end %>
+
+        <table class="table">
+            <tr><td>Table 1</td></tr>
         </table>
-    </div>
 
-A `condensed` table with an `id` wrapped in a `success` panel.
 
-## Badges
+    A basic table.
 
-### Syntax
+        %= table hover, striped, condensed, begin
+            <tr><td>Table 2</td></tr>
+        %  end
 
-    %= badge $text, %has
+        <table class="table table-condensed table-hover table-striped">
+            <tr><td>Table 2</td></tr>
+        </table>
 
-**`$text`**
 
-Mandatory. If it is `undef` no output is produced.
+    Several classes applied to the table.
 
-### Examples
+        %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
+            <tr><td>Table 4</td></tr>
+        %  end
 
-    <%= badge '3' %>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Heading Table 4</h3>
+            </div>
+            <table class="table table-condensed" id="the-table">
+                <tr><td>Table 4</td></tr>
+            </table>
+        </div>
 
-    <span class="badge">3</span></a>
-    
 
-A basic badge.
+    A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
-    <%= badge '4', data => { custom => 'yes' }, right %>
-    
-    <span class="badge pull-right" data-custom="yes">4</span>
+    ## Badges
 
-A right aligned badge with a data attribute.
+    ### Syntax
 
-## Icons
+        %= badge $text, %has
 
-This helper needs to be activated separately, see options below.
 
-### Syntax
+    B<C<$text>>
 
-    %= icon $icon_name
+    Mandatory. If it is C<undef> no output is produced.
 
-**`$icon_name`**
+    ### Examples
 
-Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
+        <%= badge '3' %>
 
-### Examples
+        <span class="badge">3</span></a>
+        
 
-    <%= icon 'copyright-mark' %>
-    %= icon 'sort-by-attributes-alt'
+    A basic badge.
 
-    <span class="glyphicon glyphicon-copyright-mark"></span>
-    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+        <%= badge '4', data => { custom => 'yes' }, right %>
+        
+        <span class="badge pull-right" data-custom="yes">4</span>
 
-## Dropdowns
 
-### Syntax
+    A right aligned badge with a data attribute.
 
-    <%= dropdown  $button_text,
-                 (caret,)
-                  %has,
-                 (button => [ %button_has ],)
-                  items  => [ 
-                      [ $itemtext, [ $url ], %item_has ],
-                     (divider,)
-                  ]
+    ## Icons
 
-Nesting is currently not supported.
+    This helper needs to be activated separately, see options below.
 
-**`$button_text`**
+    ### Syntax
 
-Mandatory. The text that appears on the menu opening button.
+        %= icon $icon_name
 
-**`caret`**
 
-It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+    B<C<$icon_name>>
 
-**`items`**
+    Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
 
-Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+    ### Examples
 
-> **`divider`**
->
-> Creates a horizontal separator in the menu.
->
-> **`[ $itemtext, [ $url ], %item_has ]`**
->
-> This creates a linked menu item.
->
-> > **`$itemtext`**
-> >
-> > Mandatory. The text on the link.
-> >
-> > **`$url`**
-> >
-> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+        <%= icon 'copyright-mark' %>
+        %= icon 'sort-by-attributes-alt'
 
-### Examples
+        <span class="glyphicon glyphicon-copyright-mark"></span>
+        <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 
-    <%= dropdown 'Dropdown 1',
-                 button => [id => 'a_custom_id'],
-                 items => [
-                    ['Item 1', ['item1'] ],
-                    ['Item 2', ['item2'] ],
-                    divider,
-                    ['Item 3', ['item3'] ]
-                 ] %>
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
-    </div>
 
-By default, `tabindex` is set to `-1`...
+    ## Dropdowns
 
-    <%= dropdown 'Dropdown 2', caret,
-                 items => [
-                    ['Item 1', ['item1'], data => { attr => 2 } ],
-                    ['Item 2', ['item2'], data => { attr => 4 } ],
-                    divider,
-                    ['Item 3', ['item3'], data => { attr => 7 } ],
-                    divider,
-                    ['Item 4', ['item4'], tabindex => 4 ],
-                 ] %>
+    ### Syntax
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            Dropdown 2
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
-        </ul>
-    </div>
+        <%= dropdown  $button_text,
+                     (caret,)
+                      %has,
+                     (button => [ %button_has ],)
+                      items  => [ 
+                          [ $itemtext, [ $url ], %item_has ],
+                         (divider,)
+                      ]
 
-...but it can be overridden.
 
-# OPTIONS
+    Nesting is currently not supported.
 
-Some options are available:
+    B<C<$button_text>>
 
-    $app->plugin('BootstrapHelpers', {
-        tag_prefix => 'bs',
-        short_strappings_prefix => 'set',
-        init_short_strappings => 1,
-        icons => {
-            class => 'glyphicon'
-            formatter => 'glyphicon-%s',
-        },
-    });
+    Mandatory. The text that appears on the menu opening button.
 
-## tag\_prefix
+    B<C<caret>>
+
+    It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+
+    B<C<items>>
+
+    Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+
+    >     B<C<divider>>
+    >
+    >     Creates a horizontal separator in the menu.
+    >
+    >     B<C<[ $itemtext, [ $url ], %item_has ]>>
+    >
+    >     This creates a linked menu item.
+    >
+    >     >     B<C<$itemtext>>
+    >     >
+    >     >     Mandatory. The text on the link.
+    >     >
+    >     >     B<C<$url>>
+    >     >
+    >     >     Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
 
-Default: `undef`
+    ### Examples
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
-by setting a prefix the original names are no longer available. The following rules are used:
+        <%= dropdown 'Dropdown 1',
+                     button => [id => 'a_custom_id'],
+                     items => [
+                        ['Item 1', ['item1'] ],
+                        ['Item 2', ['item2'] ],
+                        divider,
+                        ['Item 3', ['item3'] ]
+                     ] %>
 
-- If the option is missing, or is `undef`, there is no prefix.
-- If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
-- If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
+            <ul class="dropdown-menu">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
 
-## short\_strappings\_prefix
 
-Default: `undef`
+    By default, C<tabindex> is set to C<-1>...
 
-This is similar to `tag_prefix`, but is instead applied to the short form strappings. The same rules applies.
+        <%= dropdown 'Dropdown 2', caret,
+                     items => [
+                        ['Item 1', ['item1'], data => { attr => 2 } ],
+                        ['Item 2', ['item2'], data => { attr => 4 } ],
+                        divider,
+                        ['Item 3', ['item3'], data => { attr => 7 } ],
+                        divider,
+                        ['Item 4', ['item4'], tabindex => 4 ],
+                     ] %>
 
-## init\_short\_strappings
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                Dropdown 2
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+            </ul>
+        </div>
 
-Default: `1`
 
-If you don't want the short form of strappings setup at all, set this option to a defined but false value.
+    ...but it can be overridden.
 
-All functionality is available, but instead of `warning` you must now use `<__warning =` 1>>.
+    # OPTIONS
 
-With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
+    Some options are available:
 
-## icons
+        $app->plugin('BootstrapHelpers', {
+            tag_prefix => 'bs',
+            short_strappings_prefix => 'set',
+            init_short_strappings => 1,
+            icons => {
+                class => 'glyphicon'
+                formatter => 'glyphicon-%s',
+            },
+        });
 
-Default: not set
 
-By setting these keys you activate the `icon` helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
+    ## tag_prefix
 
-> **`class`**
->
-> This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
->
-> **`formatter`**
->
-> This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `icon` helper.
+    Default: C<undef>
 
-# AUTHOR
+    If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
+    by setting a prefix the original names are no longer available. The following rules are used:
 
-Erik Carlsson <csson@cpan.org>
+    - If the option is missing, or is `undef`, there is no prefix.
+    - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
+    - If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
 
-# COPYRIGHT
+    ## short_strappings_prefix
 
-Copyright 2014- Erik Carlsson
+    Default: C<undef>
 
-Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
+    This is similar to C<tag_prefix>, but is instead applied to the short form strappings. The same rules applies.
 
-[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
+    ## init_short_strappings
 
-# LICENSE
+    Default: C<1>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+    If you don't want the short form of strappings setup at all, set this option to a defined but false value.
+
+    All functionality is available, but instead of C<warning> you must now use C<<__warning => 1>>.
+
+    With short form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not used.
+
+    ## icons
+
+    Default: not set
+
+    By setting these keys you activate the C<icon> helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
+
+    >     B<C<class>>
+    >
+    >     This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
+    >
+    >     B<C<formatter>>
+    >
+    >     This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<icon> helper.
+
+    # AUTHOR
+
+    Erik Carlsson E<lt>csson@cpan.orgE<gt>
+
+    # COPYRIGHT
+
+    Copyright 2014- Erik Carlsson
+
+    Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
+
+    L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
+
+    # LICENSE
+
+    This library is free software; you can redistribute it and/or modify
+    it under the same terms as Perl itself.
+</div>
