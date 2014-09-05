@@ -356,8 +356,6 @@ Here, the second item in the `text_field` array reference is a value that popula
 
 Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group. 
 
-**Horizontal form groups**
-
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
     <div class="form-group">

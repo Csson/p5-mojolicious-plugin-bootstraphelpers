@@ -460,7 +460,7 @@ Here, the second item in the C<text_field> array reference is a value that popul
 Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group. 
 
 
-B<Horizontal form groups>
+=for hr
     
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
