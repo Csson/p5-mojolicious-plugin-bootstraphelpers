@@ -123,20 +123,13 @@ my @formgroups = (
     q{
         <div class="form-group">
             <label class="control-label" for="test_text">Text test 4</label>
-            <div class="input-group">
-                <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
-                <span class="input-group-addon">.00</span>
-            </div>
+            <input class="form-control input-lg" id="test_text" name="test_text" type="text" />
         </div>
     },
     q{
         <div class="form-group">
             <label class="control-label" for="test_text">Text test 5</label>
-            <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
-                <span class="input-group-addon">.00</span>
-            </div>
+            <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
         </div>
     },
     q{
@@ -341,10 +334,10 @@ __DATA__
 %= formgroup 'Text test 3', text_field => ['test_text', prepend => '@']
 
 @@ formgroup_4.html.ep
-%= formgroup 'Text test 4', text_field => ['test_text', append => '.00', large]
+%= formgroup 'Text test 4', text_field => ['test_text', large]
 
 @@ formgroup_5.html.ep
-%= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+%= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 
 @@ formgroup_6.html.ep
 %= formgroup 'Text test 6', large, text_field => ['test_text']

@@ -11,7 +11,7 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     plugin 'BootstrapHelpers';
 
     # Meanwhile, somewhere in a template...
-    %= formgroup 'Email' => text_field => ['email-address', prepend => '@'], large
+    %= formgroup 'Email' => text_field => ['email-address', cols => { medium => [3, 9] } ], large
 
     # ...that renders into
     <div class="form-group form-group-lg">
@@ -147,19 +147,19 @@ The following applies to all `%has` hashes below:
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 - Sometimes on nested helpers (such as tables in panels just below), `%has` is the only thing that can be applied to 
-        the other element. In this case `panel => { %panel_har }`. It follows from above that in those cases this entire
+        the other element. In this case `panel => { %panel_has }`. It follows from above that in those cases this entire
         expression is _also_ optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
         in syntax description, unless they need further comment.
 
 From this definition:
 
-    %= table ($title,) %table_har, panel => { %panel_har }, begin
+    %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
 
 Both of these are legal:
 
-    # since both panel => { %panel_har } and %table_har are hashes, their ordering is not significant.
+    # since both panel => { %panel_has } and %table_has are hashes, their ordering is not significant.
     %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
          <tr><td>A Table Cell</td></tr>
     %  end
@@ -257,6 +257,7 @@ Here, the `success` strapping applies `.panel-success` to the panel.
 
     <%= formgroup ($labeltext,)
                    %formgroup_has,
+                  (cols => { $size => [ $label_columns, $input_columns ], (...) })
                    $fieldtype => [
                        $input_name,
                       ($input_value,)
@@ -266,13 +267,29 @@ Here, the `success` strapping applies `.panel-success` to the panel.
     %>
     
     # The $labeltext can also be given in the body
-    %= formgroup %arguments_as_above, begin
+    %= formgroup <as above>, begin
         $labeltext
     %  end
 
 **`$labeltext`**
 
 Optional. It is either the first argument, or placed in the body. It creates a `label` element before the `input`.
+
+**`cols`**
+
+Optional. It is only used when the `form` is a `.form-horizontal`. You can defined the widths for one or more or all of the sizes. See examples.
+
+> **`$size`**
+>
+> Mandatory. It is one of `xsmall`, `small`, `medium` or `large`. `$size` takes a two item array reference.
+>
+> > **`$label_columns`**
+> >
+> > Mandatory. The number of columns that should be used by the label for that size of screen. Applies `.col-$size-$label_columns` on the label.
+> >
+> > **`$input_columns`**
+> >
+> > Mandatory. The number of columns that should be used by the input for that size of screen. Applies `.col-$size-$input_columns` around the input.
 
 **`$fieldtype`**
 
@@ -286,7 +303,7 @@ There can be only one `$fieldtype` per `formgroup`.
 > Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes then those are translated
 > into underscores when setting the `name`. If `id` exists in `%input_has` then that is used for the `id` instead.
 >
-> **`$value`**
+> **`$input_value`**
 >
 > Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
 
@@ -303,33 +320,27 @@ There can be only one `$fieldtype` per `formgroup`.
 
 The first item in the array ref is used for both `id` and `name`. Except...
 
-**Input group (before), and large input field**
-
-    %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
+    %= formgroup 'Text test 4', text_field => ['test_text', large]
 
     <div class="form-group">
-        <label class="control-label" for="test_text">Text test 4</label>
+        <label class="control-label" for="test-text">Text test 4</label>
         <div class="input-group">
             <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
             <span class="input-group-addon">.00</span>
         </div>
     </div>
 
-Strappings can also be used in this context. Here `large` applies `.input-lg`.
+...if the input name (the first item in the text\_field array ref) contains dashes -- those are replaced (in the `name`) to underscores.
 
-If the input name (the first item in the text\_field array ref) contains dashes, those are replaced (in the `name`) to underscores.
+Strappings can also be used in this context. Here `large` applies `.input-lg`.
 
 **Input group (before and after), and with value**
 
-    %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+    %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 5</label>
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
-            <span class="input-group-addon">.00</span>
-        </div>
+        <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
     </div>
 
 Here, the second item in the `text_field` array reference is a value that populates the `input`.
@@ -405,7 +416,7 @@ A submit button for use in forms. It overrides the build-in submit\_button helpe
 
 ### Syntax
 
-    %= table ($title,) %table_har, panel => { %panel_har }, begin
+    %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
     
@@ -418,7 +429,7 @@ Optional. If set the table will be wrapped in a panel, and the table replaces th
 
 Mandatory. `thead`, `td` and so on.
 
-**`panel => { %panel_har }`**
+**`panel => { %panel_has }`**
 
 Optional if the table has a `$title`, otherwise without use.
 

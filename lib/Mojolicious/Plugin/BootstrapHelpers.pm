@@ -79,7 +79,7 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     plugin 'BootstrapHelpers';
 
     # Meanwhile, somewhere in a template...
-    %= formgroup 'Email' => text_field => ['email-address', prepend => '@'], large
+    %= formgroup 'Email' => text_field => ['email-address', cols => { medium => [3, 9] } ], large
 
     # ...that renders into
     <div class="form-group form-group-lg">
@@ -227,7 +227,7 @@ The following applies to all C<%has> hashes below:
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
 =item * Sometimes on nested helpers (such as tables in panels just below), C<%has> is the only thing that can be applied to 
-        the other element. In this case C<panel =E<gt> { %panel_har }>. It follows from above that in those cases this entire
+        the other element. In this case C<panel =E<gt> { %panel_has }>. It follows from above that in those cases this entire
         expression is I<also> optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
         in syntax description, unless they need further comment.
 
@@ -235,13 +235,13 @@ The following applies to all C<%has> hashes below:
 
 From this definition:
 
-    %= table ($title,) %table_har, panel => { %panel_har }, begin
+    %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
 
 Both of these are legal:
     
-    # since both panel => { %panel_har } and %table_har are hashes, their ordering is not significant.
+    # since both panel => { %panel_has } and %table_has are hashes, their ordering is not significant.
     %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
          <tr><td>A Table Cell</td></tr>
     %  end
@@ -343,6 +343,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
     
     <%= formgroup ($labeltext,)
                    %formgroup_has,
+                  (cols => { $size => [ $label_columns, $input_columns ], (...) })
                    $fieldtype => [
                        $input_name,
                       ($input_value,)
@@ -352,13 +353,37 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
     %>
     
     # The $labeltext can also be given in the body
-    %= formgroup %arguments_as_above, begin
+    %= formgroup <as above>, begin
         $labeltext
     %  end
 
 B<C<$labeltext>>
 
 Optional. It is either the first argument, or placed in the body. It creates a C<label> element before the C<input>.
+
+B<C<cols>>
+
+Optional. It is only used when the C<form> is a C<.form-horizontal>. You can defined the widths for one or more or all of the sizes. See examples.
+
+=over 4
+
+B<C<$size>>
+
+Mandatory. It is one of C<xsmall>, C<small>, C<medium> or C<large>. C<$size> takes a two item array reference.
+
+=over 4
+
+B<C<$label_columns>>
+
+Mandatory. The number of columns that should be used by the label for that size of screen. Applies C<.col-$size-$label_columns> on the label.
+
+B<C<$input_columns>>
+
+Mandatory. The number of columns that should be used by the input for that size of screen. Applies C<.col-$size-$input_columns> around the input.
+
+=back
+
+=back
 
 B<C<$fieldtype>>
 
@@ -374,7 +399,7 @@ B<C<$name>>
 Mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes then those are translated
 into underscores when setting the C<name>. If C<id> exists in C<%input_has> then that is used for the C<id> instead.
 
-B<C<$value>>
+B<C<$input_value>>
 
 Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don't do both for the same field.)
 
@@ -395,34 +420,28 @@ B<Basic form group>
 The first item in the array ref is used for both C<id> and C<name>. Except...
 
 
-B<Input group (before), and large input field>
-
-    %= formgroup 'Text test 4', text_field => ['test-text', append => '.00', large]
+    %= formgroup 'Text test 4', text_field => ['test_text', large]
 
     <div class="form-group">
-        <label class="control-label" for="test_text">Text test 4</label>
+        <label class="control-label" for="test-text">Text test 4</label>
         <div class="input-group">
             <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
             <span class="input-group-addon">.00</span>
         </div>
     </div>
 
-Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
+...if the input name (the first item in the text_field array ref) contains dashes -- those are replaced (in the C<name>) to underscores.
 
-If the input name (the first item in the text_field array ref) contains dashes, those are replaced (in the C<name>) to underscores.
+Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
 
 
 B<Input group (before and after), and with value>
 
-    %= formgroup 'Text test 5', text_field => ['test_text', '200', prepend => '$', append => '.00']
+    %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 
     <div class="form-group">
         <label class="control-label" for="test_text">Text test 5</label>
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
-            <span class="input-group-addon">.00</span>
-        </div>
+        <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
     </div>
 
 Here, the second item in the C<text_field> array reference is a value that populates the C<input>.
@@ -502,7 +521,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 
 =head3 Syntax
     
-    %= table ($title,) %table_har, panel => { %panel_har }, begin
+    %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
     
@@ -514,7 +533,7 @@ B<C<$body>>
 
 Mandatory. C<thead>, C<td> and so on.
 
-B<C<panel =E<gt> { %panel_har }>>
+B<C<panel =E<gt> { %panel_has }>>
 
 Optional if the table has a C<$title>, otherwise without use.
 
