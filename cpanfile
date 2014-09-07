@@ -14,5 +14,5 @@ on test => sub {
 };
 
 on build => sub {
-	requires 'Dist::Zilla::Plugin::Test::CreateFromMojoTemplate';
+	requires 'Dist::Zilla::Plugin::Test::CreateFromMojoTemplates';
 };
