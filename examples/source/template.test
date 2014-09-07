@@ -16,5 +16,7 @@ plugin 'BootstrapHelpers', {
     },
 };
 
+ok 1;
+
 my $test = Test::Mojo::Trim->new;
 

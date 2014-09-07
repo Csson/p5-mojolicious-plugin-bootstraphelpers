@@ -12,15 +12,15 @@
     %= button 'The example 2' => [url_for]    
 --t--
 --e--
-    <a class="btn btn-default" href="/button_2">The example 2</a>
+    <a class="btn btn-default" href="/button_1_2">The example 2</a>
 --e--
 
 ==test==
 --t--
-    <a class="btn btn-default" href="panel_1">The example 3</a>
+    %= button 'The example 3' => ['panel_1']
 --t--
 --e--
-    %= button 'The example 3' => ['panel_1']
+    <a class="btn btn-default" href="panel_1">The example 3</a>    
 --e--
 
 
@@ -49,7 +49,7 @@
     %  end
 --t--
 --e--
-    <a class="btn btn-default" href="/button_6"> The Example 6 </a>
+    <a class="btn btn-default" href="/button_1_6"> The Example 6 </a>
 --e--
 
 
