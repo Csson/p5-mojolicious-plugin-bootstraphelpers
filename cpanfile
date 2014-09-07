@@ -12,3 +12,7 @@ on test => sub {
     requires 'Test::More', '0.96';
     requires 'Test::Mojo::Trim', '0.03';
 };
+
+on build => sub {
+	requires 'Dist::Zilla::Plugin::Test::CreateFromMojoTemplate';
+};
