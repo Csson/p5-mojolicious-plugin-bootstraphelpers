@@ -172,88 +172,164 @@ Both of these are legal:
 
 # HELPERS
 
-## Panels
-
-[Bootstrap documentation](http://getbootstrap.com/components/#panels)
+## Badges
 
 ### Syntax
 
-    %= panel ($title, %has, begin
-        $body
-    %  end)
+    %= badge $text, %has
 
-**`$title`**
+**`$text`**
 
-Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
-
-**`$body`**
-
-Optional (but panels are not much use without it). The html inside the `panel`.
+Mandatory. If it is `undef` no output is produced.
 
 ### Examples
 
-**No body, no title**
+    <%= badge '3' %>
 
-    %= panel
-
-&nbsp;
-
-<hr>&nbsp;</hr>
-
-<hr />
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-        </div>
-    </div>
-
-The class is set to `panel-default`, by default.
-
-**Body, no title**
-
-    %= panel undef ,=> begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
-If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
-
-**Body and title**
-
-    %= panel 'The header' => begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">The Header</h3>
-        </div>
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
-**Body and title, with context**
-
-    %= panel 'Panel 5', success, begin
-        <p>A short text.</p>
-    %  end
+    <span class="badge">3</span></a>
     
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Panel 5</h3>
-        </div>
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
+
+A basic badge.
+
+    <%= badge '4', data => { custom => 'yes' }, right %>
+    
+    <span class="badge pull-right" data-custom="yes">4</span>
+
+A right aligned badge with a data attribute.
+
+## Buttons
+
+[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+
+### Syntax
+
+    %= button $button_text(, [$url]), %has
+
+    %= submit_button $text, %has
+
+**`$button_text`**
+
+Mandatory. The text on the button.
+
+**`[$url]`**
+
+Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
+basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+
+Not available for `submit_button`.
+
+### Examples
+
+    %= button 'The example 5' => large, warning
+
+    <button class="btn btn-lg btn-warning">The example 5</button>
+
+An ordinary button, with applied strappings.
+
+    %= button 'The example 1' => ['http://www.example.com/'], small
+
+    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+
+With a url the button turns into a link.
+
+    %= submit_button 'Save', __primary
+
+    <button class="btn btn-primary" type="submit">Save 2</button>
+
+A submit button for use in forms. It overrides the build-in submit\_button helper.
+
+## Dropdowns
+
+### Syntax
+
+    <%= dropdown  $button_text,
+                 (caret,)
+                  %has,
+                 (button => [ %button_has ],)
+                  items  => [ 
+                      [ $itemtext, [ $url ], %item_has ],
+                     (divider,)
+                  ]
+
+Nesting is currently not supported.
+
+**`$button_text`**
+
+Mandatory. The text that appears on the menu opening button.
+
+**`caret`**
+
+It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+
+**`items`**
+
+Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+
+> **`divider`**
+>
+> Creates a horizontal separator in the menu.
+>
+> **`[ $itemtext, [ $url ], %item_has ]`**
+>
+> This creates a linked menu item.
+>
+> > **`$itemtext`**
+> >
+> > Mandatory. The text on the link.
+> >
+> > **`$url`**
+> >
+> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+
+### Examples
+
+    <%= dropdown 'Dropdown 1',
+                 button => [id => 'a_custom_id'],
+                 items => [
+                    ['Item 1', ['item1'] ],
+                    ['Item 2', ['item2'] ],
+                    divider,
+                    ['Item 3', ['item3'] ]
+                 ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+        </ul>
     </div>
 
-Here, the `success` strapping applies `.panel-success` to the panel.
+By default, `tabindex` is set to `-1`...
+
+    <%= dropdown 'Dropdown 2', caret,
+                 items => [
+                    ['Item 1', ['item1'], data => { attr => 2 } ],
+                    ['Item 2', ['item2'], data => { attr => 4 } ],
+                    divider,
+                    ['Item 3', ['item3'], data => { attr => 7 } ],
+                    divider,
+                    ['Item 4', ['item4'], tabindex => 4 ],
+                 ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            Dropdown 2
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+        </ul>
+    </div>
+
+...but it can be overridden.
 
 ## Form groups
 
@@ -375,46 +451,108 @@ If the `form` is `.form-horizontal`, you can set the column widths with the `col
 
 (Note that in this context, `medium` and `large` are not short form strappings. Those don't take arguments.)
 
-## Buttons
+## Icons
 
-[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+This helper needs to be activated separately, see options below.
 
 ### Syntax
 
-    %= button $button_text(, [$url]), %has
+    %= icon $icon_name
 
-    %= submit_button $text, %has
+**`$icon_name`**
 
-**`$button_text`**
-
-Mandatory. The text on the button.
-
-**`[$url]`**
-
-Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
-basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
-
-Not available for `submit_button`.
+Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
 
 ### Examples
 
-    %= button 'The example 5' => large, warning
+    <%= icon 'copyright-mark' %>
+    %= icon 'sort-by-attributes-alt'
 
-    <button class="btn btn-lg btn-warning">The example 5</button>
+    <span class="glyphicon glyphicon-copyright-mark"></span>
+    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 
-An ordinary button, with applied strappings.
+## Panels
 
-    %= button 'The example 1' => ['http://www.example.com/'], small
+[Bootstrap documentation](http://getbootstrap.com/components/#panels)
 
-    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+### Syntax
 
-With a url the button turns into a link.
+    %= panel ($title, %has, begin
+        $body
+    %  end)
 
-    %= submit_button 'Save', __primary
+**`$title`**
 
-    <button class="btn btn-primary" type="submit">Save 2</button>
+Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
 
-A submit button for use in forms. It overrides the build-in submit\_button helper.
+**`$body`**
+
+Optional (but panels are not much use without it). The html inside the `panel`.
+
+### Examples
+
+**No body, no title**
+
+    %= panel
+
+&nbsp;
+
+<hr>&nbsp;</hr>
+
+<hr />
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+        </div>
+    </div>
+
+The class is set to `panel-default`, by default.
+
+**Body, no title**
+
+    %= panel undef ,=> begin
+        <p>A short text.</p>
+    %  end
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+If you want a panel without title, set the title to `undef`. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
+
+**Body and title**
+
+    %= panel 'The header' => begin
+        <p>A short text.</p>
+    %  end
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">The Header</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+**Body and title, with context**
+
+    %= panel 'Panel 5', success, begin
+        <p>A short text.</p>
+    %  end
+    
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel 5</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+Here, the `success` strapping applies `.panel-success` to the panel.
 
 ## Tables
 
@@ -475,144 +613,6 @@ Several classes applied to the table.
     </div>
 
 A `condensed` table with an `id` wrapped in a `success` panel.
-
-## Badges
-
-### Syntax
-
-    %= badge $text, %has
-
-**`$text`**
-
-Mandatory. If it is `undef` no output is produced.
-
-### Examples
-
-    <%= badge '3' %>
-
-    <span class="badge">3</span></a>
-    
-
-A basic badge.
-
-    <%= badge '4', data => { custom => 'yes' }, right %>
-    
-    <span class="badge pull-right" data-custom="yes">4</span>
-
-A right aligned badge with a data attribute.
-
-## Icons
-
-This helper needs to be activated separately, see options below.
-
-### Syntax
-
-    %= icon $icon_name
-
-**`$icon_name`**
-
-Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
-
-### Examples
-
-    <%= icon 'copyright-mark' %>
-    %= icon 'sort-by-attributes-alt'
-
-    <span class="glyphicon glyphicon-copyright-mark"></span>
-    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-
-## Dropdowns
-
-### Syntax
-
-    <%= dropdown  $button_text,
-                 (caret,)
-                  %has,
-                 (button => [ %button_has ],)
-                  items  => [ 
-                      [ $itemtext, [ $url ], %item_has ],
-                     (divider,)
-                  ]
-
-Nesting is currently not supported.
-
-**`$button_text`**
-
-Mandatory. The text that appears on the menu opening button.
-
-**`caret`**
-
-It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
-
-**`items`**
-
-Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
-
-> **`divider`**
->
-> Creates a horizontal separator in the menu.
->
-> **`[ $itemtext, [ $url ], %item_has ]`**
->
-> This creates a linked menu item.
->
-> > **`$itemtext`**
-> >
-> > Mandatory. The text on the link.
-> >
-> > **`$url`**
-> >
-> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
-
-### Examples
-
-    <%= dropdown 'Dropdown 1',
-                 button => [id => 'a_custom_id'],
-                 items => [
-                    ['Item 1', ['item1'] ],
-                    ['Item 2', ['item2'] ],
-                    divider,
-                    ['Item 3', ['item3'] ]
-                 ] %>
-
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
-    </div>
-
-By default, `tabindex` is set to `-1`...
-
-    <%= dropdown 'Dropdown 2', caret,
-                 items => [
-                    ['Item 1', ['item1'], data => { attr => 2 } ],
-                    ['Item 2', ['item2'], data => { attr => 4 } ],
-                    divider,
-                    ['Item 3', ['item3'], data => { attr => 7 } ],
-                    divider,
-                    ['Item 4', ['item4'], tabindex => 4 ],
-                 ] %>
-
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            Dropdown 2
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
-        </ul>
-    </div>
-
-...but it can be overridden.
 
 # OPTIONS
 

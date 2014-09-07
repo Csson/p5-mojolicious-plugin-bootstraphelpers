@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Converted tests to Dist::Zilla::Plugin::Test::CreateFromMojoTemplates style
+    - Changed ordering in documentation to alphabetical
 
 0.014  2014-09-05 12:34:25 CEST
     - Restored the accidentally removed cols support for form groups
