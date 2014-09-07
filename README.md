@@ -643,7 +643,7 @@ by setting a prefix the original names are no longer available. The following ru
 
 - If the option is missing, or is `undef`, there is no prefix.
 - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
-- If the option is set to any other string, the prefix is that string followed by `_`. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bs_panel`.
+- If the option is set to any other string, the prefix is that string. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bspanel`.
 
 ## short\_strappings\_prefix
 

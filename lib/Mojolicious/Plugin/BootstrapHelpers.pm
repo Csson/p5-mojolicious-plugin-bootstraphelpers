@@ -56,8 +56,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         my $prefix = shift;
 
         return defined $prefix && !length $prefix   ?   '_'
-             : defined $prefix && $prefix eq '_'    ?   '_'
-             : defined $prefix                      ?   $prefix.'_'
+             : defined $prefix                      ?   $prefix
              :                                          ''
              ;
     }
@@ -780,7 +779,7 @@ If the option is missing, or is C<undef>, there is no prefix.
 If the option is set to the empty string, the prefix is C<_>. That is, C<panel> is now used as C<_panel>.
 
 =item *
-If the option is set to any other string, the prefix is that string followed by C<_>. If you set C<tag_prefix =E<gt> 'bs'>, then C<panel> is now used as C<bs_panel>.
+If the option is set to any other string, the prefix is that string. If you set C<tag_prefix =E<gt> 'bs'>, then C<panel> is now used as C<bspanel>.
 
 =back
 
