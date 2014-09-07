@@ -172,6 +172,8 @@ Both of these are legal:
 
 # HELPERS
 
+[Bootstrap documentation](http://getbootstrap.com/components/#badges)
+
 ## Badges
 
 ### Syntax
@@ -181,6 +183,10 @@ Both of these are legal:
 **`$text`**
 
 Mandatory. If it is `undef` no output is produced.
+
+Available strappings:
+
+`right` Adds `.pull-right`.
 
 ### Examples
 

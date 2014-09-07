@@ -44,12 +44,12 @@
 
 ==test==
 --t--
-    %= button [url_for] => begin
+    %= button [url_for], disabled, begin
        The Example 6
     %  end
 --t--
 --e--
-    <a class="btn btn-default" href="/button_1_6"> The Example 6 </a>
+    <a class="btn btn-default disabled" href="/button_1_6"> The Example 6 </a>
 --e--
 
 
@@ -64,17 +64,17 @@
 
 ==test==
 --t--
-    %= submit_button 'Save 2', primary
+    %= submit_button 'Save 2', primary, disabled
 --t--
 --e--
-    <button class="btn btn-primary" type="submit">Save 2</button>
+    <button class="btn btn-primary" disabled="disabled" type="submit">Save 2</button>
 --e--
 
 
 ==test==
 --t--
-    
 --t--
 --e--
+
 --e--
 

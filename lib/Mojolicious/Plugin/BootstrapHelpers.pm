@@ -40,12 +40,13 @@ package Mojolicious::Plugin::BootstrapHelpers {
 
         if($init_short_strappings) {
             my @sizes = qw/xsmall small medium large/;
-            my @contexts = qw/default primary success info warning danger/;
+            my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right/;
+            my @direction = qw/right block/;
             my @menu = qw/caret divider/;
+            my @misc = qw/active disabled/;
 
-            foreach my $helper (@sizes, @contexts, @table, @direction, @menu) {
+            foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
                $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
             }
         }
@@ -255,6 +256,8 @@ Both of these are legal:
 
 =head1 HELPERS
 
+L<Bootstrap documentation|http://getbootstrap.com/components/#badges>
+
 =head2 Badges
 
 =head3 Syntax
@@ -264,6 +267,10 @@ Both of these are legal:
 B<C<$text>>
 
 Mandatory. If it is C<undef> no output is produced.
+
+Available strappings:
+
+C<right> Adds C<.pull-right>.
 
 =head3 Examples
 

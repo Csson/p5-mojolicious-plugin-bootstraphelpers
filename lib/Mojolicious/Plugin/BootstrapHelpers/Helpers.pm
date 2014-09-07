@@ -135,25 +135,24 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
         my $attr = parse_attributes(@_);
-        
+
         my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? q{<span class="caret"></span>} : '';
 
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
+        $attr = add_classes($attr, 'active') if $attr->{'__active'};
+        $attr = add_disabled($attr, scalar @url);
         $attr = cleanup_attrs($attr);
-
-
 
         # We have an url
         if(scalar @url) {
             $attr->{'href'} = $c->url_for(@url)->to_string;
+
             my $html = htmlify_attrs($attr);
             return out(qq{<a$html>} . content_single($content) . qq{$caret</a>});
-#            return out(Mojolicious::Plugin::TagHelpers::_tag('a', $attr->%*, $content));
         }
         else {
             my $html = htmlify_attrs($attr);
             return out(qq{<button$html>} . content_single($content) . qq{$caret</button>});
-            #return out(Mojolicious::Plugin::TagHelpers::_tag('button', $attr->%*, $content));
         }
 
     }
@@ -399,6 +398,21 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     }
 
+    sub add_disabled {
+        my $attr = shift;
+        my $add_as_class = shift; # if false, add as attribute
+
+        if(exists $attr->{'__disabled'} && $attr->{'__disabled'}) {
+            if($add_as_class) {
+                $attr = add_classes($attr, 'disabled');
+            }
+            else {
+                $attr->{'disabled'} = 'disabled';
+            }
+        }
+        return $attr;
+    }
+
     sub contents {
         my $callback = shift;
         my $content = shift;
@@ -414,17 +428,13 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub cleanup_attrs {
         my $hash = shift;
-        
-        map { delete $hash->{ $_ } } ('column_information',
-                                      'panel',
-                                      keys _sizes()->%*,
-                                      keys _button_contexts()->%*,
-                                      keys _panel_contexts()->%*,
-                                      keys _table_contexts()->%*,
-                                      keys _direction_contexts()->%*,
-                                      keys _menu_contexts()->%*);
-        # delete all attributes starting with __
-        map { delete $hash->{ $_ } } grep { substr $_, 0 => 2 eq '__' } keys $hash->%*;
+
+        #* delete all strappings (__*)
+        map { delete $hash->{ $_ } } grep { substr($_, 0, 2) eq '__' } keys $hash->%*;
+
+        #* delete all keys whose value is not a string
+        map { delete $hash->{ $_ } } grep { $_ ne 'data' && ref $hash->{ $_ } ne '' } keys $hash->%*;
+
         return $hash;
     }
 
@@ -453,10 +463,13 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
     }
     sub _direction_contexts {
-        return { map { ("__$_" => $_, $_ => $_) } qw/right/ };
+        return { map { ("__$_" => $_, $_ => $_) } qw/right block/ };
     }
     sub _menu_contexts {
         return { map { ("__$_" => $_, $_ => $_) } qw/caret divider/ };
+    }
+    sub _misc_contexts {
+        return { map { ("__$_" => $_, $_ => $_) } qw/active disabled/ };   
     }
 
     sub out {
