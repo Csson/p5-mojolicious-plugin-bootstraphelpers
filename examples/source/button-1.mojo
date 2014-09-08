@@ -9,7 +9,7 @@
 
 ==test==
 --t--
-    %= button 'The example 2' => [url_for]    
+    %= button 'The example 2' => [url_for]
 --t--
 --e--
     <a class="btn btn-default" href="/button_1_2">The example 2</a>

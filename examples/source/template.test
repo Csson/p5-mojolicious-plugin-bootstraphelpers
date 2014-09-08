@@ -10,7 +10,7 @@ use Mojolicious::Lite;
 use Test::Mojo::Trim;
 
 plugin 'BootstrapHelpers', {
-    icons => { 
+    icons => {
         class => 'glyphicon',
         formatter => 'glyphicon-%s',
     },
