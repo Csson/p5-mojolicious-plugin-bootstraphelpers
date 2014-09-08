@@ -2,6 +2,10 @@
 
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
+<div>
+    <p><a style="float: left;" href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master">&nbsp;</a>
+</div>
+
 # SYNOPSIS
 
     # Mojolicious

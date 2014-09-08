@@ -70,6 +70,8 @@ __END__
 
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
+=for html <p><a style="float: left;" href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master">&nbsp;</a>
+
 =head1 SYNOPSIS
 
     # Mojolicious
