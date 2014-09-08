@@ -13,8 +13,6 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     our $VERSION = '0.014';
 
-
-
     sub bootstraps_bootstraps {
         my $c = shift;
         my $arg = shift;

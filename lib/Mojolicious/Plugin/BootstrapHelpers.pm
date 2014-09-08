@@ -778,7 +778,6 @@ If the option is set to any other string, the prefix is that string. If you set 
 
 =back
 
-
 =head2 short_strappings_prefix
 
 Default: C<undef>
