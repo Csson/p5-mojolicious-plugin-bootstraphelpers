@@ -1,14 +1,13 @@
 package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use strict;
-    
+
     use Mojo::Base 'Mojolicious::Plugin';
-    
+
     use List::AllUtils qw/uniq first_index/;
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-    use String::Random;
     use Data::Dumper 'Dumper';
     use experimental 'postderef'; # requires 5.20
 
@@ -38,9 +37,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub bootstrap_panel {
         my($c, $title, $callback, $content, $attr) = parse_call(@_);
-        
+
         $attr = add_classes($attr, 'panel', { panel => 'panel-%s', panel_default => 'default'});
-        
+
         my $body = qq{
                 <div class="panel-body">
                     } . contents($callback, $content) . qq{
@@ -55,7 +54,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $title = shift;
         my $body = shift;
         my $attr = shift;
-        
+
         my $tag = qq{
             <div class="$attr->{'class'}">
             } . (defined $title ? qq{
@@ -75,7 +74,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $callback = ref $_[-1] eq 'CODE' ? pop : undef;
         my $title = scalar @_ % 2 ? shift : undef;
         my $attr = parse_attributes(@_);
-        
+
         $attr = add_classes($attr, 'table', { table => 'table-%s' });
         my $html = htmlify_attrs($attr);
 
@@ -105,11 +104,11 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub bootstrap_formgroup {
         my $c = shift;
-        my $title = ref $_[-1] eq 'CODE' ? pop 
+        my $title = ref $_[-1] eq 'CODE' ? pop
                   : scalar @_ % 2        ? shift
                   :                        undef;
         my $attr = parse_attributes(@_);
-        
+
         $attr->{'column_information'} = delete $attr->{'cols'} if ref $attr->{'cols'} eq 'HASH';
 
         my($id, $input) = fix_input($c, $attr);
@@ -199,27 +198,23 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub create_dropdown_menuitem {use Data::Dumper 'Dumper';
         my $c = shift;
         my $item_text = iscoderef($_[-1]) ? pop : shift;
-        
-        
         my @url = shift->@*;
-        
+
         my $attr = parse_attributes(@_);
-        
         $attr = add_classes($attr, 'menuitem');
         $attr->{'tabindex'} ||= -1;
         $attr->{'href'} = $c->url_for(@url)->to_string;
-        
+
         my $html = htmlify_attrs($attr);
-        
 
         my $tag = qq{<li><a$html>$item_text</a></li>};
 
         return out($tag);
     }
 
-    # %= dropdown 'Dropdown', button => [key => 'value'], 
+    # %= dropdown 'Dropdown', button => [key => 'value'],
     #                         items => [
-    #                             item => ['Action', ['url'], %has], 
+    #                             item => ['Action', ['url'], %has],
     #                             divider,
     #                             item => []
     #                         ],
@@ -261,11 +256,11 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub fix_input {
         my $c = shift;
         my $attr = shift;
-        
+
         my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url password/)[0];
         my $info = $attr->{"${tagname}_field"};
         my $id = shift $info->@*;
-        
+
         # if odd number of elements, the first one is the value (shortcut to avoid having to: value => 'value')
         if($info->@* % 2) {
             push $info->@* => (value => shift $info->@*);
@@ -376,11 +371,11 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
                 push @classes => sprintfify_class($attr, $formatter->{'direction'}, $formatter->{'direction_default'}, _direction_contexts());
             }
         }
-       
+
         $attr->{'class'} = trim join ' ' => uniq sort @classes;
 
         return $attr;
-        
+
     }
 
     sub sprintfify_class {
@@ -469,7 +464,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/caret divider/ };
     }
     sub _misc_contexts {
-        return { map { ("__$_" => $_, $_ => $_) } qw/active disabled/ };   
+        return { map { ("__$_" => $_, $_ => $_) } qw/active disabled/ };
     }
 
     sub out {

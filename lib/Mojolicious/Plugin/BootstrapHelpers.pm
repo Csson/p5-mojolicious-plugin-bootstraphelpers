@@ -1,9 +1,9 @@
 package Mojolicious::Plugin::BootstrapHelpers {
     use strict;
     use true;
-    
+
     use Mojo::Base 'Mojolicious::Plugin';
-    
+
     use List::AllUtils qw/uniq first_index/;
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
@@ -32,7 +32,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
         $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
         $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
-        
+
         if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
             $app->config->{'Plugin::BootstrapHelpers'} = $args;
             $app->helper($tp.'icon' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_icon);
@@ -114,12 +114,12 @@ If you don't know what Bootstrap is, see L<http://www.getbootstrap.com/> for pos
 You might want to use L<Mojolicious::Plugin::Bootstrap3> in your templates.
 
 To get going quickly by using the official CDN you can use the following helpers:
-    
+
     # CSS
     %= bootstrap
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    
+
     # or (if you want to use the theme)
     %= bootstrap 'theme'
 
@@ -139,14 +139,14 @@ To get going quickly by using the official CDN you can use the following helpers
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 It is also possible to automatically include jQuery (2.*)
-    
+
     %= bootstrap 'jsq'
-    
+
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     %= bootstrap 'allq'
-    
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -155,7 +155,7 @@ It is also possible to automatically include jQuery (2.*)
 
 =head2 Strappings
 
-There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending 
+There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending
 on which tag it is applied to. For instance, if you apply the C<info> strapping to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
 
 You can use them in two different ways, but internally they are the same. These to lines are exactly identical:
@@ -186,7 +186,7 @@ If there is no corresponding class for the element you add the strapping to it i
 
 =begin html
 
-<p>The short form is recommended for readability, but it does setup several helpers in your templates. 
+<p>The short form is recommended for readability, but it does setup several helpers in your templates.
 You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
 
 =end html
@@ -194,7 +194,7 @@ You can turn off the short forms, see <a href="#init_short_strappings">init_shor
 =head2 Syntax convention
 
 In the syntax sections below the following conventions are used:
-    
+
     name            A specific string
     $name           Any string
     %name           One or more key-value pairs, written as:
@@ -226,9 +226,9 @@ The following applies to all C<%has> hashes below:
 
 =item * Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
 
-=item * Sometimes on nested helpers (such as tables in panels just below), C<%has> is the only thing that can be applied to 
+=item * Sometimes on nested helpers (such as tables in panels just below), C<%has> is the only thing that can be applied to
         the other element. In this case C<panel =E<gt> { %panel_has }>. It follows from above that in those cases this entire
-        expression is I<also> optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
+        expression is I<also> optional. Such cases are also not marked as optional in syntax definitions and are not mentioned
         in syntax description, unless they need further comment.
 
 =back
@@ -240,17 +240,17 @@ From this definition:
     %  end
 
 Both of these are legal:
-    
+
     # since both panel => { %panel_has } and %table_has are hashes, their ordering is not significant.
     %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
          <tr><td>A Table Cell</td></tr>
     %  end
-    
+
 
     %= table begin
          <tr><td>A Table Cell</td></tr>
     %  end
-        
+
 
 
 =head1 HELPERS
@@ -276,11 +276,11 @@ C<right> Adds C<.pull-right>.
     <%= badge '3' %>
 
     <span class="badge">3</span></a>
-    
+
 A basic badge.
 
     <%= badge '4', data => { custom => 'yes' }, right %>
-    
+
     <span class="badge pull-right" data-custom="yes">4</span>
 
 A right aligned badge with a data attribute.
@@ -315,7 +315,7 @@ Not available for C<submit_button>.
     <button class="btn btn-lg btn-warning">The example 5</button>
 
 An ordinary button, with applied strappings.
-    
+
     %= button 'The example 1' => ['http://www.example.com/'], small
 
     <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
@@ -333,12 +333,12 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 =head2 Dropdowns
 
 =head3 Syntax
-    
+
     <%= dropdown  $button_text,
                  (caret,)
                   %has,
                  (button => [ %button_has ],)
-                  items  => [ 
+                  items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      (divider,)
                   ]
@@ -438,7 +438,7 @@ By default, C<tabindex> is set to C<-1>...
 L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
 
 =head3 Syntax
-    
+
     <%= formgroup ($labeltext,)
                    %formgroup_has,
                   (cols => { $size => [ $label_columns, $input_columns ], (...) })
@@ -449,7 +449,7 @@ L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
                   ]
 
     %>
-    
+
     # The $labeltext can also be given in the body
     %= formgroup <as above>, begin
         $labeltext
@@ -485,7 +485,7 @@ Mandatory. The number of columns that should be used by the input for that size 
 
 B<C<$fieldtype>>
 
-Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>, 
+Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>,
 C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
 
 There can be only one C<$fieldtype> per C<formgroup>.
@@ -507,7 +507,7 @@ Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don'
 =head3 Examples
 
 B<Basic form group>
-    
+
     %= formgroup 'Text test 1', text_field => ['test_text']
 
     <div class="form-group">
@@ -555,7 +555,7 @@ Here, the second item in the C<text_field> array reference is a value that popul
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group. 
+Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group.
 
 
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
@@ -585,7 +585,7 @@ B<C<$icon_name>>
 Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
 
 =head3 Examples
-    
+
     <%= icon 'copyright-mark' %>
     %= icon 'sort-by-attributes-alt'
 
@@ -662,11 +662,11 @@ B<Body and title>
     </div>
 
 B<Body and title, with context>
-    
+
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
     %  end
-    
+
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Panel 5</h3>
@@ -685,11 +685,11 @@ Here, the C<success> strapping applies C<.panel-success> to the panel.
 =head2 Tables
 
 =head3 Syntax
-    
+
     %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
-    
+
 B<C<$title>>
 
 Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
@@ -744,11 +744,6 @@ A C<condensed> table with an C<id> wrapped in a C<success> panel.
 
 
 
-
-
-
-
-
 =head1 OPTIONS
 
 Some options are available:
@@ -767,7 +762,7 @@ Some options are available:
 
 Default: C<undef>
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases;
 by setting a prefix the original names are no longer available. The following rules are used:
 
 =over 4
@@ -823,10 +818,10 @@ This creates the specific icon class. If you use the glyphicon pack, this should
 
 Erik Carlsson E<lt>csson@cpan.orgE<gt>
 
-=head1 COPYRIGHT
-
-Copyright 2014- Erik Carlsson
-
+=head1 COPYRIGHT 
+ 
+Copyright 2014- Erik Carlsson 
+ 
 Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
 
 L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
@@ -837,4 +832,3 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
- 
