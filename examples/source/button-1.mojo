@@ -71,10 +71,11 @@
 --e--
 
 
-==test==
+==test loop(active block)==
 --t--
+    %= button 'Loop', [var]
 --t--
 --e--
-
+    <button class="[var] btn btn-default">Loop</button>
 --e--
 
