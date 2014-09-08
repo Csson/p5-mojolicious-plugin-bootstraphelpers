@@ -1,5 +1,7 @@
 package Mojolicious::Plugin::BootstrapHelpers {
+
     use strict;
+    use warnings;
     use true;
 
     use Mojo::Base 'Mojolicious::Plugin';
@@ -12,8 +14,6 @@ package Mojolicious::Plugin::BootstrapHelpers {
     use Mojolicious::Plugin::BootstrapHelpers::Helpers;
 
     use experimental 'postderef'; # requires 5.20
-
-    our $VERSION = '0.014';
 
     sub register {
         my $self = shift;
@@ -44,7 +44,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @table = qw/striped bordered hover condensed responsive/;
             my @direction = qw/right block/;
             my @menu = qw/caret divider/;
-            my @misc = qw/active disabled/;
+            my @misc = qw/disabled/;
 
             foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
                $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
@@ -817,10 +817,10 @@ This creates the specific icon class. If you use the glyphicon pack, this should
 
 Erik Carlsson E<lt>csson@cpan.orgE<gt>
 
-=head1 COPYRIGHT 
- 
-Copyright 2014- Erik Carlsson 
- 
+=head1 COPYRIGHT
+
+Copyright 2014- Erik Carlsson
+
 Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
 
 L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.

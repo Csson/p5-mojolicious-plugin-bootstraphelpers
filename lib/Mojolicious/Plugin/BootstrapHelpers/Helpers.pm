@@ -1,6 +1,7 @@
 package Mojolicious::Plugin::BootstrapHelpers::Helpers {
-    use strict;
 
+    use strict;
+    use warnings;
     use Mojo::Base 'Mojolicious::Plugin';
 
     use List::AllUtils qw/uniq first_index/;
@@ -10,8 +11,6 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use String::Trim;
     use Data::Dumper 'Dumper';
     use experimental 'postderef'; # requires 5.20
-
-    our $VERSION = '0.014';
 
     sub bootstraps_bootstraps {
         my $c = shift;
@@ -137,6 +136,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
         $attr = add_classes($attr, 'active') if $attr->{'__active'};
+        $attr = add_classes($attr, 'block') if $attr->{'__block'};
         $attr = add_disabled($attr, scalar @url);
         $attr = cleanup_attrs($attr);
 
