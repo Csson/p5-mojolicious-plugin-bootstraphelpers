@@ -1,67 +1,84 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
-    - Removed the automatic insertion of _ after a customized prefix.
-    - Converted tests to Dist::Zilla::Plugin::Test::CreateFromMojoTemplates style
-    - Changed ordering in documentation to alphabetical
-    - Removed trailing whitespace
-    - Changed some dzil plugins (and version style)
+ [API Changes]
 
-0.014.000  2014-09-05 12:34:25 CEST
-    - Restored the accidentally removed cols support for form groups
-    - Documentation: Minor typos fixed
-    - Documentation: Removed unsupported input groups examples
-    - There is no 0.013.
+ [Bug Fixes]
 
-0.012  2014-09-04 22:58:34 CEST
-    - Added simple dropdown support
-    - Added icon support
-    - Fixed version number
-    - Removed support for input group (was incorrect)
-    - Put the helpers in a separate module
+ [Documentation]
 
-0.011  2014-09-04 14:03:53 CEST
-    - Much improved syntax definitions (no functional changes)
+ [Enhancements]
 
-0.010  2014-09-03 16:53:37 CEST
-    - Added badge helper
+ [Meta]
 
-0.009  2014-09-01 15:20:27 CEST
-    - Can add html attributes to table elements
-    - Added missing dependencies (++eserte)
-    - Documentation: Much improved syntax descriptions
+ [New Features]
 
-0.008  2014-09-01 10:52:55 CEST
-    - Added support for placing a table in panel without a .panel-body
-    - Documentation: Described syntax conventions
-    - Documentation: Added syntax descriptions for table and button.
+ [Revision]
 
-0.007  2014-08-31 22:23:18 CEST
-    - Documentation: Clarified shortcuts
-    - Documentation: Started work on structured syntax descriptions
-    - Documentation: Improved synopsis
+0.014.001 2014-09-08T14:55:39Z CEST
+ - Removed the automatic insertion of _ after a customized prefix.
+ - Converted tests to Dist::Zilla::Plugin::Test::CreateFromMojoTemplates
+   style
+ - Changed ordering in documentation to alphabetical
+ - Removed trailing whitespace
+ - Changed some dzil plugins (and version style)
 
-0.006  2014-08-31 17:37:26 CEST
-    - Added table helpers
-    - Added helper to include bootstrap css and js (and possibly jquery)
+0.014.000 2014-09-05T12:34:25Z CEST
+ - Restored the accidentally removed cols support for form groups
+ - Documentation: Minor typos fixed
+ - Documentation: Removed unsupported input groups examples
+ - There is no 0.013.
 
-0.005  2014-08-31 15:01:23 CEST
-    - Allow dashes in id, but change them to underscores in nam
-    - Documented buttons
+0.012 2014-09-04T22:58:34Z CEST
+ - Added simple dropdown support
+ - Added icon support
+ - Fixed version number
+ - Removed support for input group (was incorrect)
+ - Put the helpers in a separate module
 
-0.004  2014-08-31 14:14:19 CEST
-    - Added many shortcuts (and adjusted documentation)
-    - Documented options
-    - Cleaned up internals
-    - Improved test layout
-    - Cleaned up cpanfile
+0.011 2014-09-04T14:03:53Z CEST
+ - Much improved syntax definitions (no functional changes)
 
-0.003  2014-08-31 11:21:10 CEST
-    - Removed unnecessary dependency
-    - Much improved tests (with Test::Mojo::Trim)
+0.010 2014-09-03T16:53:37Z CEST
+ - Added badge helper
 
-0.002  2014-08-30 22:50:05 CEST
-    - First public release.
+0.009 2014-09-01T15:20:27Z CEST
+ - Can add html attributes to table elements
+ - Added missing dependencies (++eserte)
+ - Documentation: Much improved syntax descriptions
 
-0.001  2014-08-30 22:47:03 CEST
-    - Initial release
+0.008 2014-09-01T10:52:55Z CEST
+ - Added support for placing a table in panel without a .panel-body
+ - Documentation: Described syntax conventions
+ - Documentation: Added syntax descriptions for table and button.
+
+0.007 2014-08-31T22:23:18Z CEST
+ - Documentation: Clarified shortcuts
+ - Documentation: Started work on structured syntax descriptions
+ - Documentation: Improved synopsis
+
+0.006 2014-08-31T17:37:26Z CEST
+ - Added table helpers
+ - Added helper to include bootstrap css and js (and possibly jquery)
+
+0.005 2014-08-31T15:01:23Z CEST
+ - Allow dashes in id, but change them to underscores in nam
+ - Documented buttons
+
+0.004 2014-08-31T14:14:19Z CEST
+ - Added many shortcuts (and adjusted documentation)
+ - Documented options
+ - Cleaned up internals
+ - Improved test layout
+ - Cleaned up cpanfile
+
+0.003 2014-08-31T11:21:10Z CEST
+ - Removed unnecessary dependency
+ - Much improved tests (with Test::Mojo::Trim)
+
+0.002 2014-08-30T22:50:05Z CEST
+ - First public release.
+
+0.001 2014-08-30T22:47:03Z CEST
+ - Initial release
+
