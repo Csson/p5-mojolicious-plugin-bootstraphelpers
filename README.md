@@ -50,7 +50,7 @@ To get going quickly by using the official CDN you can use the following helpers
     %= bootstrap
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    
+
     # or (if you want to use the theme)
     %= bootstrap 'theme'
 
@@ -72,12 +72,12 @@ To get going quickly by using the official CDN you can use the following helpers
 It is also possible to automatically include jQuery (2.\*)
 
     %= bootstrap 'jsq'
-    
+
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     %= bootstrap 'allq'
-    
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -85,7 +85,7 @@ It is also possible to automatically include jQuery (2.\*)
 
 ## Strappings
 
-There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending 
+There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending
 on which tag it is applied to. For instance, if you apply the `info` strapping to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
 
 You can use them in two different ways, but internally they are the same. These to lines are exactly identical:
@@ -113,7 +113,7 @@ See below for usage. **Important:** You can't follow a short form strapping with
 If there is no corresponding class for the element you add the strapping to it is silently not applied.
 
 <div>
-    <p>The short form is recommended for readability, but it does setup several helpers in your templates. 
+    <p>The short form is recommended for readability, but it does setup several helpers in your templates.
     You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
 </div>
 
@@ -146,9 +146,9 @@ The following applies to all `%has` hashes below:
 - When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
-- Sometimes on nested helpers (such as tables in panels just below), `%has` is the only thing that can be applied to 
+- Sometimes on nested helpers (such as tables in panels just below), `%has` is the only thing that can be applied to
         the other element. In this case `panel => { %panel_has }`. It follows from above that in those cases this entire
-        expression is _also_ optional. Such cases are also not marked as optional in syntax definitions and are not mentioned 
+        expression is _also_ optional. Such cases are also not marked as optional in syntax definitions and are not mentioned
         in syntax description, unless they need further comment.
 
 From this definition:
@@ -163,12 +163,11 @@ Both of these are legal:
     %= table 'Heading Table', panel => { success }, condensed, id => 'the-table', begin
          <tr><td>A Table Cell</td></tr>
     %  end
-    
+
 
     %= table begin
          <tr><td>A Table Cell</td></tr>
     %  end
-        
 
 # HELPERS
 
@@ -193,12 +192,11 @@ Available strappings:
     <%= badge '3' %>
 
     <span class="badge">3</span></a>
-    
 
 A basic badge.
 
     <%= badge '4', data => { custom => 'yes' }, right %>
-    
+
     <span class="badge pull-right" data-custom="yes">4</span>
 
 A right aligned badge with a data attribute.
@@ -252,7 +250,7 @@ A submit button for use in forms. It overrides the build-in submit\_button helpe
                  (caret,)
                   %has,
                  (button => [ %button_has ],)
-                  items  => [ 
+                  items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      (divider,)
                   ]
@@ -353,7 +351,7 @@ By default, `tabindex` is set to `-1`...
                   ]
 
     %>
-    
+
     # The $labeltext can also be given in the body
     %= formgroup <as above>, begin
         $labeltext
@@ -381,7 +379,7 @@ Optional. It is only used when the `form` is a `.form-horizontal`. You can defin
 
 **`$fieldtype`**
 
-Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`, 
+Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`,
 `number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
 
 There can be only one `$fieldtype` per `formgroup`.
@@ -442,7 +440,7 @@ Here, the second item in the `text_field` array reference is a value that popula
         <input class="form-control" id="test_text" name="test_text" type="text" />
     </div>
 
-Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group. 
+Note the difference with the earlier example. Here `large` is outside the `text_field` array reference, and therefore `.form-group-lg` is applied to the form group.
 
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 
@@ -548,7 +546,7 @@ If you want a panel without title, set the title to `undef`. Note that you can't
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
     %  end
-    
+
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Panel 5</h3>
@@ -567,7 +565,6 @@ Here, the `success` strapping applies `.panel-success` to the panel.
     %= table ($title,) %table_has, panel => { %panel_has }, begin
            $body
     %  end
-    
 
 **`$title`**
 
@@ -638,7 +635,7 @@ Some options are available:
 
 Default: `undef`
 
-If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases; 
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases;
 by setting a prefix the original names are no longer available. The following rules are used:
 
 - If the option is missing, or is `undef`, there is no prefix.
@@ -679,9 +676,9 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 
 Erik Carlsson <csson@cpan.org>
 
-# COPYRIGHT
+# COPYRIGHT 
 
-Copyright 2014- Erik Carlsson
+Copyright 2014- Erik Carlsson 
 
 Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
 
