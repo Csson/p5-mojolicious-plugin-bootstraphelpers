@@ -676,9 +676,9 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 
 Erik Carlsson <csson@cpan.org>
 
-# COPYRIGHT 
+# COPYRIGHT
 
-Copyright 2014- Erik Carlsson 
+Copyright 2014- Erik Carlsson
 
 Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
 
