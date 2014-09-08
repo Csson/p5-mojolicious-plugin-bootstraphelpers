@@ -1,6 +1,6 @@
 package Mojolicious::Plugin::BootstrapHelpers::Helpers {
-$Mojolicious::Plugin::BootstrapHelpers::Helpers::VERSION = '0.014.001';
-use strict;
+
+    use strict;
     use warnings;
     use Mojo::Base 'Mojolicious::Plugin';
 

@@ -69,7 +69,7 @@
          "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers"
       }
    },
-   "version" : "0.014.001",
+   "version" : "0.014.002",
    "x_contributors" : [
       "Erik Carlsson <info@code301.com>"
    ]
