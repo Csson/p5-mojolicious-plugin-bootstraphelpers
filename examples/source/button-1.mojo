@@ -1,3 +1,38 @@
+==test==
+--t--
+    %= button 'The example 5' => large, warning
+--t--
+--e--
+    <button class="btn btn-lg btn-warning">The example 5</button>
+--e--
+
+An ordinary button, with applied strappings.
+
+
+==test==
+--t--
+    %= button 'The example 1' => ['http://www.example.com/'], small
+--t--
+--e--
+    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+--e--
+
+With a url the button turns into a link.
+
+
+==test==
+--t--
+    %= submit_button 'Save', __primary
+--t--
+--e--
+    <button class="btn btn-primary" type="submit">Save 2</button>
+--e--
+
+A submit button for use in forms. It overrides the build-in submit_button helper.
+
+
+
+
 
 ==test==
 --t--
@@ -20,7 +55,7 @@
     %= button 'The example 3' => ['panel_1']
 --t--
 --e--
-    <a class="btn btn-default" href="panel_1">The example 3</a>    
+    <a class="btn btn-default" href="panel_1">The example 3</a>
 --e--
 
 

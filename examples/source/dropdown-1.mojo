@@ -21,6 +21,8 @@
     </div>
 --e--
 
+By default, C<tabindex> is set to C<-1>...
+
 
 ==test==
 --t--
@@ -33,11 +35,12 @@
             divider,
             ['Item 4', ['item4'], tabindex => 4 ],
          ] %>
-
 --t--
 --e--
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span>
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            Dropdown 2
+            <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
@@ -48,5 +51,7 @@
             <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
         </ul>
     </div>
-
 --e--
+
+...but it can be overridden.
+
