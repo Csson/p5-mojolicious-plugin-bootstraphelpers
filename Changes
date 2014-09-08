@@ -1,10 +1,13 @@
 Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
+    - Removed the automatic insertion of _ after a customized prefix.
     - Converted tests to Dist::Zilla::Plugin::Test::CreateFromMojoTemplates style
     - Changed ordering in documentation to alphabetical
+    - Removed trailing whitespace
+    - Changed some dzil plugins (and version style)
 
-0.014  2014-09-05 12:34:25 CEST
+0.014.000  2014-09-05 12:34:25 CEST
     - Restored the accidentally removed cols support for form groups
     - Documentation: Minor typos fixed
     - Documentation: Removed unsupported input groups examples
