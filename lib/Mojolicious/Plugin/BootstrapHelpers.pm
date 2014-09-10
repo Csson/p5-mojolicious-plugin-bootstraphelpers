@@ -254,7 +254,6 @@ Both of these are legal:
     %  end
 
 
-
 =head1 HELPERS
 
 L<Bootstrap documentation|http://getbootstrap.com/components/#badges>
@@ -269,24 +268,15 @@ B<C<$text>>
 
 Mandatory. If it is C<undef> no output is produced.
 
-Available strappings:
 
-C<right> Adds C<.pull-right>.
+B<Available strappings>
+
+C<right> applies C<.pull-right>.
+
 
 =head3 Examples
 
-    <%= badge '3' %>
-
-    <span class="badge">3</span></a>
-
-A basic badge.
-
-    <%= badge '4', data => { custom => 'yes' }, right %>
-
-    <span class="badge pull-right" data-custom="yes">4</span>
-
-A right aligned badge with a data attribute.
-
+# EXAMPLE: badge-1.mojo:1,2
 
 
 =head2 Buttons
@@ -310,26 +300,21 @@ basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap clas
 
 Not available for C<submit_button>.
 
+
+B<Available strappings>
+
+C<default> C<primary> C<success> C<info> C<warning> C<danger> C<link> applies the various C<.btn-*> classes.
+
+C<large> C<small> C<xsmall> applies C<.btn-lg> C<.btn-sm> C<.btn-xs> respectively.
+
+C<active> C<block> applies the C<.active> and C<.block> classes.
+
+C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt>aE<gt>>. On a C<E<lt>buttonE<gt>> it applies the C<disabled="disabled"> attribute.
+
+
 =head3 Examples
 
-    %= button 'The example 5' => large, warning
-
-    <button class="btn btn-lg btn-warning">The example 5</button>
-
-An ordinary button, with applied strappings.
-
-    %= button 'The example 1' => ['http://www.example.com/'], small
-
-    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
-
-With a url the button turns into a link.
-
-    %= submit_button 'Save', __primary
-
-    <button class="btn btn-primary" type="submit">Save 2</button>
-
-A submit button for use in forms. It overrides the build-in submit_button helper.
-
+# EXAMPLE: button-1.mojo:1-3
 
 
 =head2 Dropdowns
@@ -337,7 +322,6 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 =head3 Syntax
 
     <%= dropdown  $button_text,
-                 (caret,)
                   %has,
                  (button => [ %button_has ],)
                   items  => [
@@ -383,56 +367,15 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 =back
 
+
+B<Available strappings>
+
+C<caret> adds a C<E<lt>span class="caret"E<gt>E<lt>/span<E<gt>> element on the button.
+
+
 =head3 Examples
 
-    <%= dropdown 'Dropdown 1',
-                 button => [id => 'a_custom_id'],
-                 items => [
-                    ['Item 1', ['item1'] ],
-                    ['Item 2', ['item2'] ],
-                    divider,
-                    ['Item 3', ['item3'] ]
-                 ] %>
-
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
-    </div>
-
-By default, C<tabindex> is set to C<-1>...
-
-    <%= dropdown 'Dropdown 2', caret,
-                 items => [
-                    ['Item 1', ['item1'], data => { attr => 2 } ],
-                    ['Item 2', ['item2'], data => { attr => 4 } ],
-                    divider,
-                    ['Item 3', ['item3'], data => { attr => 7 } ],
-                    divider,
-                    ['Item 4', ['item4'], tabindex => 4 ],
-                 ] %>
-
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            Dropdown 2
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
-        </ul>
-    </div>
-
-...but it can be overridden.
-
+# EXAMPLE: dropdown-1.mojo:1-2
 
 
 =head2 Form groups
@@ -508,70 +451,7 @@ Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don'
 
 =head3 Examples
 
-B<Basic form group>
-
-    %= formgroup 'Text test 1', text_field => ['test_text']
-
-    <div class="form-group">
-        <label class="control-label" for="test_text">Text test 1</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" />
-    </div>
-
-The first item in the array ref is used for both C<id> and C<name>. Except...
-
-
-    %= formgroup 'Text test 4', text_field => ['test_text', large]
-
-    <div class="form-group">
-        <label class="control-label" for="test-text">Text test 4</label>
-        <div class="input-group">
-            <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
-            <span class="input-group-addon">.00</span>
-        </div>
-    </div>
-
-...if the input name (the first item in the text_field array ref) contains dashes -- those are replaced (in the C<name>) to underscores.
-
-Strappings can also be used in this context. Here C<large> applies C<.input-lg>.
-
-
-    %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
-
-    <div class="form-group">
-        <label class="control-label" for="test_text">Text test 5</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" value="200" />
-    </div>
-
-Here, the second item in the C<text_field> array reference is a value that populates the C<input>.
-
-=begin html
-
-<p style="height: 5px; background-color: #565656;">&nbsp;</p>
-
-=end html
-
-    %= formgroup 'Text test 6', text_field => ['test_text'], large
-
-    <div class="form-group form-group-lg">
-        <label class="control-label" for="test_text">Text test 6</label>
-        <input class="form-control" id="test_text" name="test_text" type="text" />
-    </div>
-
-Note the difference with the earlier example. Here C<large> is outside the C<text_field> array reference, and therefore C<.form-group-lg> is applied to the form group.
-
-
-    %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
-
-    <div class="form-group">
-        <label class="control-label col-md-2 col-sm-4" for="test_text">Text test 8</label>
-        <div class="col-md-10 col-sm-8">
-            <input class="form-control" id="test_text" name="test_text" type="text" />
-        </div>
-    </div>
-
-If the C<form> is C<.form-horizontal>, you can set the column widths with the C<cols> attribute. The first item in each array ref is for the label, and the second for the input.
-
-(Note that in this context, C<medium> and C<large> are not short form strappings. Those don't take arguments.)
+# EXAMPLE: formgroup-1.mojo:examples
 
 
 =head2 Icons
@@ -588,11 +468,7 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
 
 =head3 Examples
 
-    <%= icon 'copyright-mark' %>
-    %= icon 'sort-by-attributes-alt'
-
-    <span class="glyphicon glyphicon-copyright-mark"></span>
-    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+# EXAMPLE: icon-1.mojo:1
 
 
 =head2 Panels
@@ -616,75 +492,13 @@ Optional (but panels are not much use without it). The html inside the C<panel>.
 
 =head3 Examples
 
-B<No body, no title>
-
-    %= panel
-
-&nbsp;
-
-<hr>&nbsp;</hr>
-
-<hr />
-
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-        </div>
-    </div>
-
-The class is set to C<panel-default>, by default.
-
-B<Body, no title>
-
-    %= panel undef ,=> begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
-If you want a panel without title, set the title to C<undef>. Note that you can't use a regular fat comma since that would turn undef into a string. A normal comma is of course also ok.
-
-B<Body and title>
-
-    %= panel 'The header' => begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">The Header</h3>
-        </div>
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
-B<Body and title, with context>
-
-    %= panel 'Panel 5', success, begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Panel 5</h3>
-        </div>
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
-Here, the C<success> strapping applies C<.panel-success> to the panel.
-
-
+# EXAMPLE: panel-1.mojo:1-4
 
 
 
 =head2 Tables
+
+L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
 
 =head3 Syntax
 
@@ -707,42 +521,7 @@ Optional if the table has a C<$title>, otherwise without use.
 
 =head3 Examples
 
-L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
-
-    <%= table begin %>
-        <tr><td>Table 1</td></tr>
-    <% end %>
-
-    <table class="table">
-        <tr><td>Table 1</td></tr>
-    </table>
-
-A basic table.
-
-    %= table hover, striped, condensed, begin
-        <tr><td>Table 2</td></tr>
-    %  end
-
-    <table class="table table-condensed table-hover table-striped">
-        <tr><td>Table 2</td></tr>
-    </table>
-
-Several classes applied to the table.
-
-    %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
-        <tr><td>Table 4</td></tr>
-    %  end
-
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Heading Table 4</h3>
-        </div>
-        <table class="table table-condensed" id="the-table">
-            <tr><td>Table 4</td></tr>
-        </table>
-    </div>
-
-A C<condensed> table with an C<id> wrapped in a C<success> panel.
+# EXAMPLE: table-1.mojo:1-3
 
 
 
