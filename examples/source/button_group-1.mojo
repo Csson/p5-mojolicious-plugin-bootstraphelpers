@@ -1,9 +1,11 @@
 ==no test==
 --t--
-    <%= button_group 
+    <%= button_group 'Dropdown 1',
         contents => [
-            button => ['Button Group 1', ['#'], medium],
-            button => ['Button Group 1 button 2', dropdown],
+            ['Button Group 1', ['#']],
+            ['Button Group 1 button 2'],
+            divider,
+            ['Item 3', ['http://www.example.com/']],
 
         ]
 

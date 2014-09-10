@@ -20,16 +20,6 @@ A basic badge.
 A right aligned badge with a data attribute.
 
 
-
-
-==test==
---t--
-    %= badge 'Badge 1'
---t--
---e--
-    <span class="badge">Badge 1</span></a>
---e--
-
 ==test==
 --t--
     %= badge 'Badge 2', right
@@ -47,12 +37,4 @@ A right aligned badge with a data attribute.
 --e--
 
 --e--
-
-
-==test==
---t--
-    <%= badge 'Badge 4', data => { custom => 'yes' }, right %>
---t--
---e--
-    <span class="badge pull-right" data-custom="yes">Badge 4</span>
---e--
+A badge with undef value or empty string is not rendered.

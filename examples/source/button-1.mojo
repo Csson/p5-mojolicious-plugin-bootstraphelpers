@@ -31,16 +31,15 @@ With a url the button turns into a link.
 A submit button for use in forms. It overrides the build-in submit_button helper.
 
 
-
-
-
 ==test==
 --t--
-    %= button 'The example 1' => ['http://www.example.com/'], small
+    %= submit_button 'Save 2', primary, disabled
 --t--
 --e--
-    <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
+    <button class="btn btn-primary" disabled="disabled" type="submit">Save 2</button>
 --e--
+
+
 
 ==test==
 --t--
@@ -70,21 +69,12 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 
 ==test==
 --t--
-    %= button 'The example 5' => large, warning
---t--
---e--
-    <button class="btn btn-lg btn-warning">The example 5</button>
---e--
-
-
-==test==
---t--
     %= button [url_for], disabled, begin
        The Example 6
     %  end
 --t--
 --e--
-    <a class="btn btn-default disabled" href="/button_1_9"> The Example 6 </a>
+    <a class="btn btn-default disabled" href="/button_1_8"> The Example 6 </a>
 --e--
 
 
@@ -97,13 +87,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 --e--
 
 
-==test==
---t--
-    %= submit_button 'Save 2', primary, disabled
---t--
---e--
-    <button class="btn btn-primary" disabled="disabled" type="submit">Save 2</button>
---e--
+
 
 
 ==test loop(active block)==
