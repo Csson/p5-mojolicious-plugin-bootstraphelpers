@@ -198,502 +198,511 @@ Mandatory. If it is `undef` no output is produced.
     <span class="badge">3</span></a>
 
 <div>
+    <p>
+    A basic badge.
+
     </p>
-    =end html
-        <%= badge '4', data => { custom => 'yes' }, right %>
-
-        <span class="badge pull-right" data-custom="yes">4</span>
-
-
-    <div>
-            </p>
-            =end html
-
-            ## Buttons
-
-            L<Bootstrap documentation|http://getbootstrap.com/css/#buttons>
-
-            ### Syntax
-
-                %= button $button_text(, [$url]), %has
-
-                %= submit_button $text, %has
-
-
-            B<C<$button_text>>
-
-            Mandatory. The text on the button.
-
-            B<C<[$url]>>
-
-            Optional array reference. It is handed off to L<url_for|Mojolicious::Controller#url_for>, so with it this is
-            basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap classes.
-
-            Not available for C<submit_button>.
-
-            B<Available strappings>
-
-            C<default> C<primary> C<success> C<info> C<warning> C<danger> C<link> applies the various C<.btn-*> classes.
-
-            C<large> C<small> C<xsmall> applies C<.btn-lg> C<.btn-sm> C<.btn-xs> respectively.
-
-            C<active> C<block> applies the C<.active> and C<.block> classes.
-
-            C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt>aE<gt>>. On a C<E<lt>buttonE<gt>> it applies the C<disabled="disabled"> attribute.
-
-            ### Examples
-
-                %= button 'The example 5' => large, warning
-
-                <button class="btn btn-lg btn-warning">The example 5</button>
-
-
-            <div>
-                        </p>
-                        =end html
-                            %= button 'The example 1' => ['http://www.example.com/'], small
-
-                            <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
-
-
-                        <div>
-                                        </p>
-                                        =end html
-                                            %= submit_button 'Save 2', primary
-
-                                            <button class="btn btn-primary" type="submit">Save 2</button>
-
-
-                                        <div>
-                                                            </p>
-                                                            =end html
-
-                                                            ## Dropdowns
-
-                                                            ### Syntax
-
-                                                                <%= dropdown  $button_text,
-                                                                              %has,
-                                                                             (button => [ %button_has ],)
-                                                                              items  => [
-                                                                                  [ $itemtext, [ $url ], %item_has ],
-                                                                                 (divider,)
-                                                                              ]
-
-
-                                                            Nesting is currently not supported.
-
-                                                            B<C<$button_text>>
-
-                                                            Mandatory. The text that appears on the menu opening button.
-
-                                                            B<C<caret>>
-
-                                                            It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
-
-                                                            B<C<items>>
-
-                                                            Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
-
-                                                            >                     B<C<divider>>
-                                                            >
-                                                            >                     Creates a horizontal separator in the menu.
-                                                            >
-                                                            >                     B<C<[ $itemtext, [ $url ], %item_has ]>>
-                                                            >
-                                                            >                     This creates a linked menu item.
-                                                            >
-                                                            >                     >                     B<C<$itemtext>>
-                                                            >                     >
-                                                            >                     >                     Mandatory. The text on the link.
-                                                            >                     >
-                                                            >                     >                     B<C<$url>>
-                                                            >                     >
-                                                            >                     >                     Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
-
-                                                            B<Available strappings>
-
-                                                            C<caret> adds a C<E<lt>span class="caret"E<gt>E<lt>/span<E<gt>> element on the button.
-
-                                                            ### Examples
-
-                                                                <%= dropdown 'Dropdown 1',
-                                                                     button => [id => 'a_custom_id'],
-                                                                     items => [
-                                                                        ['Item 1', ['item1'] ],
-                                                                        ['Item 2', ['item2'] ],
-                                                                        divider,
-                                                                        ['Item 3', ['item3'] ]
-                                                                     ] %>
-
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-                                                                        <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-                                                                        <li class="divider"></li>
-                                                                        <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-                                                                    </ul>
-                                                                </div>
-
-
-                                                            <div>
-                                                                                    </p>
-                                                                                    =end html
-                                                                                        <%= dropdown 'Dropdown 2', caret,
-                                                                                             items => [
-                                                                                                ['Item 1', ['item1'], data => { attr => 2 } ],
-                                                                                                ['Item 2', ['item2'], data => { attr => 4 } ],
-                                                                                                divider,
-                                                                                                ['Item 3', ['item3'], data => { attr => 7 } ],
-                                                                                                divider,
-                                                                                                ['Item 4', ['item4'], tabindex => 4 ],
-                                                                                             ] %>
-
-                                                                                        <div class="dropdown">
-                                                                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span></button>
-                                                                                            <ul class="dropdown-menu">
-                                                                                                <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-                                                                                                <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
-                                                                                                <li class="divider"></li>
-                                                                                                <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
-                                                                                                <li class="divider"></li>
-                                                                                                <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
-                                                                                            </ul>
-                                                                                        </div>
-
-
-                                                                                    <div>
-                                                                                                                ## Form groups
-
-                                                                                                                L<Bootstrap documentation|http://getbootstrap.com/css/#forms>
-
-                                                                                                                ### Syntax
-
-                                                                                                                    <%= formgroup ($labeltext,)
-                                                                                                                                   %formgroup_has,
-                                                                                                                                  (cols => { $size => [ $label_columns, $input_columns ], (...) })
-                                                                                                                                   $fieldtype => [
-                                                                                                                                       $input_name,
-                                                                                                                                      ($input_value,)
-                                                                                                                                       %input_has,
-                                                                                                                                  ]
-
-                                                                                                                    %>
-
-                                                                                                                    # The $labeltext can also be given in the body
-                                                                                                                    %= formgroup <as above>, begin
-                                                                                                                        $labeltext
-                                                                                                                    %  end
-
-
-                                                                                                                B<C<$labeltext>>
-
-                                                                                                                Optional. It is either the first argument, or placed in the body. It creates a C<label> element before the C<input>.
-
-                                                                                                                B<C<cols>>
-
-                                                                                                                Optional. It is only used when the C<form> is a C<.form-horizontal>. You can defined the widths for one or more or all of the sizes. See examples.
-
-                                                                                                                >                             B<C<$size>>
-                                                                                                                >
-                                                                                                                >                             Mandatory. It is one of C<xsmall>, C<small>, C<medium> or C<large>. C<$size> takes a two item array reference.
-                                                                                                                >
-                                                                                                                >                             >                             B<C<$label_columns>>
-                                                                                                                >                             >
-                                                                                                                >                             >                             Mandatory. The number of columns that should be used by the label for that size of screen. Applies C<.col-$size-$label_columns> on the label.
-                                                                                                                >                             >
-                                                                                                                >                             >                             B<C<$input_columns>>
-                                                                                                                >                             >
-                                                                                                                >                             >                             Mandatory. The number of columns that should be used by the input for that size of screen. Applies C<.col-$size-$input_columns> around the input.
-
-                                                                                                                B<C<$fieldtype>>
-
-                                                                                                                Mandatory. Is one of C<text_field>, C<password_field>, C<datetime_field>, C<date_field>, C<month_field>, C<time_field>, C<week_field>,
-                                                                                                                C<number_field>, C<email_field>, C<url_field>, C<search_field>, C<tel_field>, C<color_field>.
-
-                                                                                                                There can be only one C<$fieldtype> per C<formgroup>.
-
-                                                                                                                >                             B<C<$name>>
-                                                                                                                >
-                                                                                                                >                             Mandatory. It sets both the C<id> and C<name> of the input field. If the C<$name> contains dashes then those are translated
-                                                                                                                >                             into underscores when setting the C<name>. If C<id> exists in C<%input_has> then that is used for the C<id> instead.
-                                                                                                                >
-                                                                                                                >                             B<C<$input_value>>
-                                                                                                                >
-                                                                                                                >                             Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don't do both for the same field.)
-
-                                                                                                                ### Examples
-
-                                                                                                                    %= formgroup 'Text test 4', text_field => ['test-text', large]
-
-                                                                                                                    <div class="form-group">
-                                                                                                                        <label class="control-label" for="test-text">Text test 4</label>
-                                                                                                                        <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
-                                                                                                                    </div>
-
-
-                                                                                                                <div>
-                                                                                                                                                </p>
-                                                                                                                                                =end html
-
-                                                                                                                                                ## Icons
-
-                                                                                                                                                This helper needs to be activated separately, see options below.
-
-                                                                                                                                                ### Syntax
-
-                                                                                                                                                    %= icon $icon_name
-
-
-                                                                                                                                                B<C<$icon_name>>
-
-                                                                                                                                                Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
-
-                                                                                                                                                ### Examples
-
-                                                                                                                                                    <%= icon 'copyright-mark' %>
-                                                                                                                                                    %= icon 'sort-by-attributes-alt'
-
-                                                                                                                                                    <span class="glyphicon glyphicon-copyright-mark"></span>
-                                                                                                                                                    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-
-
-
-
-
-                                                                                                                                                ## Panels
-
-                                                                                                                                                L<Bootstrap documentation|http://getbootstrap.com/components/#panels>
-
-                                                                                                                                                ### Syntax
-
-                                                                                                                                                    %= panel ($title, %has, begin
-                                                                                                                                                        $body
-                                                                                                                                                    %  end)
-
-
-                                                                                                                                                B<C<$title>>
-
-                                                                                                                                                Usually mandatory, but can be omitted if there are no other arguments to the C<panel>. Otherwise, if you don't want a title, set it C<undef>.
-
-                                                                                                                                                B<C<$body>>
-
-                                                                                                                                                Optional (but panels are not much use without it). The html inside the C<panel>.
-
-                                                                                                                                                ### Examples
-
-                                                                                                                                                    %= panel
-
-                                                                                                                                                    <div class="panel panel-default">
-                                                                                                                                                        <div class="panel-body">
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
-
-
-                                                                                                                                                <div>
-                                                                                                                                                                                    </p>
-                                                                                                                                                                                    =end html
-                                                                                                                                                                                        %= panel undef ,=> begin
-                                                                                                                                                                                            <p>A short text.</p>
-                                                                                                                                                                                        %  end
-
-                                                                                                                                                                                        <div class="panel panel-default">
-                                                                                                                                                                                            <div class="panel-body">
-                                                                                                                                                                                                <p>A short text.</p>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </div>
-
-
-                                                                                                                                                                                    <div>
-                                                                                                                                                                                                                            </p>
-                                                                                                                                                                                                                            =end html
-                                                                                                                                                                                                                                %= panel 'The Header' => begin
-                                                                                                                                                                                                                                    <p>A short text.</p>
-                                                                                                                                                                                                                                %  end
-
-                                                                                                                                                                                                                                <div class="panel panel-default">
-                                                                                                                                                                                                                                    <div class="panel-heading">
-                                                                                                                                                                                                                                        <h3 class="panel-title">The Header</h3>
-                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                    <div class="panel-body">
-                                                                                                                                                                                                                                        <p>A short text.</p>
-                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                </div>
-
-
-                                                                                                                                                                                                                                %= panel 'Panel 5', success, begin
-                                                                                                                                                                                                                                    <p>A short text.</p>
-                                                                                                                                                                                                                                %  end
-
-                                                                                                                                                                                                                                <div class="panel panel-success">
-                                                                                                                                                                                                                                    <div class="panel-heading">
-                                                                                                                                                                                                                                        <h3 class="panel-title">Panel 5</h3>
-                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                    <div class="panel-body">
-                                                                                                                                                                                                                                        <p>A short text.</p>
-                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                </div>
-
-
-
-
-
-
-                                                                                                                                                                                                                            ## Tables
-
-                                                                                                                                                                                                                            L<Bootstrap documentation|http://getbootstrap.com/css/#tables>
-
-                                                                                                                                                                                                                            ### Syntax
-
-                                                                                                                                                                                                                                %= table ($title,) %table_has, panel => { %panel_has }, begin
-                                                                                                                                                                                                                                       $body
-                                                                                                                                                                                                                                %  end
-
-
-                                                                                                                                                                                                                            B<C<$title>>
-
-                                                                                                                                                                                                                            Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
-
-                                                                                                                                                                                                                            B<C<$body>>
-
-                                                                                                                                                                                                                            Mandatory. C<thead>, C<td> and so on.
-
-                                                                                                                                                                                                                            B<C<panel =E<gt> { %panel_has }>>
-
-                                                                                                                                                                                                                            Optional if the table has a C<$title>, otherwise without use.
-
-                                                                                                                                                                                                                            ### Examples
-
-                                                                                                                                                                                                                            <div>
-                                                                                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                                                                                        =end html
-
-                                                                                                                                                                                                                                                                            <%= table begin %>
-                                                                                                                                                                                                                                                                                <tr><td>Table 1</td></tr>
-                                                                                                                                                                                                                                                                            <% end %>
-
-                                                                                                                                                                                                                                                                            <table class="table">
-                                                                                                                                                                                                                                                                                <tr><td>Table 1</td></tr>
-                                                                                                                                                                                                                                                                            </table>
-
-
-                                                                                                                                                                                                                                                                        <div>
-                                                                                                                                                                                                                                                                                                                        </p>
-                                                                                                                                                                                                                                                                                                                        =end html
-                                                                                                                                                                                                                                                                                                                            %= table hover, striped, condensed, begin
-                                                                                                                                                                                                                                                                                                                                <tr><td>Table 2</td></tr>
-                                                                                                                                                                                                                                                                                                                            %  end
-
-                                                                                                                                                                                                                                                                                                                            <table class="table table-condensed table-hover table-striped">
-                                                                                                                                                                                                                                                                                                                                <tr><td>Table 2</td></tr>
-                                                                                                                                                                                                                                                                                                                            </table>
-
-
-                                                                                                                                                                                                                                                                                                                        <div>
-                                                                                                                                                                                                                                                                                                                                                                            </p>
-                                                                                                                                                                                                                                                                                                                                                                            =end html
-                                                                                                                                                                                                                                                                                                                                                                                %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
-                                                                                                                                                                                                                                                                                                                                                                                    <tr><td>Table 4</td></tr>
-                                                                                                                                                                                                                                                                                                                                                                                %  end
-
-                                                                                                                                                                                                                                                                                                                                                                                <div class="panel panel-success">
-                                                                                                                                                                                                                                                                                                                                                                                    <div class="panel-heading">
-                                                                                                                                                                                                                                                                                                                                                                                        <h3 class="panel-title">Heading Table 4</h3>
-                                                                                                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                                                                                                    <table class="table table-condensed" id="the-table">
-                                                                                                                                                                                                                                                                                                                                                                                        <tr><td>Table 4</td></tr>
-                                                                                                                                                                                                                                                                                                                                                                                    </table>
-                                                                                                                                                                                                                                                                                                                                                                                </div>
-
-
-                                                                                                                                                                                                                                                                                                                                                                            <div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    </p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    =end html
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    # OPTIONS
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Some options are available:
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                        $app->plugin('BootstrapHelpers', {
-                                                                                                                                                                                                                                                                                                                                                                                                                                            tag_prefix => 'bs',
-                                                                                                                                                                                                                                                                                                                                                                                                                                            short_strappings_prefix => 'set',
-                                                                                                                                                                                                                                                                                                                                                                                                                                            init_short_strappings => 1,
-                                                                                                                                                                                                                                                                                                                                                                                                                                            icons => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                class => 'glyphicon'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                formatter => 'glyphicon-%s',
-                                                                                                                                                                                                                                                                                                                                                                                                                                            },
-                                                                                                                                                                                                                                                                                                                                                                                                                                        });
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    ## tag_prefix
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Default: C<undef>
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases;
-                                                                                                                                                                                                                                                                                                                                                                                                                                    by setting a prefix the original names are no longer available. The following rules are used:
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    - If the option is missing, or is `undef`, there is no prefix.
-                                                                                                                                                                                                                                                                                                                                                                                                                                    - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
-                                                                                                                                                                                                                                                                                                                                                                                                                                    - If the option is set to any other string, the prefix is that string. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bspanel`.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    ## short_strappings_prefix
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Default: C<undef>
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    This is similar to C<tag_prefix>, but is instead applied to the short form strappings. The same rules applies.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    ## init_short_strappings
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Default: C<1>
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    If you don't want the short form of strappings setup at all, set this option to a defined but false value.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    All functionality is available, but instead of C<warning> you must now use C<<__warning => 1>>.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    With short form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not used.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    ## icons
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Default: not set
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    By setting these keys you activate the C<icon> helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >                                                         B<C<class>>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >                                                         This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >                                                         B<C<formatter>>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                                                                                                                                                                                    >                                                         This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<icon> helper.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    # AUTHOR
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Erik Carlsson E<lt>csson@cpan.orgE<gt>
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    # COPYRIGHT
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Copyright 2014- Erik Carlsson
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    # LICENSE
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                    This library is free software; you can redistribute it and/or modify
-                                                                                                                                                                                                                                                                                                                                                                                                                                    it under the same terms as Perl itself.
-                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                </div>
-                                                                                    </div>
-                                                            </div>
-                                        </div>
-                        </div>
-            </div>
-    </div>
 </div>
+
+    <%= badge '4', data => { custom => 'yes' }, right %>
+
+    <span class="badge pull-right" data-custom="yes">4</span>
+
+<div>
+    <p>
+    A right aligned badge with a data attribute.
+
+    </p>
+</div>
+
+## Buttons
+
+[Bootstrap documentation](http://getbootstrap.com/css/#buttons)
+
+### Syntax
+
+    %= button $button_text(, [$url]), %has
+
+    %= submit_button $text, %has
+
+**`$button_text`**
+
+Mandatory. The text on the button.
+
+**`[$url]`**
+
+Optional array reference. It is handed off to [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for), so with it this is
+basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#link_to) with Bootstrap classes.
+
+Not available for `submit_button`.
+
+**Available strappings**
+
+`default` `primary` `success` `info` `warning` `danger` `link` applies the various `.btn-*` classes.
+
+`large` `small` `xsmall` applies `.btn-lg` `.btn-sm` `.btn-xs` respectively.
+
+`active` `block` applies the `.active` and `.block` classes.
+
+`disabled` applies the `.disabled` class if the generated element is an `<a>`. On a `<button>` it applies the `disabled="disabled"` attribute.
+
+### Examples
+
+    %= button 'The example 5' => large, warning
+
+    <button class="btn btn-lg btn-warning">The example 5</button>
+
+<div>
+    <p>
+    An ordinary button, with applied strappings.
+
+    </p>
+</div>
+
+    %= button 'The example 1' => ['http://www.example.com/'], small
+
+    <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
+
+<div>
+    <p>
+    With a url the button turns into a link.
+
+    </p>
+</div>
+
+    %= submit_button 'Save 2', primary
+
+    <button class="btn btn-primary" type="submit">Save 2</button>
+
+<div>
+    <p>
+    A submit button for use in forms. It overrides the build-in submit_button helper.
+
+    </p>
+</div>
+
+## Dropdowns
+
+### Syntax
+
+    <%= dropdown  $button_text,
+                  %has,
+                 (button => [ %button_has ],)
+                  items  => [
+                      [ $itemtext, [ $url ], %item_has ],
+                     (divider,)
+                  ]
+
+Nesting is currently not supported.
+
+**`$button_text`**
+
+Mandatory. The text that appears on the menu opening button.
+
+**`caret`**
+
+It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+
+**`items`**
+
+Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+
+> **`divider`**
+>
+> Creates a horizontal separator in the menu.
+>
+> **`[ $itemtext, [ $url ], %item_has ]`**
+>
+> This creates a linked menu item.
+>
+> > **`$itemtext`**
+> >
+> > Mandatory. The text on the link.
+> >
+> > **`$url`**
+> >
+> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+
+**Available strappings**
+
+`caret` adds a `<span class="caret"></span<>` element on the button.
+
+### Examples
+
+    <%= dropdown 'Dropdown 1',
+         button => [id => 'a_custom_id'],
+         items => [
+            ['Item 1', ['item1'] ],
+            ['Item 2', ['item2'] ],
+            divider,
+            ['Item 3', ['item3'] ]
+         ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+        </ul>
+    </div>
+
+<div>
+    <p>
+    By default, C<tabindex> is set to C<-1>...
+
+    </p>
+</div>
+
+    <%= dropdown 'Dropdown 2', caret,
+         items => [
+            ['Item 1', ['item1'], data => { attr => 2 } ],
+            ['Item 2', ['item2'], data => { attr => 4 } ],
+            divider,
+            ['Item 3', ['item3'], data => { attr => 7 } ],
+            divider,
+            ['Item 4', ['item4'], tabindex => 4 ],
+         ] %>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
+            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
+            <li class="divider"></li>
+            <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+        </ul>
+    </div>
+
+<div>
+    <p>
+    ...but it can be overridden.
+    </p>
+</div>
+
+## Form groups
+
+[Bootstrap documentation](http://getbootstrap.com/css/#forms)
+
+### Syntax
+
+    <%= formgroup ($labeltext,)
+                   %formgroup_has,
+                  (cols => { $size => [ $label_columns, $input_columns ], (...) })
+                   $fieldtype => [
+                       $input_name,
+                      ($input_value,)
+                       %input_has,
+                  ]
+
+    %>
+
+    # The $labeltext can also be given in the body
+    %= formgroup <as above>, begin
+        $labeltext
+    %  end
+
+**`$labeltext`**
+
+Optional. It is either the first argument, or placed in the body. It creates a `label` element before the `input`.
+
+**`cols`**
+
+Optional. It is only used when the `form` is a `.form-horizontal`. You can defined the widths for one or more or all of the sizes. See examples.
+
+> **`$size`**
+>
+> Mandatory. It is one of `xsmall`, `small`, `medium` or `large`. `$size` takes a two item array reference.
+>
+> > **`$label_columns`**
+> >
+> > Mandatory. The number of columns that should be used by the label for that size of screen. Applies `.col-$size-$label_columns` on the label.
+> >
+> > **`$input_columns`**
+> >
+> > Mandatory. The number of columns that should be used by the input for that size of screen. Applies `.col-$size-$input_columns` around the input.
+
+**`$fieldtype`**
+
+Mandatory. Is one of `text_field`, `password_field`, `datetime_field`, `date_field`, `month_field`, `time_field`, `week_field`,
+`number_field`, `email_field`, `url_field`, `search_field`, `tel_field`, `color_field`.
+
+There can be only one `$fieldtype` per `formgroup`.
+
+> **`$name`**
+>
+> Mandatory. It sets both the `id` and `name` of the input field. If the `$name` contains dashes then those are translated
+> into underscores when setting the `name`. If `id` exists in `%input_has` then that is used for the `id` instead.
+>
+> **`$input_value`**
+>
+> Optional. If you prefer you can set `value` in `%input_has` instead. (But don't do both for the same field.)
+
+### Examples
+
+    %= formgroup 'Text test 4', text_field => ['test-text', large]
+
+    <div class="form-group">
+        <label class="control-label" for="test-text">Text test 4</label>
+        <input class="form-control input-lg" id="test-text" name="test_text" type="text" />
+    </div>
+
+<div>
+    <p>
+    ...if the input name (the first item in the text_field array ref) contains dashes -- those are replaced (in the <code>name</code>) to underscores.
+
+    </p>
+</div>
+
+## Icons
+
+This helper needs to be activated separately, see options below.
+
+### Syntax
+
+    %= icon $icon_name
+
+**`$icon_name`**
+
+Mandatory. The specific icon you wish to create. Possible values depends on your icon pack.
+
+### Examples
+
+    <%= icon 'copyright-mark' %>
+    %= icon 'sort-by-attributes-alt'
+
+    <span class="glyphicon glyphicon-copyright-mark"></span>
+    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+
+## Panels
+
+[Bootstrap documentation](http://getbootstrap.com/components/#panels)
+
+### Syntax
+
+    %= panel ($title, %has, begin
+        $body
+    %  end)
+
+**`$title`**
+
+Usually mandatory, but can be omitted if there are no other arguments to the `panel`. Otherwise, if you don't want a title, set it `undef`.
+
+**`$body`**
+
+Optional (but panels are not much use without it). The html inside the `panel`.
+
+### Examples
+
+    %= panel
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+        </div>
+    </div>
+
+<div>
+    <p>
+    The class is set to C<panel-default>, by default.
+
+    </p>
+</div>
+
+    %= panel undef ,=> begin
+        <p>A short text.</p>
+    %  end
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+<div>
+    <p>
+    If you want a panel without title, set the title to C<undef>.
+
+    </p>
+</div>
+
+    %= panel 'The Header' => begin
+        <p>A short text.</p>
+    %  end
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">The Header</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+
+    %= panel 'Panel 5', success, begin
+        <p>A short text.</p>
+    %  end
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel 5</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+
+## Tables
+
+[Bootstrap documentation](http://getbootstrap.com/css/#tables)
+
+### Syntax
+
+    %= table ($title,) %table_has, panel => { %panel_has }, begin
+           $body
+    %  end
+
+**`$title`**
+
+Optional. If set the table will be wrapped in a panel, and the table replaces the body in the panel.
+
+**`$body`**
+
+Mandatory. `thead`, `td` and so on.
+
+**`panel => { %panel_has }`**
+
+Optional if the table has a `$title`, otherwise without use.
+
+### Examples
+
+<div>
+    <p>
+
+    </p>
+</div>
+
+    <%= table begin %>
+        <tr><td>Table 1</td></tr>
+    <% end %>
+
+    <table class="table">
+        <tr><td>Table 1</td></tr>
+    </table>
+
+<div>
+    <p>
+    A basic table.
+
+    </p>
+</div>
+
+    %= table hover, striped, condensed, begin
+        <tr><td>Table 2</td></tr>
+    %  end
+
+    <table class="table table-condensed table-hover table-striped">
+        <tr><td>Table 2</td></tr>
+    </table>
+
+<div>
+    <p>
+    Several classes applied to the table.
+
+    </p>
+</div>
+
+    %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
+        <tr><td>Table 4</td></tr>
+    %  end
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Heading Table 4</h3>
+        </div>
+        <table class="table table-condensed" id="the-table">
+            <tr><td>Table 4</td></tr>
+        </table>
+    </div>
+
+<div>
+    <p>
+    A C<condensed> table with an C<id> wrapped in a C<success> panel.
+
+    </p>
+</div>
+
+# OPTIONS
+
+Some options are available:
+
+    $app->plugin('BootstrapHelpers', {
+        tag_prefix => 'bs',
+        short_strappings_prefix => 'set',
+        init_short_strappings => 1,
+        icons => {
+            class => 'glyphicon'
+            formatter => 'glyphicon-%s',
+        },
+    });
+
+## tag\_prefix
+
+Default: `undef`
+
+If you want to you change the name of the tag helpers, by applying a prefix. These are not aliases;
+by setting a prefix the original names are no longer available. The following rules are used:
+
+- If the option is missing, or is `undef`, there is no prefix.
+- If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
+- If the option is set to any other string, the prefix is that string. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bspanel`.
+
+## short\_strappings\_prefix
+
+Default: `undef`
+
+This is similar to `tag_prefix`, but is instead applied to the short form strappings. The same rules applies.
+
+## init\_short\_strappings
+
+Default: `1`
+
+If you don't want the short form of strappings setup at all, set this option to a defined but false value.
+
+All functionality is available, but instead of `warning` you must now use `<__warning =` 1>>.
+
+With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
+
+## icons
+
+Default: not set
+
+By setting these keys you activate the `icon` helper. You can pick any icon pack that sets one main class and one subclass to create an icon.
+
+> **`class`**
+>
+> This is the main icon class. If you use the glyphicon pack, this should be set to 'glyphicon'.
+>
+> **`formatter`**
+>
+> This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `icon` helper.
+
+# AUTHOR
+
+Erik Carlsson <csson@cpan.org>
+
+# COPYRIGHT
+
+Copyright 2014- Erik Carlsson
+
+Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
+
+[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
+
+# LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
