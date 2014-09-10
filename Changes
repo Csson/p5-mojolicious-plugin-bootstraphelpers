@@ -6,10 +6,16 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
+ - Moved all examples to source files, meaning all examples are
+   passed through tests to ensure that they are correct.
+ - It also means that all tag helper tests are output as html
+   files in the examples/ directory
 
  [Enhancements]
 
  [Meta]
+ - Remove DZP::CopyFromRelease
+ - Add missing build dependencies
 
  [New Features]
 

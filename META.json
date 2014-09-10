@@ -26,7 +26,10 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Dist::Zilla::Plugin::Test::CreateFromMojoTemplates" : "0.04"
+            "Dist::Zilla::Plugin::InsertExample::FromMojoTemplates" : "v0.1.1",
+            "Dist::Zilla::Plugin::Test::CreateFromMojoTemplates" : "0.04",
+            "Test::EOL" : "1.5",
+            "Test::Pod" : "1.45"
          }
       },
       "configure" : {
