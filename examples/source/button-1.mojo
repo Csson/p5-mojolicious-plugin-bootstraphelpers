@@ -14,7 +14,7 @@ An ordinary button, with applied strappings.
     %= button 'The example 1' => ['http://www.example.com/'], small
 --t--
 --e--
-    <a class="btn btn-sm" href="http://www.example.com/">The example 1</a>
+    <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
 --e--
 
 With a url the button turns into a link.
@@ -22,7 +22,7 @@ With a url the button turns into a link.
 
 ==test==
 --t--
-    %= submit_button 'Save', __primary
+    %= submit_button 'Save 2', primary
 --t--
 --e--
     <button class="btn btn-primary" type="submit">Save 2</button>
@@ -47,7 +47,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
     %= button 'The example 2' => [url_for]
 --t--
 --e--
-    <a class="btn btn-default" href="/button_1_2">The example 2</a>
+    <a class="btn btn-default" href="/button_1_5">The example 2</a>
 --e--
 
 ==test==
@@ -84,7 +84,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
     %  end
 --t--
 --e--
-    <a class="btn btn-default disabled" href="/button_1_6"> The Example 6 </a>
+    <a class="btn btn-default disabled" href="/button_1_9"> The Example 6 </a>
 --e--
 
 
