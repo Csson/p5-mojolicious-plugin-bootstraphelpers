@@ -506,7 +506,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 <div>
     <p>
-    The class is set to C<panel-default>, by default.
+    The class is set to <code>.panel-default</code>, by default.
 
     </p>
 </div>
@@ -523,7 +523,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 <div>
     <p>
-    If you want a panel without title, set the title to C<undef>.
+    If you want a panel without title, set the title to <code>undef</code>.
 
     </p>
 </div>
@@ -630,7 +630,7 @@ Optional if the table has a `$title`, otherwise without use.
 
 <div>
     <p>
-    A C<condensed> table with an C<id> wrapped in a C<success> panel.
+    A <code>condensed</code> table with an <code>id</code> wrapped in a <code>success</code> panel.
 
     </p>
 </div>

@@ -8,7 +8,7 @@
         </div>
     </div>
 --e--
-The class is set to C<panel-default>, by default.
+The class is set to <code>.panel-default</code>, by default.
 
 
 ==test==
@@ -24,7 +24,7 @@ The class is set to C<panel-default>, by default.
         </div>
     </div>
 --e--
-If you want a panel without title, set the title to C<undef>.
+If you want a panel without title, set the title to <code>undef</code>.
 
 
 ==test==
