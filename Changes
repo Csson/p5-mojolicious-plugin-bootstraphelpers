@@ -15,6 +15,13 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
  [Revision]
 
+0.015.001 2014-09-12T18:46:54Z CEST
+ [API Changes]
+ - Remove divier from dropdown definition. Replaced by empty array ref.
+
+ [New Features]
+ - Use a string in a dropdown to create a dropdown header.
+
 0.015.000 2014-09-11T12:54:51Z CEST
  [Documentation]
  - Moved all examples to source files, meaning all examples are passed
