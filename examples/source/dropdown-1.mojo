@@ -1,11 +1,11 @@
-==test==
+==test example==
 --t--
     <%= dropdown 'Dropdown 1',
          button => [id => 'a_custom_id'],
          items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
-            divider,
+            [],
             ['Item 3', ['item3'] ]
          ] %>
 --t--
@@ -21,19 +21,21 @@
     </div>
 --e--
 
-By default, C<tabindex> is set to C<-1>...
+By default, <code>tabindex</code> is set to <code>-1</code>...
 
 
-==test==
+==test example==
 --t--
     <%= dropdown 'Dropdown 2', caret,
          items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
             ['Item 2', ['item2'], data => { attr => 4 } ],
-            divider,
+            [],
             ['Item 3', ['item3'], data => { attr => 7 } ],
-            divider,
+            [],
             ['Item 4', ['item4'], tabindex => 4 ],
+            'This is a header',
+            ['Item 5', ['item5']],
          ] %>
 --t--
 --e--
@@ -46,6 +48,8 @@ By default, C<tabindex> is set to C<-1>...
             <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
             <li class="divider"></li>
             <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+            <li class="dropdown-header">This is a header</li>
+            <li><a class="menuitem" href="item5" tabindex="-1">Item 5</a></li>
         </ul>
     </div>
 --e--
