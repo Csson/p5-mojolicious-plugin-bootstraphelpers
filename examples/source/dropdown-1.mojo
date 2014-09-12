@@ -35,7 +35,7 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
             [],
             ['Item 4', ['item4'], tabindex => 4 ],
             'This is a header',
-            ['Item 5', ['item5']],
+            ['Item 5', ['item5'] ],
          ] %>
 --t--
 --e--
