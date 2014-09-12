@@ -104,7 +104,7 @@ They are shortened to the Bootstrap type classes.
 The following strappings are available:
 
     xsmall    default     striped       caret     right
-    small     primary     bordered      divider
+    small     primary     bordered
     medium    success     hover
     large     info        condensed
               warning     responsive
@@ -290,7 +290,8 @@ Not available for `submit_button`.
                  (button => [ %button_has ],)
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
-                     (divider,)
+                     ($headertext,)
+                     ([],)
                   ]
 
 Nesting is currently not supported.
@@ -307,10 +308,6 @@ It is a strapping. If it is used a caret (downward facing arrow) will be placed 
 
 Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
 
-> **`divider`**
->
-> Creates a horizontal separator in the menu.
->
 > **`[ $itemtext, [ $url ], %item_has ]`**
 >
 > This creates a linked menu item.
@@ -322,6 +319,14 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 > > **`$url`**
 > >
 > > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+>
+> **`$headertext`**
+>
+> A string creates a dropdown header.
+>
+> **`[]`**
+>
+> An empty array reference creates a divider.
 
 **Available strappings**
 
@@ -334,7 +339,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
          items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
-            divider,
+            [],
             ['Item 3', ['item3'] ]
          ] %>
 
@@ -350,7 +355,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 
 <div>
     <p>
-    By default, C<tabindex> is set to C<-1>...
+    By default, <code>tabindex</code> is set to <code>-1</code>...
 
     </p>
 </div>
@@ -359,10 +364,12 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
          items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
             ['Item 2', ['item2'], data => { attr => 4 } ],
-            divider,
+            [],
             ['Item 3', ['item3'], data => { attr => 7 } ],
-            divider,
+            [],
             ['Item 4', ['item4'], tabindex => 4 ],
+            'This is a header',
+            ['Item 5', ['item5']],
          ] %>
 
     <div class="dropdown">
@@ -374,6 +381,8 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
             <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
             <li class="divider"></li>
             <li><a class="menuitem" href="item4" tabindex="4">Item 4</a></li>
+            <li class="dropdown-header">This is a header</li>
+            <li><a class="menuitem" href="item5" tabindex="-1">Item 5</a></li>
         </ul>
     </div>
 
