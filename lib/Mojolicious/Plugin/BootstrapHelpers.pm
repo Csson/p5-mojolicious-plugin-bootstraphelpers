@@ -43,7 +43,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
             my @direction = qw/right block/;
-            my @menu = qw/caret divider/;
+            my @menu = qw/caret/;
             my @misc = qw/disabled/;
 
             foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
@@ -174,7 +174,7 @@ They are shortened to the Bootstrap type classes.
 The following strappings are available:
 
    xsmall    default     striped       caret     right
-   small     primary     bordered      divider
+   small     primary     bordered
    medium    success     hover
    large     info        condensed
              warning     responsive
@@ -326,7 +326,8 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
                  (button => [ %button_has ],)
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
-                     (divider,)
+                     ($headertext,)
+                     ([],)
                   ]
 
 Nesting is currently not supported.
@@ -345,10 +346,6 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 
 =over 4
 
-B<C<divider>>
-
-Creates a horizontal separator in the menu.
-
 B<C<[ $itemtext, [ $url ], %item_has ]>>
 
 This creates a linked menu item.
@@ -365,6 +362,14 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 =back
 
+B<C<$headertext>>
+
+A string creates a dropdown header.
+
+B<C<[]>>
+
+An empty array reference creates a divider.
+
 =back
 
 
@@ -375,7 +380,7 @@ C<caret> adds a C<E<lt>span class="caret"E<gt>E<lt>/span<E<gt>> element on the b
 
 =head3 Examples
 
-# EXAMPLE: dropdown-1.mojo:1-2
+# EXAMPLE: dropdown-1.mojo:examples
 
 
 =head2 Form groups
