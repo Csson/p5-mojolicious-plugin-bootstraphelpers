@@ -369,7 +369,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
             [],
             ['Item 4', ['item4'], tabindex => 4 ],
             'This is a header',
-            ['Item 5', ['item5']],
+            ['Item 5', ['item5'] ],
          ] %>
 
     <div class="dropdown">
