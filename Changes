@@ -15,6 +15,15 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
  [Revision]
 
+0.016.000 2014-09-13T15:59:45Z CEST
+ [API Changes]
+ - Improved the dropdown syntax. Now the arguments for the button goes in
+   the 'button' array ref.
+
+ [Enhancements]
+ - Fixed spacing around caret.
+ - Added disabled strapping to dropdown item.
+
 0.015.001 2014-09-12T18:46:54Z CEST
  [API Changes]
  - Remove divier from dropdown definition. Replaced by empty array ref.
