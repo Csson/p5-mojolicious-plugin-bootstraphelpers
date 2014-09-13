@@ -285,9 +285,8 @@ Not available for `submit_button`.
 
 ### Syntax
 
-    <%= dropdown  $button_text,
-                  %has,
-                 (button => [ %button_has ],)
+    <%= dropdown  %has,
+                  button => [ $button_text, %button_has ],
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      ($headertext,)
@@ -296,13 +295,9 @@ Not available for `submit_button`.
 
 Nesting is currently not supported.
 
-**`$button_text`**
+**`button => []`**
 
-Mandatory. The text that appears on the menu opening button.
-
-**`caret`**
-
-It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+Mandatory array reference. Takes the same arguments as an ordinary [button](#buttons), with two exceptions: It can't take a url, and it can take the `caret` strapping.
 
 **`items`**
 
@@ -334,8 +329,9 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 
 ### Examples
 
-    <%= dropdown 'Dropdown 1',
-         button => [id => 'a_custom_id'],
+    <%= dropdown
+         button => ['Dropdown 1', id => 'a_custom_id'],
+         right,
          items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
@@ -345,7 +341,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
             <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
             <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
             <li class="divider"></li>
@@ -360,10 +356,11 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
     </p>
 </div>
 
-    <%= dropdown 'Dropdown 2', caret,
+    <%= dropdown
+         button => ['Dropdown 2', caret, large, primary],
          items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
-            ['Item 2', ['item2'], data => { attr => 4 } ],
+            ['Item 2', ['item2'], disabled, data => { attr => 4 } ],
             [],
             ['Item 3', ['item3'], data => { attr => 7 } ],
             [],
@@ -373,10 +370,10 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
          ] %>
 
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span></button>
+        <button class="btn btn-lg btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2 <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+            <li class="disabled"><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
             <li class="divider"></li>
             <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
             <li class="divider"></li>

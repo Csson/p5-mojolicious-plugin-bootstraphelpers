@@ -1,7 +1,8 @@
 ==test example==
 --t--
-    <%= dropdown 'Dropdown 1',
-         button => [id => 'a_custom_id'],
+    <%= dropdown
+         button => ['Dropdown 1', id => 'a_custom_id'],
+         right,
          items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
@@ -12,7 +13,7 @@
 --e--
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
             <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
             <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
             <li class="divider"></li>
@@ -26,10 +27,11 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
 
 ==test example==
 --t--
-    <%= dropdown 'Dropdown 2', caret,
+    <%= dropdown
+         button => ['Dropdown 2', caret, large, primary],
          items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
-            ['Item 2', ['item2'], data => { attr => 4 } ],
+            ['Item 2', ['item2'], disabled, data => { attr => 4 } ],
             [],
             ['Item 3', ['item3'], data => { attr => 7 } ],
             [],
@@ -40,10 +42,10 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
 --t--
 --e--
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2<span class="caret"></span></button>
+        <button class="btn btn-lg btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2 <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li><a class="menuitem" href="item1" tabindex="-1" data-attr="2">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
+            <li class="disabled"><a class="menuitem" href="item2" tabindex="-1" data-attr="4">Item 2</a></li>
             <li class="divider"></li>
             <li><a class="menuitem" href="item3" tabindex="-1" data-attr="7">Item 3</a></li>
             <li class="divider"></li>

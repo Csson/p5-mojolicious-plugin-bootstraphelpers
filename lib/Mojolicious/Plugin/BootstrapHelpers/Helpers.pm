@@ -132,7 +132,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
         my $attr = parse_attributes(@_);
 
-        my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? q{<span class="caret"></span>} : '';
+        my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? q{ <span class="caret"></span>} : '';
 
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
         $attr = add_classes($attr, 'active') if $attr->{'__active'};
@@ -161,20 +161,27 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub bootstrap_dropdown {
         my $c = shift;
-        my $button_text = iscoderef($_[-1]) ? pop : shift;
+
         my $attr = parse_attributes(@_);
         my $button_info = delete $attr->{'button'};
-        my $button_attr = ref $button_info eq 'ARRAY' ? { $button_info->@* } : {};
+
+        my $button_text = shift $button_info->@*;
+        my $button_attr =  { $button_info->@* };
+
         my $items_info = delete $attr->{'items'};
 
-        $button_attr = add_classes($button_attr, 'dropdown-toggle');
-        $button_attr->{'data'}{'toggle'} = 'dropdown';
-        $button_attr->{'type'} = 'button';
-        #$button_attr->{'id'} ||= String::Random->new->randregex('[a-z]\w{19}'); # when aria
+        my $ulattr = { __right => exists $attr->{'__right'} ? delete $attr->{'__right'} : 0 };
+        $ulattr = add_classes($ulattr, 'dropdown-menu');
+        $ulattr = add_classes($ulattr, 'dropdown-menu-right') if $ulattr->{'__right'};
+        my $ulhtml = htmlify_attrs($ulattr);
 
-        my $button = bootstrap_button($c, $button_text, $button_attr->%*, __caret => $attr->{'__caret'});
+        $button_attr = add_classes($button_attr, 'dropdown-toggle');
+        $button_attr->{'data-toggle'} = 'dropdown';
+        $button_attr->{'type'} = 'button';
+        my $button = bootstrap_button($c, $button_text, $button_attr->%*);
 
         my $menuitems = '';
+
         ITEM:
         foreach my $item ($items_info->@*) {
             if(ref $item eq '') {
@@ -193,7 +200,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $dropdown = qq{
             <div class="dropdown">
                 $button
-                <ul class="dropdown-menu">
+                <ul$ulhtml>
                     $menuitems
                 </ul>
             </div>
@@ -210,23 +217,18 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         my $attr = parse_attributes(@_);
         $attr = add_classes($attr, 'menuitem');
+        my $liattr = { __disabled => exists $attr->{'__disabled'} ? delete $attr->{'__disabled'} : 0 };
+        $liattr = add_disabled($liattr, 1);
         $attr->{'tabindex'} ||= -1;
         $attr->{'href'} = $c->url_for(@url)->to_string;
 
         my $html = htmlify_attrs($attr);
+        my $lihtml = htmlify_attrs($liattr);
 
-        my $tag = qq{<li><a$html>$item_text</a></li>};
+        my $tag = qq{<li$lihtml><a$html>$item_text</a></li>};
 
         return out($tag);
     }
-
-    # %= dropdown 'Dropdown', button => [key => 'value'],
-    #                         items => [
-    #                             item => ['Action', ['url'], %has],
-    #                             divider,
-    #                             item => []
-    #                         ],
-    #                         caret
 
     sub bootstrap_badge {
         my $c = shift;

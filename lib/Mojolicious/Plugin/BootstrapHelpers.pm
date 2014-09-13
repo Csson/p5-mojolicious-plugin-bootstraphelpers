@@ -321,9 +321,8 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 
 =head3 Syntax
 
-    <%= dropdown  $button_text,
-                  %has,
-                 (button => [ %button_has ],)
+    <%= dropdown  %has,
+                  button => [ $button_text, %button_has ],
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      ($headertext,)
@@ -332,13 +331,9 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 
 Nesting is currently not supported.
 
-B<C<$button_text>>
+B<C<button =E<gt> []>>
 
-Mandatory. The text that appears on the menu opening button.
-
-B<C<caret>>
-
-It is a strapping. If it is used a caret (downward facing arrow) will be placed on the button.
+Mandatory array reference. Takes the same arguments as an ordinary L<button|/"Buttons">, with two exceptions: It can't take a url, and it can take the C<caret> strapping.
 
 B<C<items>>
 
