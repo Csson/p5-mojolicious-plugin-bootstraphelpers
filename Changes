@@ -10,12 +10,17 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Enhancements]
 
  [Meta]
+
+ [New Features]
+
+ [Revision]
+
+0.0161 2014-09-14T21:23:07Z CEST
+ [Meta]
  - Shorter version numbers
 
  [New Features]
  - Undocumented preliminary support for button groups.
-
- [Revision]
 
 0.0160 2014-09-13T15:59:45Z CEST
  [API Changes]
