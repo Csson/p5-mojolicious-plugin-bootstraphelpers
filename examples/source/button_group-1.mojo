@@ -1,29 +1,22 @@
-==no test==
+==test example==
 --t--
-    <%= button_group 'Dropdown 1',
-        contents => [
-            ['Button Group 1', ['#']],
-            ['Button Group 1 button 2'],
-            divider,
-            ['Item 3', ['http://www.example.com/']],
-
+    <%= buttongroup
+        buttons => [
+            ['Button 1'],
+            ['Button 2'],
+            ['Button 3'],
         ]
-
     %>
 --t--
 --e--
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
+    <div class="btn-group">
+        <button class="btn btn-default" type="button">Button 1</button>
+        <button class="btn btn-default" type="button">Button 2</button>
+        <button class="btn btn-default" type="button">Button 3</button>
     </div>
 --e--
 
-==no test==
+==test==
 --t--
 
 --t--
