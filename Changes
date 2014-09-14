@@ -10,12 +10,14 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Enhancements]
 
  [Meta]
+ - Shorter version numbers
 
  [New Features]
+ - Undocumented preliminary support for button groups.
 
  [Revision]
 
-0.016.000 2014-09-13T15:59:45Z CEST
+0.0160 2014-09-13T15:59:45Z CEST
  [API Changes]
  - Improved the dropdown syntax. Now the arguments for the button goes in
    the 'button' array ref.
