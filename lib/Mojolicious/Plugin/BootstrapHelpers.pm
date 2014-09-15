@@ -82,14 +82,13 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     plugin 'BootstrapHelpers';
 
     # Meanwhile, somewhere in a template...
-    %= formgroup 'Email' => text_field => ['email-address', cols => { medium => [3, 9] } ], large
+    %= formgroup 'Email', text_field => ['email'], large, cols => { small => [3, 9] }
 
     # ...that renders into
     <div class="form-group form-group-lg">
-        <label class="control-label" for="email-address">Email</label>
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input class="form-control" id="email-address" name="email_address" type="text" />
+        <label class="control-label col-sm-3" for="email">Email</label>
+        <div class="col-sm-9">
+            <input class="form-control" id="email" name="email" type="text">
         </div>
     </div>
 
