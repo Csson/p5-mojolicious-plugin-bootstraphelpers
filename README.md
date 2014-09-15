@@ -294,7 +294,7 @@ Not available for `submit_button`.
                                 [ $itemtext, [ $url ], %item_has ],
                                ($headertext,)
                                ([],)
-                          ]
+                            ]
                         }
                     ]
     %>
@@ -310,6 +310,8 @@ Mandatory array reference. Takes a list of child elements of two different types
 > **`{ ... }`**
 >
 > Hash references are nested [dropdowns](#dropdowns). Read more there.
+
+### Examples
 
     <%= buttongroup
         buttons => [
@@ -337,10 +339,10 @@ Mandatory array reference. Takes a list of child elements of two different types
             ['Button 1'],
             { button => ['Dropdown 1', caret],
               items => [
-                ['Item 1', ['item1'] ],
-                ['Item 2', ['item2'] ],
-                [],
-                ['Item 3', ['item3'] ],
+                  ['Item 1', ['item1'] ],
+                  ['Item 2', ['item2'] ],
+                  [],
+                  ['Item 3', ['item3'] ],
               ],
             },
             ['Button 2'],

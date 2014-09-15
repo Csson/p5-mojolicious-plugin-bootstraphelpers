@@ -332,7 +332,7 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
                                 [ $itemtext, [ $url ], %item_has ],
                                ($headertext,)
                                ([],)
-                          ]
+                            ]
                         }
                     ]
     %>
@@ -352,6 +352,8 @@ B<C<{ ... }>>
 Hash references are nested L<dropdowns|/"Dropdowns">. Read more there.
 
 =back
+
+=head3 Examples
 
 # EXAMPLE: button_group-1.mojo:examples
 
