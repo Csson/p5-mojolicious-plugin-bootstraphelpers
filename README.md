@@ -366,7 +366,7 @@ Mandatory array reference. Takes a list of child elements of two different types
 
 <div>
     <p>
-    Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested .btn-group.
+    Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested <code>.btn-group</code>.
     </p>
 </div>
 

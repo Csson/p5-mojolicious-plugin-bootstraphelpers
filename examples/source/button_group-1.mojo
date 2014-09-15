@@ -52,4 +52,4 @@ A basic button group.
         <button class="btn btn-default" type="button">Button 3</button>
     </div>
 --e--
-Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested .btn-group.
+Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested <code>.btn-group</code>.
