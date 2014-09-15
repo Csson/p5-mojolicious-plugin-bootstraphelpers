@@ -160,6 +160,17 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     }
 
     sub bootstrap_dropdown {
+        my $meat = make_dropdown_meat(@_);
+
+        my $dropdown = qq{
+            <div class="dropdown">
+                $meat
+            </div>
+        };
+        return out($dropdown);
+    }
+
+    sub make_dropdown_meat {
         my $c = shift;
 
         my $attr = parse_attributes(@_);
@@ -197,16 +208,14 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         }
 
-        my $dropdown = qq{
-            <div class="dropdown">
-                $button
-                <ul$ulhtml>
-                    $menuitems
-                </ul>
-            </div>
+        my $out = qq{
+            $button
+            <ul$ulhtml>
+                $menuitems
+            </ul>
         };
 
-        return out($dropdown);
+        return out($out);
 
     }
 
@@ -234,36 +243,36 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $attr = parse_attributes(@_);
         my $buttons_info = delete $attr->{'buttons'};
-        my $buttongroups_info = delete $attr->{'buttongroups'};
         $attr = add_classes($attr, 'btn-group', { size => 'btn-group-%s' });
         my $html = htmlify_attrs($attr);
+        #* For the possible inner btn-group, use the same classes.
+        my $inner_classes = { class => $attr->{'class'} };
+        my $inner_html = htmlify_attrs($inner_classes);
 
         my $buttons = '';
         foreach my $button ($buttons_info->@*) {
-            $buttons .= bootstrap_button($c, $button->@*, type => 'button');
-        }
-        my $buttongroups = '';
-        foreach my $buttongroup ($buttongroups_info->@*) {
-            $buttongroups .= bootstrap_buttongroup($c, $buttongroup->@*);
+            if(ref $button eq 'ARRAY') {
+                $buttons .= bootstrap_button($c, $button->@*, type => 'button');
+            }
+            elsif(ref $button eq 'HASH') {
+                my $meat = make_dropdown_meat($c, $button->%*);
+                $buttons .= qq{
+                    <div$inner_html>
+                        $meat
+                    </div>
+                };
+
+            }
         }
 
         my $tag = '';
 
-        # Nested groups
-        if(scalar $buttongroups_info->@*) {
-            $tag = qq{
-                <div$html>
-                    $buttongroups
-                </div>
-            };
-        }
-        else {
-            $tag = qq{
-                <div$html>
-                    $buttons
-                </div>
-            };
-        }
+        $tag = qq{
+            <div$html>
+                $buttons
+            </div>
+        };
+
         return out($tag);
     }
 

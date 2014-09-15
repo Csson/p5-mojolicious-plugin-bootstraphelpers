@@ -318,6 +318,45 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 # EXAMPLE: button-1.mojo:1-3
 
 
+
+=head2 Button groups
+
+=head3 Syntax
+
+    <%= buttongroup %has,
+                    buttons => [
+                        [ $button_text, %button_has ],
+                        {
+                            button => [ $button_text, %button_has ],
+                            items => [
+                                [ $itemtext, [ $url ], %item_has ],
+                               ($headertext,)
+                               ([],)
+                          ]
+                        }
+                    ]
+    %>
+
+B<C<buttons =E<gt> []>>
+
+Mandatory array reference. Takes a list of child elements of two different types:
+
+=over 4
+
+B<C<[ $button_text, %button_has ]>>
+
+Array references are (and take the same arguments as) ordinary L<buttons|/"Buttons">. Two exceptions: It can't take a url, and it can take the C<caret> strapping.
+
+B<C<{ ... }>>
+
+Hash references are nested L<dropdowns|/"Dropdowns">. Read more there.
+
+=back
+
+# EXAMPLE: button_group-1.mojo:examples
+
+
+
 =head2 Dropdowns
 
 =head3 Syntax
@@ -329,8 +368,6 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
                      ($headertext,)
                      ([],)
                   ]
-
-Nesting is currently not supported.
 
 B<C<button =E<gt> []>>
 

@@ -281,6 +281,95 @@ Not available for `submit_button`.
     </p>
 </div>
 
+## Button groups
+
+### Syntax
+
+    <%= buttongroup %has,
+                    buttons => [
+                        [ $button_text, %button_has ],
+                        {
+                            button => [ $button_text, %button_has ],
+                            items => [
+                                [ $itemtext, [ $url ], %item_has ],
+                               ($headertext,)
+                               ([],)
+                          ]
+                        }
+                    ]
+    %>
+
+**`buttons => []`**
+
+Mandatory array reference. Takes a list of child elements of two different types:
+
+> **`[ $button_text, %button_has ]`**
+>
+> Array references are (and take the same arguments as) ordinary [buttons](#buttons). Two exceptions: It can't take a url, and it can take the `caret` strapping.
+>
+> **`{ ... }`**
+>
+> Hash references are nested [dropdowns](#dropdowns). Read more there.
+
+    <%= buttongroup
+        buttons => [
+            ['Button 1'],
+            ['Button 2'],
+            ['Button 3'],
+        ]
+    %>
+
+    <div class="btn-group">
+        <button class="btn btn-default" type="button">Button 1</button>
+        <button class="btn btn-default" type="button">Button 2</button>
+        <button class="btn btn-default" type="button">Button 3</button>
+    </div>
+
+<div>
+    <p>
+    A basic button group.
+
+    </p>
+</div>
+
+    <%= buttongroup small,
+        buttons => [
+            ['Button 1'],
+            { button => ['Dropdown 1', caret],
+              items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+              ],
+            },
+            ['Button 2'],
+            ['Button 3'],
+        ],
+    %>
+
+    <div class="btn-group btn-group-sm">
+        <button class="btn btn-default" type="button">Button 1</button>
+        <div class="btn-group btn-group-sm">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 1 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
+        <button class="btn btn-default" type="button">Button 2</button>
+        <button class="btn btn-default" type="button">Button 3</button>
+    </div>
+
+<div>
+    <p>
+    Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested .btn-group.
+    </p>
+</div>
+
 ## Dropdowns
 
 ### Syntax
@@ -292,8 +381,6 @@ Not available for `submit_button`.
                      ($headertext,)
                      ([],)
                   ]
-
-Nesting is currently not supported.
 
 **`button => []`**
 

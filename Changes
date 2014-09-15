@@ -8,6 +8,7 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
+ - Added button group support (also supports nested groups)
 
  [Meta]
 
