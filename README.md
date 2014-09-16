@@ -544,7 +544,7 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
 
 <div>
     <p>
-    Using the shortcut to create one-button button group dropdowns.
+    Using the shortcut to create single-button button group dropdowns.
     </p>
 </div>
 

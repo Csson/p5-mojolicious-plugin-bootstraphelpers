@@ -6,6 +6,17 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
+
+ [Enhancements]
+
+ [Meta]
+
+ [New Features]
+
+ [Revision]
+
+0.0171 2014-09-16T23:11:42Z CEST
+ [Documentation]
  - Synopsis contained a partially deprecated example.
 
  [Enhancements]
@@ -17,10 +28,6 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
  [Meta]
  - Use DZP::PkgVersion::Block.
-
- [New Features]
-
- [Revision]
 
 0.0170 2014-09-15T20:44:29Z CEST
  [Enhancements]
