@@ -3,7 +3,7 @@
     %= button 'The example 5' => large, warning
 --t--
 --e--
-    <button class="btn btn-lg btn-warning">The example 5</button>
+    <button class="btn btn-lg btn-warning" type="button">The example 5</button>
 --e--
 
 An ordinary button, with applied strappings.
@@ -63,7 +63,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
     %= button 'The example 4'
 --t--
 --e--
-    <button class="btn btn-default">The example 4</button>
+    <button class="btn btn-default" type="button">The example 4</button>
 --e--
 
 
@@ -95,6 +95,6 @@ A submit button for use in forms. It overrides the build-in submit_button helper
     %= button 'Loop', [var]
 --t--
 --e--
-    <button class="[var] btn btn-default">Loop</button>
+    <button class="[var] btn btn-default" type="button">Loop</button>
 --e--
 
