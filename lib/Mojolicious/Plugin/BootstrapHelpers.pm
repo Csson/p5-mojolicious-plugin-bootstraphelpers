@@ -43,7 +43,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right block/;
+            my @direction = qw/right block vertical/;
             my @menu = qw/caret/;
             my @misc = qw/disabled/;
 

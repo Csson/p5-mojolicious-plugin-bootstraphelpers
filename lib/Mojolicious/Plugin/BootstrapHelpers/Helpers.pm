@@ -243,8 +243,10 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $attr = parse_attributes(@_);
         my $buttons_info = delete $attr->{'buttons'};
-        $attr = add_classes($attr, 'btn-group', { size => 'btn-group-%s' });
+        my $button_group_class = delete $attr->{'__vertical'} ? 'btn-group-vertical' : 'btn-group';
+        $attr = add_classes($attr, $button_group_class, { size => 'btn-group-%s' });
         my $html = htmlify_attrs($attr);
+
         #* For the possible inner btn-group, use the same classes.
         my $inner_classes = { class => $attr->{'class'} };
         my $inner_html = htmlify_attrs($inner_classes);
@@ -514,7 +516,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
     }
     sub _direction_contexts {
-        return { map { ("__$_" => $_, $_ => $_) } qw/right block/ };
+        return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical/ };
     }
     sub _menu_contexts {
         return { map { ("__$_" => undef, $_ => undef) } qw/caret/ };

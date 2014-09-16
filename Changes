@@ -9,6 +9,7 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  - Synopsis contained a partially deprecated example.
 
  [Enhancements]
+ - Added 'vertical' strapping to button group.
 
  [Meta]
 
