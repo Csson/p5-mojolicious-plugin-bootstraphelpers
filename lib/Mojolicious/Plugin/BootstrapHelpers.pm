@@ -43,7 +43,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right block vertical/;
+            my @direction = qw/right block vertical justified dropup/;
             my @menu = qw/caret/;
             my @misc = qw/disabled/;
 
@@ -322,6 +322,9 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 
 =head3 Syntax
 
+There are two different syntaxes. One for single-button dropdowns and one for multi-button dropdowns.
+
+    # multi button
     <%= buttongroup %has,
                     buttons => [
                         [ $button_text, %button_has ],
@@ -336,19 +339,32 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
                     ]
     %>
 
+    # single button
+    <%= buttongroup {
+                        button => [ $button_text, %button_has ],
+                        items => [
+                            [ $itemtext, [ $url ], %item_has ],
+                           ($headertext,)
+                           ([],)
+                        ]
+                    }
+    %>
+
 B<C<buttons =E<gt> []>>
 
-Mandatory array reference. Takes a list of child elements of two different types:
+Single-button: Not available. Multi-button: Mandatory array reference. Takes a list of child elements of two different types:
 
 =over 4
 
 B<C<[ $button_text, %button_has ]>>
 
-Array references are (and take the same arguments as) ordinary L<buttons|/"Buttons">. Two exceptions: It can't take a url, and it can take the C<caret> strapping.
+Single-button: Not available. Multi-button: Array references are (and take the same arguments as) ordinary L<buttons|/"Buttons">. Two exceptions: It can't take a url, and it can take the C<caret> strapping.
 
 B<C<{ ... }>>
 
 Hash references are nested L<dropdowns|/"Dropdowns">. Read more there.
+
+For the single-button dropdown, this is the only argument.
 
 =back
 

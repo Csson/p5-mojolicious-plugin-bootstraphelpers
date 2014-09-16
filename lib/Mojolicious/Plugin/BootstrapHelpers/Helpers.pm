@@ -128,12 +128,14 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub bootstrap_button {
         my $c = shift;
         my $content = ref $_[-1] eq 'CODE' ? pop : shift;
+        $content = '' if !defined $content;
 
         my @url = shift->@* if ref $_[0] eq 'ARRAY';
         my $attr = parse_attributes(@_);
 
-        my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? q{ <span class="caret"></span>} : '';
+        my $caret = exists $attr->{'__caret'} && $attr->{'__caret'} ? (length $content ? ' ' : '') . q{<span class="caret"></span>} : '';
 
+        $attr->{'type'} = 'button' if !scalar @url && !exists $attr->{'type'};
         $attr = add_classes($attr, 'btn', { size => 'btn-%s', button => 'btn-%s', button_default => 'default' });
         $attr = add_classes($attr, 'active') if $attr->{'__active'};
         $attr = add_classes($attr, 'block') if $attr->{'__block'};
@@ -241,22 +243,47 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub bootstrap_buttongroup {
         my $c = shift;
+        #* Shortcut for one button menus
+        if(ref $_[0] eq 'HASH') {
+            my $meat = make_dropdown_meat($c, $_[0]->%*);
+            my $menu = qq{<div class="btn-group">$meat</div>};
+            return out($menu);
+        }
         my $attr = parse_attributes(@_);
+
         my $buttons_info = delete $attr->{'buttons'};
         my $button_group_class = delete $attr->{'__vertical'} ? 'btn-group-vertical' : 'btn-group';
-        $attr = add_classes($attr, $button_group_class, { size => 'btn-group-%s' });
+        my $justified_class = delete $attr->{'__justified'} ? 'btn-group-justified' : ();
+
+        $attr = add_classes($attr, { size => 'btn-group-%s' });
+
+        #* For the possible inner btn-group, use the same base classes (except justified/vertical).
+        #* We add possible .dropup in the loop
+        my $inner_attr = add_classes({ class => $attr->{'class'} }, 'btn-group');
+
+        #* These must come after the inner button group has been given the classes.
+        $attr = add_classes($attr, $button_group_class, $justified_class);
         my $html = htmlify_attrs($attr);
 
-        #* For the possible inner btn-group, use the same classes.
-        my $inner_classes = { class => $attr->{'class'} };
-        my $inner_html = htmlify_attrs($inner_classes);
 
         my $buttons = '';
         foreach my $button ($buttons_info->@*) {
             if(ref $button eq 'ARRAY') {
-                $buttons .= bootstrap_button($c, $button->@*, type => 'button');
+                my $bootstrap_button = bootstrap_button($c, $button->@*);
+
+                #* Justified + No url -> button -> must nest
+                if(length $justified_class && ref $button->[1] ne 'ARRAY') {
+                    $buttons .= qq{<div class="btn-group">$bootstrap_button</div>};
+                }
+                #* Url -> a -> no need to nest
+                else {
+                    $buttons .= $bootstrap_button;
+                }
             }
             elsif(ref $button eq 'HASH') {
+                my $dropup_class = delete $button->{'__dropup'} ? 'dropup' : ();
+                $inner_attr = add_classes($inner_attr, $dropup_class);
+                my $inner_html = htmlify_attrs($inner_attr);
                 my $meat = make_dropdown_meat($c, $button->%*);
                 $buttons .= qq{
                     <div$inner_html>
@@ -516,7 +543,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
     }
     sub _direction_contexts {
-        return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical/ };
+        return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical justified dropup/ };
     }
     sub _menu_contexts {
         return { map { ("__$_" => undef, $_ => undef) } qw/caret/ };
