@@ -1,4 +1,4 @@
-==test==
+==test example==
 --t--
     %= formgroup 'Text test 1', text_field => ['test_text']
 --t--
@@ -39,7 +39,7 @@ The first item in the array ref is used for both <code>id</code> and <code>name<
 
 
 
-==test==
+==test example==
 --t--
     %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
 --t--
@@ -51,7 +51,7 @@ The first item in the array ref is used for both <code>id</code> and <code>name<
 --e--
 An input with a value.
 
-==test==
+==test example==
 --t--
     <form class="form-horizontal">
         %= formgroup 'Text test 6', text_field => ['test_text'], large, cols => { small => [2, 10] }
@@ -86,7 +86,7 @@ Note the difference with the earlier example. Here <code>large</code> is outside
 
 
 
-==test==
+==test example==
 --t--
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
 --t--
