@@ -16,6 +16,7 @@ on test => sub {
 on build => sub {
     requires 'Dist::Zilla::Plugin::Test::CreateFromMojoTemplates', '0.05';
     requires 'Dist::Zilla::Plugin::InsertExample::FromMojoTemplates', '0.02.00';
+    requires 'Dist::Zilla::Plugin::PkgVersion::Block', '0.0101';
     requires 'Test::EOL', '1.5',
     requires 'Test::Pod', '1.45',
 };
