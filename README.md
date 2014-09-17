@@ -563,7 +563,7 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
 
 **`groups => [ { |button_group| } ]`**
 
-A mandatory array reference of [button groups](https://metacpan.org/pod/&#x22;#Button-groups).
+A mandatory array reference of [button groups](#button-groups).
 
 ### Examples
 
@@ -628,14 +628,142 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 > > **`$url`**
 > >
 > > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
->
-> **`$headertext`**
->
-> A string creates a dropdown header.
->
-> **`[]`**
->
-> An empty array reference creates a divider.
+
+### Examples
+
+    <%= input input => { text_field => ['username'] },
+              prepend => { check_box => ['agreed'] }
+    %>
+
+    <div class="input-group">
+        <span class="input-group-addon"><input name="agreed" type="checkbox" /></span>
+        <input class="form-control" id="username" type="text" name="username" />
+    </div>
+
+<div>
+    <p>
+    An input group with a checkbox.
+
+    </p>
+</div>
+
+    <%= input large,
+              prepend => { radio_button => ['yes'] },
+              input => { text_field => ['username'] },
+              append => '@'
+    %>
+
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon"><input name="yes" type="radio" /></span>
+        <input class="form-control" id="username" type="text" name="username" />
+        <span class="input-group-addon">@</span>
+    </div>
+
+<div>
+    <p>
+    A <code>large</code> input group with a radio button prepended and a string appended.
+
+    </p>
+</div>
+
+    <%= input input => { text_field => ['username'] },
+              append => { button => ['Click me!'] },
+    %>
+
+    <div class="input-group">
+        <input class="form-control" id="username" type="text" name="username" />
+        <span class="input-group-btn"><button class="btn btn-default" type="button">Click me!</button></span>
+    </div>
+
+<div>
+    <p>
+    An input group with a button.
+
+    </p>
+</div>
+
+    <%= input input  => { text_field => ['username'] },
+              append => { buttongroup => {
+                              right,
+                              button => ['The button', caret],
+                              items  => [
+                                  ['Item 1', ['item1'] ],
+                                  ['Item 2', ['item2'] ],
+                                  [],
+                                  ['Item 3', ['item3'] ],
+                              ],
+                          }
+                        }
+    %>
+
+    <div class="input-group">
+        <input class="form-control" id="username" type="text" name="username" />
+        <div class="input-group-btn">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">The button <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+<div>
+    <p>
+    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+
+    </p>
+</div>
+
+    <%= input input   => { text_field => ['username'] },
+              prepend => { buttongroup => [
+                              buttons => [
+                                ['Link 1', ['http://www.example.com/'] ],
+                                { button => [undef, caret],
+                                  items => [
+                                      ['Item 1', ['item1'] ],
+                                      ['Item 2', ['item2'] ],
+                                      [],
+                                      ['Item 3', ['item3'] ],
+                                  ],
+                               },
+                            ],
+                         ],
+                      },
+    %>
+
+    <div class="input-group">
+        <div class="input-group-btn">
+            <a class="btn btn-default" href="http://www.example.com/">Link 1</a>
+            <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                    <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                    <li class="divider"></li>
+                    <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+                </ul>
+            </div>
+        </div>
+        <input class="form-control" id="username" type="text" name="username" />
+    </div>
+
+<div>
+    <p>
+    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+    </p>
+</div>
+
+**`$headertext`**
+
+A string creates a dropdown header.
+
+**`[]`**
+
+An empty array reference creates a divider.
 
 **Available strappings**
 
@@ -1128,3 +1256,15 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 712:
+
+    You forgot a '=back' before '=head3'
+
+- Around line 865:
+
+    &#x3d;back without =over

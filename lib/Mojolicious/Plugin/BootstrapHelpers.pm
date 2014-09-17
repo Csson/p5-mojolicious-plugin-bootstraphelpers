@@ -392,7 +392,7 @@ For the single-button dropdown, this is the only argument.
 
 B<C<groups =E<gt> [ { |button_group| } ]>>
 
-A mandatory array reference of L<button groups|"/Button-groups">.
+A mandatory array reference of L<button groups|/"Button-groups">.
 
 =head3 Examples
 
@@ -436,6 +436,10 @@ B<C<$url>>
 Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
 
 =back
+
+=head3 Examples
+
+# EXAMPLE: input_group-1.mojo:examples
 
 B<C<$headertext>>
 
