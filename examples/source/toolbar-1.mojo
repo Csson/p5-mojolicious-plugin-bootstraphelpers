@@ -1,6 +1,6 @@
 ==test example==
 --t--
-    <%= toolbar id => 'my-toolbar'
+    <%= toolbar id => 'my-toolbar',
                 groups => [
                     { buttons => [
                         ['Button 1'],
@@ -25,9 +25,9 @@
             <button class="btn btn-default" type="button">Button 3</button>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary" type="button">Button 1</button>
-            <button class="btn btn-default" type="button">Button 2</button>
-            <button class="btn btn-default" type="button">Button 3</button>
+            <button class="btn btn-primary" type="button">Button 4</button>
+            <button class="btn btn-default" type="button">Button 5</button>
+            <button class="btn btn-default" type="button">Button 6</button>
         </div>
     </div>
 --e--
