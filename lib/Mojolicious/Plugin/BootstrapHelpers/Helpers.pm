@@ -249,6 +249,19 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
             my $menu = qq{<div class="btn-group">$meat</div>};
             return out($menu);
         }
+        my($buttons, $html) = make_buttongroup_meat($c, @_);
+
+        my $tag = qq{
+            <div$html>
+                $buttons
+            </div>
+        };
+
+        return out($tag);
+    }
+
+    sub make_buttongroup_meat {
+        my $c = shift;
         my $attr = parse_attributes(@_);
 
         my $buttons_info = delete $attr->{'buttons'};
@@ -293,14 +306,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
             }
         }
-
-        my $tag = qq{
-            <div$html>
-                $buttons
-            </div>
-        };
-
-        return out($tag);
+        return ($buttons, $html);
     }
 
     sub bootstrap_toolbar {
@@ -355,6 +361,75 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return out(qq{<span$html></span>});
     }
 
+    sub bootstrap_input {
+        my $c = shift;
+        my $attr = parse_attributes(@_);
+
+        my $prepend = delete $attr->{'prepend'};
+        my $append = delete $attr->{'append'};
+
+        my(undef, $input_tag) = fix_input($c, (delete $attr->{'input'}) );
+        $attr = add_classes($attr, 'input-group', { size => 'input-group-%s' });
+        my $html = htmlify_attrs($attr);
+
+        my($prepend_tag, $append_tag) = undef;
+
+        if($prepend) {
+            $prepend_tag = fix_input_ender($c, $prepend);
+        }
+        if($append) {
+            $append_tag = fix_input_ender($c, $append);
+        }
+
+        my $tag = qq{
+            <div$html>
+                } . ($prepend_tag || '') . qq{
+                $input_tag
+                } . ($append_tag || '') . qq{
+            </div>
+        };
+
+        return out($tag);
+
+    }
+
+    sub fix_input_ender {
+        my $c = shift;
+        my $ender = shift;
+        my $where = shift;
+
+        if(ref $ender eq '') {
+            return qq{<span class="input-group-addon">$ender</span>};
+        }
+
+        my $key = (keys $ender->%*)[0];
+        my $tag = undef;
+        if($key eq 'check_box' || $key eq 'radio_button') {
+            my $type = $key eq 'check_box' ? 'checkbox' : 'radio';
+            my $extra_input = Mojolicious::Plugin::TagHelpers::_input($c, $ender->{ $key }->@*, type => $type);
+            $tag = qq{
+                <span class="input-group-addon">$extra_input</span>
+            };
+        }
+        elsif($key eq 'button') {
+            my $button = bootstrap_button($c, $ender->{ $key }->@*);
+            $tag = qq{
+                <span class="input-group-btn">$button</span>
+            };
+        }
+        elsif($key eq 'buttongroup') {
+            my($button_group) = ref $ender->{ $key } eq 'HASH' ? make_dropdown_meat($c, $ender->{ $key }->%*)
+                             :                                  make_buttongroup_meat($c, $ender->{ $key }->@*)
+                             ;
+            $tag = qq{
+                <div class="input-group-btn">$button_group</div>
+            }
+        }
+        else { $tag = $key; }
+
+        return $tag;
+    }
+
     sub iscoderef {
         return shift eq 'CODE';
     }
@@ -378,28 +453,13 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         $tag_attr->{'id'} //= $id;
         my $name_attr = $id =~ s{-}{_}rg;
 
-        my $prepend = delete $tag_attr->{'prepend'};
-        my $append = delete $tag_attr->{'append'};
         $tag_attr = cleanup_attrs($tag_attr);
 
         my $horizontal_before = scalar @column_classes ? qq{<div class="} . (trim join ' ' => @column_classes) . '">' : '';
         my $horizontal_after = scalar @column_classes ? '</div>' : '';
         my $input = Mojolicious::Plugin::TagHelpers::_input($c, $name_attr, $tag_attr->%*, type => $tagname);
 
-        # input group not requested
-        if(!defined $prepend && !defined $append) {
-            return ($id => $horizontal_before . $input . $horizontal_after);
-        }
-
-        return $id => qq{
-            $horizontal_before
-            <div class="input-group">
-                } . ($prepend ? qq{<span class="input-group-addon">$prepend</span>} : '') . qq{
-                $input
-                } . ($append ? qq{<span class="input-group-addon">$append</span>} : '') . qq{
-            </div>
-            $horizontal_after
-        };
+        return ($id => $horizontal_before . $input . $horizontal_after);
 
     }
 

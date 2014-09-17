@@ -34,6 +34,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
         $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
         $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
+        $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
 
         if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
             $app->config->{'Plugin::BootstrapHelpers'} = $args;
@@ -548,6 +549,48 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
 =head3 Examples
 
 # EXAMPLE: icon-1.mojo:1
+
+
+
+=head2 Input groups
+
+=head3 Syntax
+
+    <%= input %has,
+              (prepend => ...,)
+              input => { |input_field| },
+              (append => ...)
+    %>
+
+B<C<input =E<gt> { }>>
+
+Mandatory hash reference. The content is handed off to L<input_tag|Mojolicious::Plugin::TagHelpers/"input_tag"> in L<Mojolicious::Plugin::TagHelpers>.
+
+B<C<prepend> and C<append>>
+
+Both are optional, but input groups don't make sense if neither is present. They take the same arguments, but there are a few to choose from:
+
+=over 4
+
+B<C<prepend =E<gt> $string>>
+
+B<C<prepend =E<gt> { check_box =E<gt> [ |check_box| ] }>>
+
+Creates a checkbox by giving its content to L<check_box|Mojolicious::Plugin::TagHelpers/"check_box"> in L<Mojolicious::Plugin::TagHelpers>.
+
+B<C<prepend =E<gt> { radio_button =E<gt> [ |radio_button| ] }>>
+
+Creates a radiobutton by giving its content to L<radio_button|Mojolicious::Plugin::TagHelpers/"radio_button"> in L<Mojolicious::Plugin::TagHelpers>.
+
+B<C<prepend =E<gt> { buttongroup =E<gt> { |buttongroup| }>>
+
+Creates a single button buttongroup. See L<button_groups|/"Button_groups"> for details.
+
+B<C<prepend =E<gt> { buttongroup =E<gt> [ |buttongroup| ]>>
+
+Creates a multi button buttongroup. See L<button_groups|/"Button_groups"> for details.
+
+=back
 
 
 =head2 Panels
