@@ -437,9 +437,6 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 =back
 
-=head3 Examples
-
-# EXAMPLE: input_group-1.mojo:examples
 
 B<C<$headertext>>
 
@@ -595,6 +592,10 @@ B<C<prepend =E<gt> { buttongroup =E<gt> [ |buttongroup| ]>>
 Creates a multi button buttongroup. See L<button_groups|/"Button_groups"> for details.
 
 =back
+
+=head3 Examples
+
+# EXAMPLE: input_group-1.mojo:examples
 
 
 =head2 Panels
