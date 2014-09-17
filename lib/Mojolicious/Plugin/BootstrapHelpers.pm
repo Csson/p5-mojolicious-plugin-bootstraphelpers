@@ -332,9 +332,9 @@ There are two different syntaxes. One for single-button dropdowns and one for mu
     # multi button
     <%= buttongroup %has,
                     buttons => [
-                        [ $button_text, %button_has ],
+                        [ |button| ],
                         {
-                            button => [ $button_text, %button_has ],
+                            button => [ |button| ],
                             items => [
                                 [ $itemtext, [ $url ], %item_has ],
                                ($headertext,)
@@ -346,7 +346,7 @@ There are two different syntaxes. One for single-button dropdowns and one for mu
 
     # single button
     <%= buttongroup {
-                        button => [ $button_text, %button_has ],
+                        button => [ |button| ],
                         items => [
                             [ $itemtext, [ $url ], %item_has ],
                            ($headertext,)
@@ -361,7 +361,7 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
 
 =over 4
 
-B<C<[ $button_text, %button_has ]>>
+B<C<[ |button| ]>>
 
 Single-button: Not available. Multi-button: Array references are (and take the same arguments as) ordinary L<buttons|/"Buttons">. Two exceptions: It can't take a url, and it can take the C<caret> strapping.
 
@@ -403,7 +403,7 @@ A mandatory array reference of L<button groups|"/Button-groups">.
 =head3 Syntax
 
     <%= dropdown  %has,
-                  button => [ $button_text, %button_has ],
+                  button => [ |button| ],
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      ($headertext,)
