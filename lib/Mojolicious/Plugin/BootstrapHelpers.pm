@@ -33,6 +33,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
         $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
         $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
+        $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
 
         if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
             $app->config->{'Plugin::BootstrapHelpers'} = $args;
@@ -211,6 +212,10 @@ In the syntax sections below the following conventions are used:
                       key => { key2 => $value, key3 => 'othervalue' }
     (...)           Anything between parenthesis is optional. The parenthesis is not part of the
                       actual syntax
+    |...|           Two pipes is a reference to another specification. For instance, button toolbars contain
+                      button groups that contain buttons. Using this syntax makes the important parts clearer.
+                      The pipes are not part of the actual syntax.
+
 
 Ordering between two hashes that follows each other is also not significant.
 
@@ -372,6 +377,25 @@ For the single-button dropdown, this is the only argument.
 
 # EXAMPLE: button_group-1.mojo:examples
 
+
+
+=head2 Button toolbars
+
+=head3 Syntax
+
+    <%= toolbar %toolbar_has,
+                groups => [
+                    { |button_group| }
+                ]
+    %>
+
+B<C<groups =E<gt> [ { |button_group| } ]>>
+
+A mandatory array reference of L<button groups|"/Button-groups">.
+
+=head3 Examples
+
+# EXAMPLE: toolbar-1.mojo:examples
 
 
 =head2 Dropdowns

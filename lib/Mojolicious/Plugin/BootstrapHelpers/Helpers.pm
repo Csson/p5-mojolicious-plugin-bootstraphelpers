@@ -294,11 +294,32 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
             }
         }
 
-        my $tag = '';
-
-        $tag = qq{
+        my $tag = qq{
             <div$html>
                 $buttons
+            </div>
+        };
+
+        return out($tag);
+    }
+
+    sub bootstrap_toolbar {
+        my $c = shift;
+
+        my $attr = parse_attributes(@_);
+        my $groups = delete $attr->{'groups'};
+
+        $attr = add_classes($attr, 'btn-toolbar');
+        my $html = htmlify_attrs($attr);
+
+        my $toolbar = '';
+        foreach my $group ($groups->@*) {
+            $toolbar .= bootstrap_buttongroup($c, $group->%*);
+        }
+
+        my $tag = qq{
+            <div$html>
+                $toolbar
             </div>
         };
 

@@ -138,6 +138,9 @@ In the syntax sections below the following conventions are used:
                       key => { key2 => $value, key3 => 'othervalue' }
     (...)           Anything between parenthesis is optional. The parenthesis is not part of the
                       actual syntax
+    |...|           Two pipes is a reference to another specification. For instance, button toolbars contain
+                      button groups that contain buttons. Using this syntax makes the important parts clearer.
+                      The pipes are not part of the actual syntax.
 
 Ordering between two hashes that follows each other is also not significant.
 
@@ -547,6 +550,52 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
     Using the shortcut to create single-button button group dropdowns.
     </p>
 </div>
+
+## Button toolbars
+
+### Syntax
+
+    <%= toolbar %toolbar_has,
+                groups => [
+                    { |button_group| }
+                ]
+    %>
+
+**`groups => [ { |button_group| } ]`**
+
+A mandatory array reference of [button groups](https://metacpan.org/pod/&#x22;#Button-groups).
+
+### Examples
+
+    <%= toolbar id => 'my-toolbar',
+                groups => [
+                    { buttons => [
+                        ['Button 1'],
+                        ['Button 2'],
+                        ['Button 3'],
+                      ],
+                    },
+                    { buttons => [
+                        ['Button 4', primary],
+                        ['Button 5'],
+                        ['Button 6'],
+                      ],
+                    },
+                ]
+    %>
+
+    <div class="btn-toolbar" id="my-toolbar">
+        <div class="btn-group">
+            <button class="btn btn-default" type="button">Button 1</button>
+            <button class="btn btn-default" type="button">Button 2</button>
+            <button class="btn btn-default" type="button">Button 3</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" type="button">Button 4</button>
+            <button class="btn btn-default" type="button">Button 5</button>
+            <button class="btn btn-default" type="button">Button 6</button>
+        </div>
+    </div>
 
 ## Dropdowns
 
