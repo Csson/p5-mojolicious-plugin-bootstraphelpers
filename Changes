@@ -10,11 +10,25 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Enhancements]
 
  [Meta]
- - Add DZP::PkgVersion::Block to build dependencies.
 
  [New Features]
 
  [Revision]
+
+0.0172 2014-09-17T22:51:58Z CEST
+ [API Changes]
+ - Actually removed input-group behaviour from form-group (it had already
+   been deprecated and de-documented).
+
+ [Documentation]
+ - Introduces the |...| syntax definition syntax.
+
+ [Enhancements]
+ - Added toolbar support.
+ - Added input group support.
+
+ [Meta]
+ - Add DZP::PkgVersion::Block to build dependencies.
 
 0.0171 2014-09-16T23:11:42Z CEST
  [Documentation]
