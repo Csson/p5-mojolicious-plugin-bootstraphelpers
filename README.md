@@ -292,9 +292,9 @@ There are two different syntaxes. One for single-button dropdowns and one for mu
     # multi button
     <%= buttongroup %has,
                     buttons => [
-                        [ $button_text, %button_has ],
+                        [ |button| ],
                         {
-                            button => [ $button_text, %button_has ],
+                            button => [ |button| ],
                             items => [
                                 [ $itemtext, [ $url ], %item_has ],
                                ($headertext,)
@@ -306,7 +306,7 @@ There are two different syntaxes. One for single-button dropdowns and one for mu
 
     # single button
     <%= buttongroup {
-                        button => [ $button_text, %button_has ],
+                        button => [ |button| ],
                         items => [
                             [ $itemtext, [ $url ], %item_has ],
                            ($headertext,)
@@ -319,7 +319,7 @@ There are two different syntaxes. One for single-button dropdowns and one for mu
 
 Single-button: Not available. Multi-button: Mandatory array reference. Takes a list of child elements of two different types:
 
-> **`[ $button_text, %button_has ]`**
+> **`[ |button| ]`**
 >
 > Single-button: Not available. Multi-button: Array references are (and take the same arguments as) ordinary [buttons](#buttons). Two exceptions: It can't take a url, and it can take the `caret` strapping.
 >
@@ -602,7 +602,7 @@ A mandatory array reference of [button groups](https://metacpan.org/pod/&#x22;#B
 ### Syntax
 
     <%= dropdown  %has,
-                  button => [ $button_text, %button_has ],
+                  button => [ |button| ],
                   items  => [
                       [ $itemtext, [ $url ], %item_has ],
                      ($headertext,)
