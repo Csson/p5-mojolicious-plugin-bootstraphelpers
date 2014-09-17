@@ -27,6 +27,7 @@
       "build" : {
          "requires" : {
             "Dist::Zilla::Plugin::InsertExample::FromMojoTemplates" : "v0.2.0",
+            "Dist::Zilla::Plugin::PkgVersion::Block" : "0.0101",
             "Dist::Zilla::Plugin::Test::CreateFromMojoTemplates" : "0.05",
             "Test::EOL" : "1.5",
             "Test::Pod" : "1.45"
@@ -72,7 +73,7 @@
          "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers"
       }
    },
-   "version" : "0.0171",
+   "version" : "0.0172",
    "x_contributors" : [
       "Erik Carlsson <info@code301.com>"
    ]
