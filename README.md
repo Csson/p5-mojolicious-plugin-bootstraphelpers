@@ -1023,7 +1023,7 @@ Both are optional, but input groups don't make sense if neither is present. They
 
 <div>
     <p>
-    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+    An input group with a split button dropdown prepended.
     </p>
 </div>
 

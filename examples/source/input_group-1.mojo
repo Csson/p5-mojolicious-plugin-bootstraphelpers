@@ -117,4 +117,4 @@ An input group with a button dropdown appended. Note that <code>right</code> is 
         <input class="form-control" id="username" type="text" name="username" />
     </div>
 --e--
-An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+An input group with a split button dropdown prepended.
