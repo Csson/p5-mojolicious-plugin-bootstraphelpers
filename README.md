@@ -863,6 +863,42 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
     <span class="glyphicon glyphicon-copyright-mark"></span>
     <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 
+## Input groups
+
+### Syntax
+
+    <%= input %has,
+              (prepend => ...,)
+              input => { |input_field| },
+              (append => ...)
+    %>
+
+**`input => { }`**
+
+Mandatory hash reference. The content is handed off to [input\_tag](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#input_tag) in [Mojolicious::Plugin::TagHelpers](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers).
+
+**`prepend` and `append`**
+
+Both are optional, but input groups don't make sense if neither is present. They take the same arguments, but there are a few to choose from:
+
+> **`prepend => $string`**
+>
+> **`prepend => { check_box => [ |check_box| ] }`**
+>
+> Creates a checkbox by giving its content to [check\_box](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#check_box) in [Mojolicious::Plugin::TagHelpers](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers).
+>
+> **`prepend => { radio_button => [ |radio_button| ] }`**
+>
+> Creates a radiobutton by giving its content to [radio\_button](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#radio_button) in [Mojolicious::Plugin::TagHelpers](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers).
+>
+> **`prepend => { buttongroup => { |buttongroup| }`**
+>
+> Creates a single button buttongroup. See [button\_groups](#button_groups) for details.
+>
+> **`prepend => { buttongroup => [ |buttongroup| ]`**
+>
+> Creates a multi button buttongroup. See [button\_groups](#button_groups) for details.
+
 ## Panels
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
