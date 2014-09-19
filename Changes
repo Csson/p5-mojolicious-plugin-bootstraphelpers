@@ -6,8 +6,12 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
+ - Fixed some internal links.
+ - Fixed pod typo under init_short_strappings.
 
  [Enhancements]
+ - Support for nav pills and nav tabs (undocumented)
+ - Partial support for navbar (also undocumented)
 
  [Meta]
 

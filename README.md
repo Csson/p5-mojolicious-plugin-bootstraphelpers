@@ -893,11 +893,11 @@ Both are optional, but input groups don't make sense if neither is present. They
 >
 > **`prepend => { buttongroup => { |buttongroup| }`**
 >
-> Creates a single button buttongroup. See [button\_groups](#button_groups) for details.
+> Creates a single button buttongroup. See [button\_groups](#button-groups) for details.
 >
 > **`prepend => { buttongroup => [ |buttongroup| ]`**
 >
-> Creates a multi button buttongroup. See [button\_groups](#button_groups) for details.
+> Creates a multi button buttongroup. See [button\_groups](#button-groups) for details.
 
 ### Examples
 
@@ -1222,7 +1222,7 @@ Default: `1`
 
 If you don't want the short form of strappings setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of `warning` you must now use `<__warning =` 1>>.
+All functionality is available, but instead of `warning` you must now use `__warning => 1`.
 
 With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
 

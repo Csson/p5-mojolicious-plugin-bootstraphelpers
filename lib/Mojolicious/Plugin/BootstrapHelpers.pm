@@ -35,6 +35,8 @@ package Mojolicious::Plugin::BootstrapHelpers {
         $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
         $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
         $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
+        $app->helper($tp.'navbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_navbar);
+        $app->helper($tp.'nav' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_nav);
 
         if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
             $app->config->{'Plugin::BootstrapHelpers'} = $args;
@@ -46,7 +48,7 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
             my @direction = qw/right block vertical justified dropup/;
-            my @menu = qw/caret/;
+            my @menu = qw/caret hamburger/;
             my @misc = qw/disabled/;
 
             foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
@@ -585,11 +587,11 @@ Creates a radiobutton by giving its content to L<radio_button|Mojolicious::Plugi
 
 B<C<prepend =E<gt> { buttongroup =E<gt> { |buttongroup| }>>
 
-Creates a single button buttongroup. See L<button_groups|/"Button_groups"> for details.
+Creates a single button buttongroup. See L<button_groups|/"Button-groups"> for details.
 
 B<C<prepend =E<gt> { buttongroup =E<gt> [ |buttongroup| ]>>
 
-Creates a multi button buttongroup. See L<button_groups|/"Button_groups"> for details.
+Creates a multi button buttongroup. See L<button_groups|/"Button-groups"> for details.
 
 =back
 
@@ -699,7 +701,7 @@ Default: C<1>
 
 If you don't want the short form of strappings setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of C<warning> you must now use C<<__warning => 1>>.
+All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>.
 
 With short form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not used.
 

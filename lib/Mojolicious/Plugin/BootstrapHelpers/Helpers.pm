@@ -9,7 +9,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-    use Data::Dumper 'Dumper';
+#    use Data::Dump::Streamer 'Dumper';
     use experimental 'postderef'; # requires 5.20
 
     sub bootstraps_bootstraps {
@@ -94,7 +94,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return '' if !defined $attr;
         $attr = cleanup_attrs({$attr->%*}); #* Make a copy
 
-        my $html = join ' ' => map { qq{$_="$attr->{ $_ }"} } sort keys $attr->%*;
+        my $html = join ' ' => map { qq{$_="$attr->{ $_ }"} } grep { length $attr->{ $_ } } sort keys $attr->%*;
         return ' ' . $html if defined $html;
         return '';
     }
@@ -331,6 +331,177 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         return out($tag);
     }
+# <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'], [] %>
+# <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
+    sub bootstrap_navbar {
+        my $c = shift;
+        my $contents = pop;
+        my $attr = parse_attributes(@_);
+        my($possible_toggler_id, $navbar_header) = make_navbar_header($c, delete $attr->{'header'}, delete $attr->{'html_header'});
+
+        $attr = add_classes($attr, 'navbar', { navbar => 'navbar-%s', navbar_default => 'default' });
+        my $html = htmlify_attrs($attr);
+
+        my $content_html = '';
+        foreach my $content ($contents->@*) {
+            $content_html .= (keys $content->%*)[0] eq 'nav'    ?   make_navbar_nav($c, $content)
+                           : (keys $content->%*)[0] eq 'form'   ?   make_navbar_form($c, $content)
+                           :                                        ''
+                           ;
+        }
+        if(length $content_html) {
+            $content_html = qq{
+                <div class="collapse navbar-collapse" id="$possible_toggler_id">
+                    $content_html
+                </div>
+            };
+        }
+
+        my $tag = qq{
+            <nav$html>
+                <div class="container-fluid">
+                    $navbar_header
+                    $content_html
+                </div>
+            </nav>
+        };
+
+        return out($tag);
+
+    }
+    sub make_navbar_header {
+        my($c, $header, $html_header) = @_;
+
+        return (undef, $html_header) if $html_header;
+
+        my $brand = shift $header->@*;
+        my $url = url_for($c, shift $header->@* || []);
+        my $header_attr = parse_attributes($header->@*);
+        my $toggler_id = delete $header_attr->{'toggler'};
+        my $has_hamburger = delete $header_attr->{'__hamburger'};
+        my $hamburger = $has_hamburger ? get_hamburger($toggler_id) : '';
+        $header_attr = add_classes($header_attr, 'navbar-brand');
+
+        my $brand_html = qq{<a class="navbar-brand" href="$url">$brand</a>};
+
+        my $navbar_header = qq{
+            <div class="navbar-header">
+                $hamburger
+                $brand_html
+            </div>
+        };
+
+        return ($toggler_id, $navbar_header);
+
+    }
+
+    sub make_navbar_nav {
+        my $c = shift;
+        my $nav = shift->{'nav'};
+        my $contents = pop $nav->@*;
+        my $attr = parse_attributes(@_);
+
+        my $tag = '<ul class="nav navbar-nav">';
+        $tag .= make_nav_meat($c, $contents);
+
+        $tag .= '</ul>';
+        return $tag;
+    }
+
+    sub get_hamburger {
+        my $toggler_id = shift;
+
+        my $tag = qq{
+            <button class="collapsed navbar-toggle" data-target="#$toggler_id" data-toggle="collapse" type="button">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        };
+        return $tag;
+    }
+
+    sub make_nav_meat {
+        my $c = shift;
+        my $contents = shift;
+
+        my $tag = '';
+        foreach my $content ($contents->@*) {
+            #* Link
+            if(ref $content eq 'ARRAY') {
+                my $text = shift $content->@*;
+                my $url = url_for($c, shift $content->@*);
+
+                my $link_attr = parse_attributes($content->@*);
+                my $active = delete $link_attr->{'__active'};
+                my $disabled = delete $link_attr->{'__disabled'};
+                my $li_attr = add_classes({}, $active ? 'active' : (), $disabled ? 'disabled' : ());
+                my $li_html = htmlify_attrs($li_attr);
+
+                my $link_html = qq{<a href="$url">$text</a>};
+                $tag .= qq{<li$li_html>$link_html</li>};
+            }
+            #* Menu
+            elsif(ref $content eq 'HASH') {
+                my $button = delete $content->{'button'};
+                my $button_text = shift $button->@*;
+                my $url = shift $button->@*;
+                my $button_attr = parse_attributes($button->@*);
+                $button_attr = add_classes($button_attr, 'dropdown-toggle');
+                $button_attr->{'data-toggle'} = 'dropdown';
+                $button_attr->{'href'} = url_for($c, $url);
+                my $caret = delete $button_attr->{'__caret'} ? ' <span class="caret"></span>' : '';
+                my $button_arg = htmlify_attrs($button_attr);
+                my $button_html = qq{<a$button_arg>$button_text$caret</a>};
+
+                my $items = delete $content->{'items'};
+                my $lis = '';
+                ITEM:
+                foreach my $item ($items->@*) {
+                    if(!scalar $item->@*) {
+                        $lis .= q{<li class="divider"></li>};
+                        next ITEM;
+                    }
+                    my $text = shift $item->@*;
+                    my $url = url_for($c, shift $item->@*);
+                    my $a_attr = parse_attributes($item->@*);
+                    $a_attr->{'href'} = $url;
+                    my $a_html = htmlify_attrs($a_attr);
+                    $lis .= qq{<li><a$a_html>$text</a></li>};
+                }
+                $tag .= qq{
+                    <li class="dropdown">
+                        $button_html
+                        <ul class="dropdown-menu">
+                            $lis
+                        </ul>
+                    </li>
+                };
+            }
+        }
+        return $tag;
+    }
+
+    sub bootstrap_nav {
+        my $c = shift;
+        my $attr = parse_attributes(@_);
+        my $pills = delete $attr->{'pills'};
+        my $tabs = delete $attr->{'tabs'};
+
+        my $which = $pills ? 'nav-pills'
+                  : $tabs  ? 'nav-tabs'
+                  :          ()
+                  ;
+        my $justified = delete $attr->{'__justified'} ? 'nav-justified' : ();
+        $attr = add_classes($attr, 'nav', $which, $justified);
+        my $html = htmlify_attrs($attr);
+        my $either = $pills || $tabs;
+
+        my $tag = make_nav_meat($c, $either);
+        $tag = qq{<ul$html>$tag</ul>};
+
+        return out($tag);
+    }
 
     sub bootstrap_badge {
         my $c = shift;
@@ -432,6 +603,12 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub iscoderef {
         return shift eq 'CODE';
+    }
+    sub url_for {
+        my $c = shift;
+        my $url = shift;
+        return '#' if scalar $url->@* == 1 && $url->[0] eq '#';
+        return $c->url_for($url->@*);
     }
 
     sub fix_input {
@@ -536,6 +713,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
             if(exists $formatter->{'direction'}) {
                 push @classes => sprintfify_class($attr, $formatter->{'direction'}, $formatter->{'direction_default'}, _direction_contexts());
             }
+            if(exists $formatter->{'navbar'}) {
+                push @classes => sprintfify_class($attr, $formatter->{'navbar'}, $formatter->{'navbar_default'}, _navbar_contexts());
+            }
         }
 
         $attr->{'class'} = trim join ' ' => uniq sort @classes;
@@ -627,10 +807,13 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical justified dropup/ };
     }
     sub _menu_contexts {
-        return { map { ("__$_" => undef, $_ => undef) } qw/caret/ };
+        return { map { ("__$_" => undef, $_ => undef) } qw/caret hamburger/ };
     }
     sub _misc_contexts {
         return { map { ("__$_" => $_, $_ => $_) } qw/active disabled/ };
+    }
+    sub _navbar_contexts {
+        return { map { ("__$_" => $_, $_ => $_) } qw/default inverse/ };
     }
 
     sub out {
