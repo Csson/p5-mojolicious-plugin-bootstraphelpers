@@ -10,7 +10,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Scalar::Util 'blessed';
     use String::Trim;
 #    use Data::Dump::Streamer 'Dumper';
-    use experimental 'postderef'; # requires 5.20
+    use experimental qw/postderef signatures/; # requires 5.20
 
     sub bootstraps_bootstraps {
         my $c = shift;
@@ -144,7 +144,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         # We have an url
         if(scalar @url) {
-            $attr->{'href'} = $c->url_for(@url)->to_string;
+            $attr->{'href'} = url_for($c, \@url);
 
             my $html = htmlify_attrs($attr);
             return out(qq{<a$html>} . content_single($content) . qq{$caret</a>});
@@ -343,10 +343,16 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $html = htmlify_attrs($attr);
 
         my $content_html = '';
-        foreach my $content ($contents->@*) {
-            $content_html .= (keys $content->%*)[0] eq 'nav'    ?   make_navbar_nav($c, $content)
-                           : (keys $content->%*)[0] eq 'form'   ?   make_navbar_form($c, $content)
-                           :                                        ''
+
+        for (my $index = 0; $index < scalar $contents->@*; $index += 2) {
+            my $key = $contents->[$index];
+            my @arguments = ($c, $contents->[$index + 1]);
+
+            $content_html .= $key eq 'nav'    ?   make_navbar_nav(@arguments)
+                           : $key eq 'form'   ?   make_navbar_form(@arguments)
+                           : $key eq 'button' ?   make_navbar_button(@arguments)
+                           : $key eq 'p'      ?   make_navbar_p(@arguments)
+                           :                      ''
                            ;
         }
         if(length $content_html) {
@@ -377,7 +383,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $brand = shift $header->@*;
         my $url = url_for($c, shift $header->@* || []);
         my $header_attr = parse_attributes($header->@*);
-        my $toggler_id = delete $header_attr->{'toggler'};
+        my $toggler_id = delete $header_attr->{'toggler'} || 'generated-toggler-id';
         my $has_hamburger = delete $header_attr->{'__hamburger'};
         my $hamburger = $has_hamburger ? get_hamburger($toggler_id) : '';
         $header_attr = add_classes($header_attr, 'navbar-brand');
@@ -397,7 +403,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub make_navbar_nav {
         my $c = shift;
-        my $nav = shift->{'nav'};
+        my $nav = shift;
         my $contents = pop $nav->@*;
         my $attr = parse_attributes(@_);
 
@@ -406,6 +412,57 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         $tag .= '</ul>';
         return $tag;
+    }
+
+    sub make_navbar_form {
+        my $c = shift;
+        my $form = shift;
+        my $url = shift $form->@*;
+        my $contents = pop $form->@*;
+
+        my $attr = parse_attributes(@_);
+        $attr = add_classes($attr, 'navbar-form', { direction => 'navbar-%s', direction_default => 'left' });
+        $attr = cleanup_attrs($attr);
+
+        my $tag = '';
+        for (my $index = 0; $index < scalar $contents->@*; $index += 2) {
+            my $key = $contents->[$index];
+            my @arguments = ($c, $contents->[$index + 1]->@*);
+
+            if($key eq 'formgroup') {
+                $tag .= bootstrap_formgroup(@arguments);
+            }
+            elsif($key eq 'submit_button') {
+                $tag .= bootstrap_submit(@arguments);
+            }
+            elsif($key eq 'button') {
+                $tag .= bootstrap_button(@arguments)
+            }
+            elsif($key eq 'input') {
+                $tag .= bootstrap_input(@arguments);
+            }
+        }
+
+        $tag = Mojolicious::Plugin::TagHelpers::_form_for($c, $url->@*, $attr->%*, sub { $tag });
+        return out($tag);
+
+    }
+
+    sub make_navbar_button($c, $arg) {
+        my $text = shift $arg->@*;
+        my $url = shift $arg->@*;
+        my $attr = parse_attributes($arg->@*);
+        $attr = add_classes($attr, 'navbar-btn', { direction => 'navbar-%s' });
+        return bootstrap_button($c, $text, $url, $attr->%*);
+    }
+
+    sub make_navbar_p($c, $arg) {
+        my $text = shift $arg->@*;
+        my $attr = parse_attributes($arg->@*);
+        $attr = add_classes($attr, 'navbar-text', { direction => 'navbar-%s' });
+        my $html = htmlify_attrs($attr);
+
+        return out(qq{<p$html>$text</p>});
     }
 
     sub get_hamburger {
@@ -608,7 +665,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $url = shift;
         return '#' if scalar $url->@* == 1 && $url->[0] eq '#';
-        return $c->url_for($url->@*);
+        return $c->url_for($url->@*)->to_string;
     }
 
     sub fix_input {
@@ -627,8 +684,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         my @column_classes = get_column_classes($attr->{'column_information'}, 1);
         $tag_attr = add_classes($tag_attr, 'form-control', { size => 'input-%s' });
-        $tag_attr->{'id'} //= $id;
-        my $name_attr = $id =~ s{-}{_}rg;
+
+        $tag_attr->{'id'} = $id if defined $id && !exists $tag_attr->{'id'};
+        my $name_attr = defined $id ? $id =~ s{-}{_}rg : undef;
 
         $tag_attr = cleanup_attrs($tag_attr);
 
@@ -804,7 +862,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         return { map { ("__$_" => $_, $_ => $_) } qw/striped bordered hover condensed responsive/ };
     }
     sub _direction_contexts {
-        return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical justified dropup/ };
+        return { map { ("__$_" => $_, $_ => $_) } qw/right block vertical justified dropup left/ };
     }
     sub _menu_contexts {
         return { map { ("__$_" => undef, $_ => undef) } qw/caret hamburger/ };

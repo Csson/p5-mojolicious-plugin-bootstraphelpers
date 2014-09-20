@@ -47,9 +47,9 @@ package Mojolicious::Plugin::BootstrapHelpers {
             my @sizes = qw/xsmall small medium large/;
             my @contexts = qw/default active primary success info warning danger/;
             my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right block vertical justified dropup/;
+            my @direction = qw/right left block vertical justified dropup/;
             my @menu = qw/caret hamburger/;
-            my @misc = qw/disabled/;
+            my @misc = qw/disabled inverse/;
 
             foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
                $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
