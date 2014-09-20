@@ -19,7 +19,7 @@
 
 ==test==
 --t--
-    <%= nav justified, tabs => [
+    <%= nav justified, id => 'my-nav', tabs => [
                 ['Item 1', ['#'] ],
                 ['Item 2', ['#'], active ],
                 ['Item 3', ['#'] ],
@@ -36,7 +36,7 @@
     %>
 --t--
 --e--
-    <ul class="nav nav-justified nav-tabs">
+    <ul class="nav nav-justified nav-tabs" id="my-nav">
         <li><a href="#">Item 1</a></li>
         <li class="active"><a href="#">Item 2</a></li>
         <li><a href="#">Item 3</a></li>
