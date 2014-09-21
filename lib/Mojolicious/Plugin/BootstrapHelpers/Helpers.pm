@@ -405,9 +405,11 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $nav = shift;
         my $contents = pop $nav->@*;
-        my $attr = parse_attributes(@_);
+        my $attr = parse_attributes($nav->@*);
+        $attr = add_classes($attr, 'nav', 'navbar-nav', { direction => 'navbar-%s' });
+        my $html = htmlify_attrs($attr);
 
-        my $tag = '<ul class="nav navbar-nav">';
+        my $tag = "<ul$html>";
         $tag .= make_nav_meat($c, $contents);
 
         $tag .= '</ul>';
@@ -417,10 +419,12 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub make_navbar_form {
         my $c = shift;
         my $form = shift;
-        my $url = shift $form->@*;
-        my $contents = pop $form->@*;
+        my $args = shift $form->@*;
+        my $contents = shift $form->@*;
+        my $url = shift $args->@*;
 
-        my $attr = parse_attributes(@_);
+        my $attr = parse_attributes($args->@*);
+
         $attr = add_classes($attr, 'navbar-form', { direction => 'navbar-%s', direction_default => 'left' });
         $attr = cleanup_attrs($attr);
 

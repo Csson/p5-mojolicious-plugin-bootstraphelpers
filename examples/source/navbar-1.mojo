@@ -100,8 +100,7 @@ By using <code>html_header</code> you can specify an entirely customized header.
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
                [
                     form => [
-                        ['/login', method => 'post'],
-                        left,
+                        [['/login'], method => 'post', left],
                         [
                             formgroup => [
                                 undef,
@@ -149,9 +148,9 @@ By using <code>html_header</code> you can specify an entirely customized header.
 --e--
 
 
-==no test==
+==test==
 --t--
-<%= navbar header => ['The brand', ['#'], hamburger],
+<%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
            [
                nav => [
                    [
@@ -162,22 +161,21 @@ By using <code>html_header</code> you can specify an entirely customized header.
                            items => [
                                ['Action', ['#'] ],
                                ['Another action', ['#'] ],
-                               ['Someting else here', ['#'] ],
+                               ['Something else here', ['#'] ],
                                [],
                                ['Separated link', ['#'] ],
                                [],
                                ['One more separated link', ['#'] ],
                            ],
                        },
-                    },
+                    ],
                 ],
                 form => [
-                    ['/login', method => 'post'],
-                    left,
+                    [['/login'], method => 'post', left],
                     [
                         formgroup => [
                             undef,
-                            text_field => [undef, placeholder => 'Search' ],
+                            text_field => ['the-search', placeholder => 'Search' ],
                         ],
                         submit_button => ['Submit'],
                     ]
@@ -191,7 +189,7 @@ By using <code>html_header</code> you can specify an entirely customized header.
                             items => [
                                 ['Action', ['#'] ],
                                 ['Another action', ['#'] ],
-                                ['Someting else here', ['#'] ],
+                                ['Something else here', ['#'] ],
                                 [],
                                 ['Separated link', ['#'] ],
                             ],
@@ -203,4 +201,53 @@ By using <code>html_header</code> you can specify an entirely customized header.
 %>
 --t--
 --e--
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#collapse-4124">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>
+            </div>
+            <div class="collapse navbar-collapse" id="collapse-4124">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="/login" class="navbar-form navbar-left" method="post">
+                    <div class="form-group">
+                        <input class="form-control" id="the-search" name="the_search" placeholder="Search" type="text" />
+                    </div>
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 --e--

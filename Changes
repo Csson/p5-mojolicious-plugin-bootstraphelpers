@@ -8,6 +8,8 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
+ - Slightly improved syntax for forms in navbar (urls now in array ref like elsewhere).
+ - Navs in navbar can be right-ed.
 
  [Meta]
 
