@@ -1,4 +1,4 @@
-==test example==
+==no test example==
 --t--
     <%= input input => { text_field => ['username'] },
               prepend => { check_box => ['agreed'] }
@@ -46,19 +46,29 @@ An input group with a button.
 
 
 
-==test example==
+==no test example==
+<%= buttongroup justified,
+        buttons => [
+            ['Link 1', ['http://www.example.com/'] ],
+            ['Link 2', ['http://www.example.com/'] ],
+            ['Dropup 1', caret, dropup, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
+        ]
+    %>
 --t--
     <%= input input  => { text_field => ['username'] },
-              append => { buttongroup => {
+              append => { buttongroup => [
                               right,
-                              button => ['The button', caret],
-                              items  => [
+                              buttons => ['The button', caret, items  => [
                                   ['Item 1', ['item1'] ],
                                   ['Item 2', ['item2'] ],
                                   [],
                                   ['Item 3', ['item3'] ],
-                              ],
-                          }
+                              ] ] ]
                         }
     %>
 --t--
@@ -80,7 +90,7 @@ An input group with a button.
 An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
 
 
-==test example==
+==no test example==
 --t--
     <%= input input   => { text_field => ['username'] },
               prepend => { buttongroup => [

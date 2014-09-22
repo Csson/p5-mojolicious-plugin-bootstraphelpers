@@ -17,21 +17,19 @@
     </ul>
 --e--
 
-==test==
+==no test==
 --t--
     <%= nav justified, id => 'my-nav', tabs => [
                 ['Item 1', ['#'] ],
                 ['Item 2', ['#'], active ],
                 ['Item 3', ['#'] ],
-                {
-                    button => ['Dropdown', ['#'], caret],
-                    items => [
+                ['Dropdown', ['#'], caret, items => [
                         ['There are...', ['#'] ],
                         ['...three...', ['#'] ],
                         [],
                         ['...choices', ['#'] ],
                     ],
-                },
+                ],
             ]
     %>
 --t--

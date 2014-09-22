@@ -22,14 +22,12 @@ A basic button group.
     <%= buttongroup small,
         buttons => [
             ['Button 1'],
-            { button => ['Dropdown 1', caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            ['Dropdown 1', caret, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
             ['Button 2'],
             ['Button 3'],
         ],
@@ -61,14 +59,12 @@ Nested button group. Note that the <code>small</code> strapping is only necessar
     <%= buttongroup vertical,
         buttons => [
             ['Button 1'],
-            { button => ['Dropdown 1', caret],
-              items => [
+            ['Dropdown 1', caret, items => [
                   ['Item 1', ['item1'] ],
                   ['Item 2', ['item2'] ],
                   [],
                   ['Item 3', ['item3'] ],
-              ],
-            },
+            ] ],
             ['Button 2'],
             ['Button 3'],
         ],
@@ -125,15 +121,12 @@ A justified button group. Note the automatic (and necessary) wrapping of buttons
         buttons => [
             ['Link 1', ['http://www.example.com/'] ],
             ['Link 2', ['http://www.example.com/'] ],
-            { dropup,
-              button => ['Dropup 1', caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            ['Dropup 1', caret, dropup, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
         ]
     %>
 --t--
@@ -161,14 +154,12 @@ Mix links and <code>dropup</code> menus in <code>justified</code> button groups.
     <%= buttongroup
         buttons => [
             ['Link 1', ['http://www.example.com/'] ],
-            { button => [undef, caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            [undef, caret, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
         ]
     %>
 --t--
@@ -192,24 +183,20 @@ Split button dropdowns uses the same syntax as any other multi-button dropdown. 
 
 ==test example==
 --t--
-    <%= buttongroup { button => ['Default', caret],
-                      items  => [
-                          ['Item 1', ['item1'] ],
-                          ['Item 2', ['item2'] ],
-                          [],
-                          ['Item 3', ['item3'] ],
-                      ],
-                    }
+    <%= buttongroup ['Default', caret, items  => [
+                        ['Item 1', ['item1'] ],
+                        ['Item 2', ['item2'] ],
+                        [],
+                        ['Item 3', ['item3'] ],
+                    ] ]
     %>
 
-    <%= buttongroup { button => ['Big danger', caret, large, danger],
-                      items  => [
+    <%= buttongroup ['Big danger', caret, large, danger, items => [
                           ['Item 1', ['item1'] ],
                           ['Item 2', ['item2'] ],
                           [],
                           ['Item 3', ['item3'] ],
-                      ],
-                    }
+                    ] ]
     %>
 --t--
 --e--

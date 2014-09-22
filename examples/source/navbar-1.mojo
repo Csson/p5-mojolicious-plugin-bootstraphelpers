@@ -43,7 +43,7 @@
 By using <code>html_header</code> you can specify an entirely customized header.
 
 
-==test==
+==no test==
 --t--
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'],
                [
@@ -51,15 +51,12 @@ By using <code>html_header</code> you can specify an entirely customized header.
                         [
                             ['Link', ['#'] ],
                             ['Another link', ['#'], active ],
-                            {
-                                button => ['Menu', ['#'], caret ],
-                                items => [
-                                    ['Choice 1', ['#'] ],
-                                    ['Choice 2', ['#'] ],
-                                    [],
-                                    ['Choice 3', ['#'] ],
-                                ]
-                            }
+                            ['Menu', ['#'], caret, items => [
+                                ['Choice 1', ['#'] ],
+                                ['Choice 2', ['#'] ],
+                                [],
+                                ['Choice 3', ['#'] ],
+                            ] ],
                         ]
                     ]
                ]
@@ -148,55 +145,46 @@ By using <code>html_header</code> you can specify an entirely customized header.
 --e--
 
 
-==test==
+==no test==
 --t--
-<%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
-           [
-               nav => [
-                   [
-                       ['Link', ['#'], active ],
-                       ['Link', ['#'] ],
-                       {
-                           button => ['Dropdown', ['#'], caret],
-                           items => [
-                               ['Action', ['#'] ],
-                               ['Another action', ['#'] ],
-                               ['Something else here', ['#'] ],
-                               [],
-                               ['Separated link', ['#'] ],
-                               [],
-                               ['One more separated link', ['#'] ],
-                           ],
-                       },
+<%= navbar ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
+           nav => [ right,
+                   ['Link', ['#'], active ],
+                   ['Link', ['#'] ],
+                   ['Dropdown', ['#'], caret, items => [
+                       ['Action', ['#'] ],
+                       ['Another action', ['#'] ],
+                       ['Something else here', ['#'] ],
+                       [],
+                       ['Separated link', ['#'] ],
+                       [],
+                       ['One more separated link', ['#'] ],
+                   ] ],
+            ],
+            form => [
+                [['/login'], method => 'post', left],
+                [
+                    formgroup => [
+                        text_field => ['the-search', placeholder => 'Search' ],
                     ],
-                ],
-                form => [
-                    [['/login'], method => 'post', left],
-                    [
-                        formgroup => [
-                            undef,
-                            text_field => ['the-search', placeholder => 'Search' ],
+                    submit_button => ['Submit'],
+                ]
+            ],
+            nav => [
+                right,
+                [
+                    ['Link', ['#'] ],
+                    ['Dropdown', ['#'], caret, items => [
+                            ['Action', ['#'] ],
+                            ['Another action', ['#'] ],
+                            ['Something else here', ['#'] ],
+                            [],
+                            ['Separated link', ['#'] ],
                         ],
-                        submit_button => ['Submit'],
                     ]
                 ],
-                nav => [
-                    right,
-                    [
-                        ['Link', ['#'] ],
-                        {
-                            button => ['Dropdown', ['#'], caret],
-                            items => [
-                                ['Action', ['#'] ],
-                                ['Another action', ['#'] ],
-                                ['Something else here', ['#'] ],
-                                [],
-                                ['Separated link', ['#'] ],
-                            ],
-                        }
-                    ],
-                ]
-           ]
+            ]
+
 
 %>
 --t--

@@ -1,14 +1,12 @@
 ==test example==
 --t--
     <%= dropdown
-         button => ['Dropdown 1', id => 'a_custom_id'],
-         right,
-         items => [
+         ['Dropdown 1', id => 'a_custom_id', right, items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
             [],
             ['Item 3', ['item3'] ]
-         ] %>
+         ] ] %>
 --t--
 --e--
     <div class="dropdown">
@@ -28,8 +26,7 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
 ==test example==
 --t--
     <%= dropdown
-         button => ['Dropdown 2', caret, large, primary],
-         items => [
+         ['Dropdown 2', caret, large, primary, items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
             ['Item 2', ['item2'], disabled, data => { attr => 4 } ],
             [],
@@ -38,7 +35,7 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
             ['Item 4', ['item4'], tabindex => 4 ],
             'This is a header',
             ['Item 5', ['item5'] ],
-         ] %>
+         ] ] %>
 --t--
 --e--
     <div class="dropdown">

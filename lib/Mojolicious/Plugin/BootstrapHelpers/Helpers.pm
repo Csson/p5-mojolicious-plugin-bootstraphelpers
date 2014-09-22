@@ -162,7 +162,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     }
 
     sub bootstrap_dropdown {
-        my $meat = make_dropdown_meat(@_);
+        my $meat = make_dropdown_meat(shift, shift->@*);
 
         my $dropdown = qq{
             <div class="dropdown">
@@ -175,28 +175,24 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub make_dropdown_meat {
         my $c = shift;
 
+        my $button_text = shift;
+        my @url = ref $_[0] eq 'ARRAY' ? shift->@* : ();
         my $attr = parse_attributes(@_);
-        my $button_info = delete $attr->{'button'};
-
-        my $button_text = shift $button_info->@*;
-        my $button_attr =  { $button_info->@* };
-
-        my $items_info = delete $attr->{'items'};
+        my $items = delete $attr->{'items'} || [];
 
         my $ulattr = { __right => exists $attr->{'__right'} ? delete $attr->{'__right'} : 0 };
         $ulattr = add_classes($ulattr, 'dropdown-menu');
         $ulattr = add_classes($ulattr, 'dropdown-menu-right') if $ulattr->{'__right'};
         my $ulhtml = htmlify_attrs($ulattr);
 
-        $button_attr = add_classes($button_attr, 'dropdown-toggle');
-        $button_attr->{'data-toggle'} = 'dropdown';
-        $button_attr->{'type'} = 'button';
-        my $button = bootstrap_button($c, $button_text, $button_attr->%*);
+        $attr = add_classes($attr, 'dropdown-toggle');
+        $attr->{'data-toggle'} = 'dropdown';
+        $attr->{'type'} = 'button';
+        my $button = bootstrap_button($c, $button_text, @url, $attr->%*);
 
         my $menuitems = '';
-
         ITEM:
-        foreach my $item ($items_info->@*) {
+        foreach my $item ($items->@*) {
             if(ref $item eq '') {
                 $menuitems .= qq{<li class="dropdown-header">$item</li>};
             }
@@ -218,6 +214,52 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         };
 
         return out($out);
+
+
+
+
+#        my $button_info = delete $attr->{'button'};
+#
+#        my $button_text = shift $button_info->@*;
+#        my $button_attr =  { $button_info->@* };
+#
+#        my $items_info = delete $attr->{'items'};
+#
+#        my $ulattr = { __right => exists $attr->{'__right'} ? delete $attr->{'__right'} : 0 };
+#        $ulattr = add_classes($ulattr, 'dropdown-menu');
+#        $ulattr = add_classes($ulattr, 'dropdown-menu-right') if $ulattr->{'__right'};
+#        my $ulhtml = htmlify_attrs($ulattr);
+#
+#        $button_attr = add_classes($button_attr, 'dropdown-toggle');
+#        $button_attr->{'data-toggle'} = 'dropdown';
+#        $button_attr->{'type'} = 'button';
+#        my $button = bootstrap_button($c, $button_text, $button_attr->%*);
+#
+#        my $menuitems = '';
+#
+#        ITEM:
+#        foreach my $item ($items_info->@*) {
+#            if(ref $item eq '') {
+#                $menuitems .= qq{<li class="dropdown-header">$item</li>};
+#            }
+#            next ITEM if ref $item ne 'ARRAY';
+#            if(!scalar $item->@*) {
+#                $menuitems .= q{<li class="divider"></li>} ;
+#            }
+#            else {
+#                $menuitems .= create_dropdown_menuitem($c, $item->@*);
+#            }
+#
+#        }
+#
+#        my $out = qq{
+#            $button
+#            <ul$ulhtml>
+#                $menuitems
+#            </ul>
+#        };
+#
+#        return out($out);
 
     }
 
@@ -244,8 +286,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub bootstrap_buttongroup {
         my $c = shift;
         #* Shortcut for one button menus
-        if(ref $_[0] eq 'HASH') {
-            my $meat = make_dropdown_meat($c, $_[0]->%*);
+        if(ref $_[0] eq 'ARRAY') {
+            my $meat = make_dropdown_meat($c, $_[0]->@*);
             my $menu = qq{<div class="btn-group">$meat</div>};
             return out($menu);
         }
@@ -265,6 +307,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $attr = parse_attributes(@_);
 
         my $buttons_info = delete $attr->{'buttons'};
+
         my $button_group_class = delete $attr->{'__vertical'} ? 'btn-group-vertical' : 'btn-group';
         my $justified_class = delete $attr->{'__justified'} ? 'btn-group-justified' : ();
 
@@ -280,31 +323,67 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
 
         my $buttons = '';
+
+        BUTTON:
         foreach my $button ($buttons_info->@*) {
-            if(ref $button eq 'ARRAY') {
-                my $bootstrap_button = bootstrap_button($c, $button->@*);
+            next BUTTON if ref $button ne 'ARRAY';
+
+            my $button_text = shift $button->@*;
+            my @url = ref $button->[0] eq 'ARRAY' ? shift $button->@* : ();
+            my $button_attr = parse_attributes($button->@*);
+            my $items = delete $button_attr->{'items'} || [];
+
+            if(!scalar $items->@*) {
+                my $bootstrap_button = bootstrap_button($c, $button_text, @url, $button_attr->%*);
 
                 #* Justified + No url -> button -> must nest
-                if(length $justified_class && ref $button->[1] ne 'ARRAY') {
+                if(length $justified_class && !scalar @url) {
                     $buttons .= qq{<div class="btn-group">$bootstrap_button</div>};
                 }
-                #* Url -> a -> no need to nest
                 else {
                     $buttons .= $bootstrap_button;
                 }
+                next BUTTON;
             }
-            elsif(ref $button eq 'HASH') {
-                my $dropup_class = delete $button->{'__dropup'} ? 'dropup' : ();
-                $inner_attr = add_classes($inner_attr, $dropup_class);
-                my $inner_html = htmlify_attrs($inner_attr);
-                my $meat = make_dropdown_meat($c, $button->%*);
-                $buttons .= qq{
-                    <div$inner_html>
-                        $meat
-                    </div>
-                };
 
-            }
+            my $dropup_class = delete $button_attr->{'__dropup'} ? 'dropup' : ();
+            $inner_attr = add_classes($inner_attr, $dropup_class);
+            my $inner_html = htmlify_attrs($inner_attr);
+            my $meat = make_dropdown_meat($c, $button_text, (scalar @url ? \@url : ()), $button_attr->%*, items => $items);
+            $buttons .= qq{
+                <div$inner_html>
+                    $meat
+                </div>
+            };
+
+
+
+
+
+            # if(ref $button eq 'ARRAY') {
+            #     my $bootstrap_button = bootstrap_button($c, $button->@*);
+
+            #     #* Justified + No url -> button -> must nest
+            #     if(length $justified_class && ref $button->[1] ne 'ARRAY') {
+            #         $buttons .= qq{<div class="btn-group">$bootstrap_button</div>};
+            #     }
+            #     #* Url -> a -> no need to nest
+            #     else {
+            #         $buttons .= $bootstrap_button;
+            #     }
+            # }
+            # elsif(ref $button eq 'HASH') {
+            #     my $dropup_class = delete $button->{'__dropup'} ? 'dropup' : ();
+            #     $inner_attr = add_classes($inner_attr, $dropup_class);
+            #     my $inner_html = htmlify_attrs($inner_attr);
+            #     my $meat = make_dropdown_meat($c, $button->%*);
+            #     $buttons .= qq{
+            #         <div$inner_html>
+            #             $meat
+            #         </div>
+            #     };
+
+            # }
         }
         return ($buttons, $html);
     }
@@ -651,7 +730,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         }
         elsif($key eq 'buttongroup') {
             my($button_group) = ref $ender->{ $key } eq 'HASH' ? make_dropdown_meat($c, $ender->{ $key }->%*)
-                             :                                  make_buttongroup_meat($c, $ender->{ $key }->@*)
+                             :                                   make_buttongroup_meat($c, $ender->{ $key }->@*)
                              ;
             $tag = qq{
                 <div class="input-group-btn">$button_group</div>

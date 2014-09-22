@@ -355,14 +355,12 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
     <%= buttongroup small,
         buttons => [
             ['Button 1'],
-            { button => ['Dropdown 1', caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            ['Dropdown 1', caret, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
             ['Button 2'],
             ['Button 3'],
         ],
@@ -394,14 +392,12 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
     <%= buttongroup vertical,
         buttons => [
             ['Button 1'],
-            { button => ['Dropdown 1', caret],
-              items => [
+            ['Dropdown 1', caret, items => [
                   ['Item 1', ['item1'] ],
                   ['Item 2', ['item2'] ],
                   [],
                   ['Item 3', ['item3'] ],
-              ],
-            },
+            ] ],
             ['Button 2'],
             ['Button 3'],
         ],
@@ -434,15 +430,12 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
         buttons => [
             ['Link 1', ['http://www.example.com/'] ],
             ['Link 2', ['http://www.example.com/'] ],
-            { dropup,
-              button => ['Dropup 1', caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            ['Dropup 1', caret, dropup, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
         ]
     %>
 
@@ -471,14 +464,12 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
     <%= buttongroup
         buttons => [
             ['Link 1', ['http://www.example.com/'] ],
-            { button => [undef, caret],
-              items => [
-                  ['Item 1', ['item1'] ],
-                  ['Item 2', ['item2'] ],
-                  [],
-                  ['Item 3', ['item3'] ],
-              ],
-            },
+            [undef, caret, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ],
+            ] ],
         ]
     %>
 
@@ -503,24 +494,20 @@ Single-button: Not available. Multi-button: Mandatory array reference. Takes a l
     </p>
 </div>
 
-    <%= buttongroup { button => ['Default', caret],
-                      items  => [
-                          ['Item 1', ['item1'] ],
-                          ['Item 2', ['item2'] ],
-                          [],
-                          ['Item 3', ['item3'] ],
-                      ],
-                    }
+    <%= buttongroup ['Default', caret, items  => [
+                        ['Item 1', ['item1'] ],
+                        ['Item 2', ['item2'] ],
+                        [],
+                        ['Item 3', ['item3'] ],
+                    ] ]
     %>
 
-    <%= buttongroup { button => ['Big danger', caret, large, danger],
-                      items  => [
+    <%= buttongroup ['Big danger', caret, large, danger, items => [
                           ['Item 1', ['item1'] ],
                           ['Item 2', ['item2'] ],
                           [],
                           ['Item 3', ['item3'] ],
-                      ],
-                    }
+                    ] ]
     %>
 
     <div class="btn-group">
@@ -644,14 +631,12 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 ### Examples
 
     <%= dropdown
-         button => ['Dropdown 1', id => 'a_custom_id'],
-         right,
-         items => [
+         ['Dropdown 1', id => 'a_custom_id', right, items => [
             ['Item 1', ['item1'] ],
             ['Item 2', ['item2'] ],
             [],
             ['Item 3', ['item3'] ]
-         ] %>
+         ] ] %>
 
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
@@ -671,8 +656,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
 </div>
 
     <%= dropdown
-         button => ['Dropdown 2', caret, large, primary],
-         items => [
+         ['Dropdown 2', caret, large, primary, items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
             ['Item 2', ['item2'], disabled, data => { attr => 4 } ],
             [],
@@ -681,7 +665,7 @@ Mandatory array reference. Here are the items that make up the menu. It takes tw
             ['Item 4', ['item4'], tabindex => 4 ],
             'This is a header',
             ['Item 5', ['item5'] ],
-         ] %>
+         ] ] %>
 
     <div class="dropdown">
         <button class="btn btn-lg btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2 <span class="caret"></span></button>
@@ -901,22 +885,6 @@ Both are optional, but input groups don't make sense if neither is present. They
 
 ### Examples
 
-    <%= input input => { text_field => ['username'] },
-              prepend => { check_box => ['agreed'] }
-    %>
-
-    <div class="input-group">
-        <span class="input-group-addon"><input name="agreed" type="checkbox" /></span>
-        <input class="form-control" id="username" type="text" name="username" />
-    </div>
-
-<div>
-    <p>
-    An input group with a checkbox.
-
-    </p>
-</div>
-
     <%= input large,
               prepend => { radio_button => ['yes'] },
               input => { text_field => ['username'] },
@@ -933,97 +901,6 @@ Both are optional, but input groups don't make sense if neither is present. They
     <p>
     A <code>large</code> input group with a radio button prepended and a string appended.
 
-    </p>
-</div>
-
-    <%= input input => { text_field => ['username'] },
-              append => { button => ['Click me!'] },
-    %>
-
-    <div class="input-group">
-        <input class="form-control" id="username" type="text" name="username" />
-        <span class="input-group-btn"><button class="btn btn-default" type="button">Click me!</button></span>
-    </div>
-
-<div>
-    <p>
-    An input group with a button.
-
-    </p>
-</div>
-
-    <%= input input  => { text_field => ['username'] },
-              append => { buttongroup => {
-                              right,
-                              button => ['The button', caret],
-                              items  => [
-                                  ['Item 1', ['item1'] ],
-                                  ['Item 2', ['item2'] ],
-                                  [],
-                                  ['Item 3', ['item3'] ],
-                              ],
-                          }
-                        }
-    %>
-
-    <div class="input-group">
-        <input class="form-control" id="username" type="text" name="username" />
-        <div class="input-group-btn">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">The button <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-                <li class="divider"></li>
-                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-            </ul>
-        </div>
-    </div>
-
-<div>
-    <p>
-    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
-
-    </p>
-</div>
-
-    <%= input input   => { text_field => ['username'] },
-              prepend => { buttongroup => [
-                              buttons => [
-                                ['Link 1', ['http://www.example.com/'] ],
-                                { button => [undef, caret],
-                                  items => [
-                                      ['Item 1', ['item1'] ],
-                                      ['Item 2', ['item2'] ],
-                                      [],
-                                      ['Item 3', ['item3'] ],
-                                  ],
-                               },
-                            ],
-                         ],
-                      },
-    %>
-
-    <div class="input-group">
-        <div class="input-group-btn">
-            <a class="btn btn-default" href="http://www.example.com/">Link 1</a>
-            <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-                    <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-                    <li class="divider"></li>
-                    <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-                </ul>
-            </div>
-        </div>
-        <input class="form-control" id="username" type="text" name="username" />
-    </div>
-
-<div>
-    <p>
-    An input group with a split button dropdown prepended.
     </p>
 </div>
 
