@@ -2,23 +2,30 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
 {{$NEXT}}
  [API Changes]
- - Input groups can't currently take button groups.
- - Navs can't currently take dropdowns.
 
  [Bug Fixes]
 
  [Documentation]
- - Note that some syntax descriptions are currently inaccurate. See examples for current
-   syntax.
 
  [Enhancements]
- - More work on streamlining menu syntax.
 
  [Meta]
 
  [New Features]
 
  [Revision]
+
+0.0176 2014-09-23T00:31:21Z CEST
+ [API Changes]
+ - Input groups can't currently take button groups.
+ - Navs can't currently take dropdowns.
+
+ [Documentation]
+ - Note that some syntax descriptions are currently inaccurate. See
+   examples for current syntax.
+
+ [Enhancements]
+ - More work on streamlining menu syntax.
 
 0.0175 2014-09-21T23:35:05Z CEST
  [Enhancements]
