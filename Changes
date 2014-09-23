@@ -8,8 +8,13 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
+ - Finalized (for now) navbar syntax
+ - Improved dropdown (and similar) syntax
+ - Input groups can (again) take button groups.
+ - Navs can (again) take dropdowns.
 
  [Meta]
+ - String::Random new prereq
 
  [New Features]
 

@@ -48,6 +48,7 @@
             "List::AllUtils" : "0.07",
             "Mojolicious" : "5.00",
             "Scalar::Util" : "1.29",
+            "String::Random" : "0",
             "String::Trim" : "0.004",
             "experimental" : "0.008",
             "perl" : "5.020000",
@@ -73,7 +74,7 @@
          "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers"
       }
    },
-   "version" : "0.0176",
+   "version" : "0.0177",
    "x_contributors" : [
       "Erik Carlsson <info@code301.com>"
    ]

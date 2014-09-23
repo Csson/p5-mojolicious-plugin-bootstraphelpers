@@ -5,6 +5,7 @@ requires 'Mojolicious', '5.00';
 requires 'List::AllUtils', '0.07';
 requires 'Scalar::Util', '1.29';
 requires 'String::Trim', '0.004';
+requires 'String::Random';
 requires 'experimental', '0.008';
 requires 'true', '0.18';
 

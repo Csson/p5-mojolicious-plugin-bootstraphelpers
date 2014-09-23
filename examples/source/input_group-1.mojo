@@ -1,4 +1,4 @@
-==no test example==
+==test example==
 --t--
     <%= input input => { text_field => ['username'] },
               prepend => { check_box => ['agreed'] }
@@ -46,24 +46,17 @@ An input group with a button.
 
 
 
-==no test example==
-<%= buttongroup justified,
-        buttons => [
-            ['Link 1', ['http://www.example.com/'] ],
-            ['Link 2', ['http://www.example.com/'] ],
-            ['Dropup 1', caret, dropup, items => [
-                ['Item 1', ['item1'] ],
-                ['Item 2', ['item2'] ],
-                [],
-                ['Item 3', ['item3'] ],
-            ] ],
-        ]
+==test example==
+    <%= buttongroup ['Default', caret, items  => [
+                        ['Item 1', ['item1'] ],
+                        ['Item 2', ['item2'] ],
+                        [],
+                        ['Item 3', ['item3'] ],
+                    ] ]
     %>
 --t--
     <%= input input  => { text_field => ['username'] },
-              append => { buttongroup => [
-                              right,
-                              buttons => ['The button', caret, items  => [
+              append => { buttongroup => [['The button', caret, right, items => [
                                   ['Item 1', ['item1'] ],
                                   ['Item 2', ['item2'] ],
                                   [],
@@ -90,20 +83,19 @@ An input group with a button.
 An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
 
 
-==no test example==
+==test example==
 --t--
     <%= input input   => { text_field => ['username'] },
               prepend => { buttongroup => [
                               buttons => [
                                 ['Link 1', ['http://www.example.com/'] ],
-                                { button => [undef, caret],
-                                  items => [
+                                [undef, caret, items => [
                                       ['Item 1', ['item1'] ],
                                       ['Item 2', ['item2'] ],
                                       [],
                                       ['Item 3', ['item3'] ],
                                   ],
-                               },
+                               ],
                             ],
                          ],
                       },

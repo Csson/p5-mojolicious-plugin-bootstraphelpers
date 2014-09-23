@@ -261,6 +261,26 @@ Both of these are legal:
          <tr><td>A Table Cell</td></tr>
     %  end
 
+=head3 |link|
+
+All other C<|references|> are also helpers, so C<|link|> needs special mention:
+
+    $linktext, [ $url ], %link_has
+
+=over 4
+
+B<C<$itemtext>>
+
+Mandatory. The text on the link.
+
+B<C<$url>>
+
+Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
+
+=back
+
+It is similar to a L<button|/"Buttons">, except that C<$url> is mandatory
+
 
 =head1 HELPERS
 
@@ -330,49 +350,43 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 
 =head3 Syntax
 
-There are two different syntaxes. One for single-button dropdowns and one for multi-button dropdowns.
+There are two different syntaxes. One for single-button groups and one for multi-button groups. The difference is that single-button groups can't change
+anything concerning the buttongroup (e.g. it can't be C<justified>). If you need to do that there is nothing wrong with having a multi-button
+group with just one button.
 
     # multi button
     <%= buttongroup %has,
                     buttons => [
-                        [ |button| ],
-                        {
-                            button => [ |button| ],
-                            items => [
-                                [ $itemtext, [ $url ], %item_has ],
+                        [ |button|,
+                          (items => [
+                                [ |link| ],
                                ($headertext,)
                                ([],)
-                            ]
-                        }
+                           ])
+                        ]
                     ]
     %>
 
     # single button
-    <%= buttongroup {
-                        button => [ |button| ],
-                        items => [
-                            [ $itemtext, [ $url ], %item_has ],
+    <%= buttongroup [ |button|,
+                      (items => [
+                            [ |link| ],
                            ($headertext,)
                            ([],)
-                        ]
-                    }
+                       ])
+                    ]
     %>
 
 B<C<buttons =E<gt> []>>
 
-Single-button: Not available. Multi-button: Mandatory array reference. Takes a list of child elements of two different types:
+The single-button style is a shortcut for the C<buttons> array reference. It takes ordinary L<buttons|/"Buttons">, with two differences: The C<items> array reference, and it is unnecessary to give a button
+with C<items> a url.
 
 =over 4
 
-B<C<[ |button| ]>>
+B<C<items =E<gt> [...]>>
 
-Single-button: Not available. Multi-button: Array references are (and take the same arguments as) ordinary L<buttons|/"Buttons">. Two exceptions: It can't take a url, and it can take the C<caret> strapping.
-
-B<C<{ ... }>>
-
-Hash references are nested L<dropdowns|/"Dropdowns">. Read more there.
-
-For the single-button dropdown, this is the only argument.
+Giving a button an C<items> array reference creates a L<dropdown|/"Dropdowns">. Read more under C<items> there.
 
 =back
 
@@ -406,39 +420,29 @@ A mandatory array reference of L<button groups|/"Button-groups">.
 =head3 Syntax
 
     <%= dropdown  %has,
-                  button => [ |button| ],
-                  items  => [
-                      [ $itemtext, [ $url ], %item_has ],
-                     ($headertext,)
-                     ([],)
+                  [ |button|, items  => [
+                       [ |link| ],
+                      ($headertext,)
+                      ([],)
+                    ]
                   ]
 
-B<C<button =E<gt> []>>
+B<C<[ |button| ]>>
 
-Mandatory array reference. Takes the same arguments as an ordinary L<button|/"Buttons">, with two exceptions: It can't take a url, and it can take the C<caret> strapping.
+Mandatory array reference. It takes an ordinary L<button|/"Buttons">, with two differences: The C<items> array reference, and it is unnecessary to give a button
+with C<items> a url.
+
+=over 4
 
 B<C<items>>
 
-Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
+Mandatory array reference. Here are the items that make up the menu. It takes three different types of value (both can occur any number of times:
 
 =over 4
 
-B<C<[ $itemtext, [ $url ], %item_has ]>>
+B<C<[ |link| ]>>
 
-This creates a linked menu item.
-
-=over 4
-
-B<C<$itemtext>>
-
-Mandatory. The text on the link.
-
-B<C<$url>>
-
-Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
-
-=back
-
+An array reference creates a L<link|/"link"> in the menu.
 
 B<C<$headertext>>
 
@@ -447,6 +451,8 @@ A string creates a dropdown header.
 B<C<[]>>
 
 An empty array reference creates a divider.
+
+=back
 
 =back
 
@@ -587,11 +593,11 @@ Creates a radiobutton by giving its content to L<radio_button|Mojolicious::Plugi
 
 B<C<prepend =E<gt> { buttongroup =E<gt> { |buttongroup| }>>
 
-Creates a single button buttongroup. See L<button_groups|/"Button-groups"> for details.
+Creates a single button buttongroup. See L<button groups|/"Button-groups"> for details.
 
 B<C<prepend =E<gt> { buttongroup =E<gt> [ |buttongroup| ]>>
 
-Creates a multi button buttongroup. See L<button_groups|/"Button-groups"> for details.
+Creates a multi button buttongroup. See L<button groups|/"Button-groups"> for details.
 
 =back
 
@@ -599,6 +605,132 @@ Creates a multi button buttongroup. See L<button_groups|/"Button-groups"> for de
 
 # EXAMPLE: input_group-1.mojo:examples
 
+
+=head2 Navs
+
+=head3 Syntax
+
+    <%= nav %has,
+            $type => [ |link|,
+                      (items => [
+                            [ |link| ],
+                           ($headertext,)
+                           ([],)
+                       ])
+                    ]
+    %>
+
+C<Navs> are syntactically similar to L<button groups|/"Button-groups">.
+
+B<C<$type =E<gt> [...]>>
+
+Mandatory. C<$type> is either C<pills> or C<tabs> (or C<items> if the C<nav> is in a L<navbar|/"Navbars">) and applies the adequate class to the surrounding C<ul>.
+
+=over 4
+
+B<C<items =E<gt> []>>
+
+If present does the same as C<items> in L<dropdown|/"Dropdowns">.
+
+=back
+
+=head3 Examples
+
+# EXAMPLE:nav-1.mojo:examples
+
+
+=head2 Navbars
+
+=head3 Syntax
+
+    navbar %has, header => [ |link|, %navbar_has ],
+                 form => [
+                     [ [ $url ], %form_has ],
+                     [
+                         formgroup => [ |formgroup| ],
+                         input => [ |input| ],
+                         button => [ |button| ],
+                         submit_button => [ |submit_button| ],
+                      ]
+                  ],
+                  button => [ |button| ],
+                  nav => [ |nav| ]
+                  p => [ $text, %p_has ]
+
+C<Navbars> are comples structures. They take the following arguments:
+
+B<C<header =E<gt> [ |link|, %navbar_has ]>>
+
+C<header> creates a C<navbar-header>. There can be only one C<header>.
+
+=over 4
+
+B<C<|link|>>
+
+Creates the C<brand>. Set the link text to C<undef> if you don't want a brand.
+
+B<C<%navbar_has>>
+
+Can take the following extra arguments:
+
+=over 4
+
+The C<hamburger> strapping creates the menu button for collapsed navbars.
+
+B<C<toggler =E<gt> $collapse_id>>
+
+This sets the C<id> on the collapsing part of the navbar. Set it if you need to reference that part of the navbar, otherwise an id will be generated.
+
+=back
+
+=back
+
+The following arguments can appear any number of times, and is rendered in order.
+
+=over 4
+
+B<C<button =E<gt> [ |button| ]>>
+
+Creates a L<button|/"Buttons">.
+
+B<C<nav =E<gt> [ |nav| ]>>
+
+Creates a L<nav|/"Navs">. Use C<items> if you need to create submenus.
+
+B<C<p =E<gt> [ $text, %p_has ]>>
+
+Creates a C<E<lt>pE<gt>$textE<lt>/pE<gt> tag.
+
+B<C<form =E<gt> [...]>>
+
+Creates a C<form>, by leveraging L<form_for|Mojolicious::Plugin::TagHelpers#form_for> in L<Mojolicious::Plugin::TagHelpers>.
+
+=over 4
+
+B<C<[ [ $url ], %form_has ]>>
+
+Mandatory array reference. This sets up the C<form> tag.
+
+B<C<[...]>>
+
+Mandatory array reference. The second argument to C<form> can take different types (any number of times, rendered in order):
+
+=over 4
+
+B<C<formgroup =E<gt> [ |formgroup| ]>>
+B<C<input =E<gt> [ |input| ]>>
+B<C<button =E<gt> [ |button| ]>>
+B<C<submit_button =E<gt> [ |submit_button| ]>>
+
+Creates L<form groups|/"Form-groups">, L<input groups|/"Input-groups">, L<buttons|/"Buttons"> and L<submit_buttons|/"Submit_buttons">
+
+=back
+
+=back
+
+=back
+
+# EXAMPLE: navbar-1.mojo:examples
 
 =head2 Panels
 

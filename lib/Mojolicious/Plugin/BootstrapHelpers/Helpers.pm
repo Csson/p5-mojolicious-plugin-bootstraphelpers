@@ -9,7 +9,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-#    use Data::Dump::Streamer 'Dumper';
+    use Data::Dump::Streamer 'Dumper';
+    use String::Random;
     use experimental qw/postderef signatures/; # requires 5.20
 
     sub bootstraps_bootstraps {
@@ -304,8 +305,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub make_buttongroup_meat {
         my $c = shift;
-        my $attr = parse_attributes(@_);
 
+        my $attr = parse_attributes(@_);
         my $buttons_info = delete $attr->{'buttons'};
 
         my $button_group_class = delete $attr->{'__vertical'} ? 'btn-group-vertical' : 'btn-group';
@@ -414,18 +415,15 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 # <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
     sub bootstrap_navbar {
         my $c = shift;
-        my $contents = pop;
-        my $attr = parse_attributes(@_);
-        my($possible_toggler_id, $navbar_header) = make_navbar_header($c, delete $attr->{'header'}, delete $attr->{'html_header'});
 
-        $attr = add_classes($attr, 'navbar', { navbar => 'navbar-%s', navbar_default => 'default' });
-        my $html = htmlify_attrs($attr);
+        my($possible_toggler_id, $navbar_header) = ();
 
         my $content_html = '';
+        my $has_inverse = 0;
 
-        for (my $index = 0; $index < scalar $contents->@*; $index += 2) {
-            my $key = $contents->[$index];
-            my @arguments = ($c, $contents->[$index + 1]);
+        while(scalar @_) {
+            my $key = shift;
+            my @arguments = ($c, shift);
 
             $content_html .= $key eq 'nav'    ?   make_navbar_nav(@arguments)
                            : $key eq 'form'   ?   make_navbar_form(@arguments)
@@ -433,7 +431,17 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
                            : $key eq 'p'      ?   make_navbar_p(@arguments)
                            :                      ''
                            ;
+            if($key eq 'header') {
+                ($possible_toggler_id, $navbar_header) = make_navbar_header(@arguments);
+            }
+            if($key eq '__inverse') {
+                $has_inverse = 1;
+            }
+
         }
+        my $attr = $has_inverse ? { __inverse => 1 } : {};
+        $attr = add_classes($attr, 'navbar', { navbar => 'navbar-%s', navbar_default => 'default' });
+        my $html = htmlify_attrs($attr);
         if(length $content_html) {
             $content_html = qq{
                 <div class="collapse navbar-collapse" id="$possible_toggler_id">
@@ -462,7 +470,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $brand = shift $header->@*;
         my $url = url_for($c, shift $header->@* || []);
         my $header_attr = parse_attributes($header->@*);
-        my $toggler_id = delete $header_attr->{'toggler'} || 'generated-toggler-id';
+        my $toggler_id = delete $header_attr->{'toggler'} || 'collapsable-' . String::Random->new->randregex('[a-z]{20}');
         my $has_hamburger = delete $header_attr->{'__hamburger'};
         my $hamburger = $has_hamburger ? get_hamburger($toggler_id) : '';
         $header_attr = add_classes($header_attr, 'navbar-brand');
@@ -483,13 +491,14 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub make_navbar_nav {
         my $c = shift;
         my $nav = shift;
-        my $contents = pop $nav->@*;
+
         my $attr = parse_attributes($nav->@*);
+        my $items = delete $attr->{'items'};
         $attr = add_classes($attr, 'nav', 'navbar-nav', { direction => 'navbar-%s' });
         my $html = htmlify_attrs($attr);
 
         my $tag = "<ul$html>";
-        $tag .= make_nav_meat($c, $contents);
+        $tag .= make_nav_meat($c, $items);
 
         $tag .= '</ul>';
         return $tag;
@@ -566,58 +575,110 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $contents = shift;
 
         my $tag = '';
+        CONTENT:
         foreach my $content ($contents->@*) {
-            #* Link
-            if(ref $content eq 'ARRAY') {
-                my $text = shift $content->@*;
-                my $url = url_for($c, shift $content->@*);
+            next CONTENT if ref $content ne 'ARRAY';
 
-                my $link_attr = parse_attributes($content->@*);
-                my $active = delete $link_attr->{'__active'};
-                my $disabled = delete $link_attr->{'__disabled'};
+            my $text = shift $content->@*;
+            my $url = url_for($c, shift $content->@*);
+            my $attr = parse_attributes($content->@*);
+
+            my $items = delete $attr->{'items'} || [];
+            #* No sub menu
+            if(!scalar $items->@*) {
+                my $active = delete $attr->{'__active'};
+                my $disabled = delete $attr->{'__disabled'};
                 my $li_attr = add_classes({}, $active ? 'active' : (), $disabled ? 'disabled' : ());
                 my $li_html = htmlify_attrs($li_attr);
 
                 my $link_html = qq{<a href="$url">$text</a>};
                 $tag .= qq{<li$li_html>$link_html</li>};
+                next CONTENT;
             }
-            #* Menu
-            elsif(ref $content eq 'HASH') {
-                my $button = delete $content->{'button'};
-                my $button_text = shift $button->@*;
-                my $url = shift $button->@*;
-                my $button_attr = parse_attributes($button->@*);
-                $button_attr = add_classes($button_attr, 'dropdown-toggle');
-                $button_attr->{'data-toggle'} = 'dropdown';
-                $button_attr->{'href'} = url_for($c, $url);
-                my $caret = delete $button_attr->{'__caret'} ? ' <span class="caret"></span>' : '';
-                my $button_arg = htmlify_attrs($button_attr);
-                my $button_html = qq{<a$button_arg>$button_text$caret</a>};
 
-                my $items = delete $content->{'items'};
-                my $lis = '';
-                ITEM:
-                foreach my $item ($items->@*) {
-                    if(!scalar $item->@*) {
-                        $lis .= q{<li class="divider"></li>};
-                        next ITEM;
-                    }
-                    my $text = shift $item->@*;
-                    my $url = url_for($c, shift $item->@*);
-                    my $a_attr = parse_attributes($item->@*);
-                    $a_attr->{'href'} = $url;
-                    my $a_html = htmlify_attrs($a_attr);
-                    $lis .= qq{<li><a$a_html>$text</a></li>};
+            $attr = add_classes($attr, 'dropdown-toggle');
+            $attr->{'data-toggle'} = 'dropdown';
+            $attr->{'href'} = $url;
+            my $caret = delete $attr->{'__caret'} ? ' <span class="caret"></span>' : '';
+            my $button_arg = htmlify_attrs($attr);
+            my $button_html = qq{<a$button_arg>$text$caret</a>};
+
+            my $lis = '';
+            ITEM:
+            foreach my $item ($items->@*) {
+                if(!scalar $item->@*) {
+                    $lis .= q{<li class="divider"></li>};
+                    next ITEM;
                 }
-                $tag .= qq{
-                    <li class="dropdown">
-                        $button_html
-                        <ul class="dropdown-menu">
-                            $lis
-                        </ul>
-                    </li>
-                };
+                my $text = shift $item->@*;
+                my $url = url_for($c, shift $item->@*);
+                my $a_attr = parse_attributes($item->@*);
+                $a_attr->{'href'} = $url;
+                my $a_html = htmlify_attrs($a_attr);
+                $lis .= qq{<li><a$a_html>$text</a></li>};
             }
+            $tag .= qq{
+                <li class="dropdown">
+                    $button_html
+                    <ul class="dropdown-menu">
+                        $lis
+                    </ul>
+                </li>
+            };
+
+
+
+            # #* Link
+            # if(ref $content eq 'ARRAY') {
+            #     my $text = shift $content->@*;
+            #     my $url = url_for($c, shift $content->@*);
+
+            #     my $link_attr = parse_attributes($content->@*);
+            #     my $active = delete $link_attr->{'__active'};
+            #     my $disabled = delete $link_attr->{'__disabled'};
+            #     my $li_attr = add_classes({}, $active ? 'active' : (), $disabled ? 'disabled' : ());
+            #     my $li_html = htmlify_attrs($li_attr);
+
+            #     my $link_html = qq{<a href="$url">$text</a>};
+            #     $tag .= qq{<li$li_html>$link_html</li>};
+            # }
+            # #* Menu
+            # elsif(ref $content eq 'HASH') {
+            #     my $button = delete $content->{'button'};
+            #     my $button_text = shift $button->@*;
+            #     my $url = shift $button->@*;
+            #     my $button_attr = parse_attributes($button->@*);
+            #     $button_attr = add_classes($button_attr, 'dropdown-toggle');
+            #     $button_attr->{'data-toggle'} = 'dropdown';
+            #     $button_attr->{'href'} = url_for($c, $url);
+            #     my $caret = delete $button_attr->{'__caret'} ? ' <span class="caret"></span>' : '';
+            #     my $button_arg = htmlify_attrs($button_attr);
+            #     my $button_html = qq{<a$button_arg>$button_text$caret</a>};
+
+            #     my $items = delete $content->{'items'};
+            #     my $lis = '';
+            #     ITEM:
+            #     foreach my $item ($items->@*) {
+            #         if(!scalar $item->@*) {
+            #             $lis .= q{<li class="divider"></li>};
+            #             next ITEM;
+            #         }
+            #         my $text = shift $item->@*;
+            #         my $url = url_for($c, shift $item->@*);
+            #         my $a_attr = parse_attributes($item->@*);
+            #         $a_attr->{'href'} = $url;
+            #         my $a_html = htmlify_attrs($a_attr);
+            #         $lis .= qq{<li><a$a_html>$text</a></li>};
+            #     }
+            #     $tag .= qq{
+            #         <li class="dropdown">
+            #             $button_html
+            #             <ul class="dropdown-menu">
+            #                 $lis
+            #             </ul>
+            #         </li>
+            #     };
+            # }
         }
         return $tag;
     }
@@ -729,7 +790,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
             };
         }
         elsif($key eq 'buttongroup') {
-            my($button_group) = ref $ender->{ $key } eq 'HASH' ? make_dropdown_meat($c, $ender->{ $key }->%*)
+            return '' if ref $ender->{ $key } ne 'ARRAY';
+            my($button_group) = scalar $ender->{ $key }->@* == 1 ? make_dropdown_meat($c, $ender->{ $key }[0]->@*)
                              :                                   make_buttongroup_meat($c, $ender->{ $key }->@*)
                              ;
             $tag = qq{
@@ -747,6 +809,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub url_for {
         my $c = shift;
         my $url = shift;
+        return '' if ref $url ne 'ARRAY';
         return '#' if scalar $url->@* == 1 && $url->[0] eq '#';
         return $c->url_for($url->@*)->to_string;
     }

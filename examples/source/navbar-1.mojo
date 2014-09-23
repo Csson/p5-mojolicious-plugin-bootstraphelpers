@@ -1,6 +1,6 @@
 ==test==
 --t--
-    <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'], [] %>
+    <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
 --t--
 --e--
     <nav class="navbar navbar-default">
@@ -17,48 +17,20 @@
     </nav>
 --e--
 
-==test==
---t--
-    <%= navbar html_header => qq{
-            <div class="navbar-header">
-                <button class="collapsed navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
-                    <span>Expand</span>
-                </button>
-                <a class="navbar-brand" href="#">The brand</a>
-            </div>
-    }, [] %>
---t--
---e--
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button class="collapsed navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
-                    <span>Expand</span>
-                </button>
-                <a class="navbar-brand" href="#">The brand</a>
-            </div>
-        </div>
-    </nav>
---e--
-By using <code>html_header</code> you can specify an entirely customized header.
 
-
-==no test==
+==test example==
 --t--
-    <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'],
-               [
-                    nav => [
-                        [
-                            ['Link', ['#'] ],
-                            ['Another link', ['#'], active ],
-                            ['Menu', ['#'], caret, items => [
-                                ['Choice 1', ['#'] ],
-                                ['Choice 2', ['#'] ],
-                                [],
-                                ['Choice 3', ['#'] ],
-                            ] ],
-                        ]
-                    ]
+    <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
+               nav => [ items => [
+                       ['Link', ['#'] ],
+                       ['Another link', ['#'], active ],
+                       ['Menu', ['#'], caret, items => [
+                           ['Choice 1', ['#'] ],
+                           ['Choice 2', ['#'] ],
+                           [],
+                           ['Choice 3', ['#'] ],
+                       ] ],
+                   ]
                ]
     %>
 --t--
@@ -66,14 +38,14 @@ By using <code>html_header</code> you can specify an entirely customized header.
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button class="collapsed navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+                <button class="collapsed navbar-toggle" data-target="#bs-example-navbar-collapse-2" data-toggle="collapse" type="button">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">The brand</a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
                     <li><a href="#">Link</a></li>
                     <li class="active"><a href="#">Another link</a></li>
@@ -91,29 +63,26 @@ By using <code>html_header</code> you can specify an entirely customized header.
         </div>
     </nav>
 --e--
+A simple navbar with a couple of links and a submenu.
 
 ==test==
 --t--
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
-               [
-                    form => [
-                        [['/login'], method => 'post', left],
-                        [
-                            formgroup => [
-                                undef,
-                                text_field => ['search-term', placeholder => 'Search' ],
-                            ],
-                            submit_button => ['Submit'],
-                        ]
-                    ],
-                    button => ['A link', ['#'], left ],
-                    nav => [
-                        [
-                            ['Another linkage', ['#'] ]
-                        ]
-                    ],
-                    p => ['Hello', right]
-               ]
+               form => [
+                    [['/login'], method => 'post', left],
+                    [
+                        formgroup => [
+                            text_field => ['search-term', placeholder => 'Search' ],
+                        ],
+                        submit_button => ['Submit'],
+                    ]
+                ],
+                button => ['A link', ['#'], left ],
+                nav => [ items => [
+                        ['Another linkage', ['#'] ]
+                    ]
+                ],
+                p => ['Hello', right]
     %>
 --t--
 --e--
@@ -145,10 +114,10 @@ By using <code>html_header</code> you can specify an entirely customized header.
 --e--
 
 
-==no test==
+==test example==
 --t--
-<%= navbar ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
-           nav => [ right,
+<%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
+           nav => [ items => [
                    ['Link', ['#'], active ],
                    ['Link', ['#'] ],
                    ['Dropdown', ['#'], caret, items => [
@@ -159,7 +128,7 @@ By using <code>html_header</code> you can specify an entirely customized header.
                        ['Separated link', ['#'] ],
                        [],
                        ['One more separated link', ['#'] ],
-                   ] ],
+                   ] ] ],
             ],
             form => [
                 [['/login'], method => 'post', left],
@@ -172,7 +141,7 @@ By using <code>html_header</code> you can specify an entirely customized header.
             ],
             nav => [
                 right,
-                [
+                items => [
                     ['Link', ['#'] ],
                     ['Dropdown', ['#'], caret, items => [
                             ['Action', ['#'] ],
@@ -239,3 +208,4 @@ By using <code>html_header</code> you can specify an entirely customized header.
         </div>
     </nav>
 --e--
+This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>.

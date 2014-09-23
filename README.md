@@ -175,6 +175,22 @@ Both of these are legal:
          <tr><td>A Table Cell</td></tr>
     %  end
 
+### |link|
+
+All other `|references|` are also helpers, so `|link|` needs special mention:
+
+    $linktext, [ $url ], %link_has
+
+> **`$itemtext`**
+>
+> Mandatory. The text on the link.
+>
+> **`$url`**
+>
+> Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+
+It is similar to a [button](#buttons), except that `$url` is mandatory
+
 # HELPERS
 
 [Bootstrap documentation](http://getbootstrap.com/components/#badges)
@@ -287,47 +303,41 @@ Not available for `submit_button`.
 
 ### Syntax
 
-There are two different syntaxes. One for single-button dropdowns and one for multi-button dropdowns.
+There are two different syntaxes. One for single-button groups and one for multi-button groups. The difference is that single-button groups can't change
+anything concerning the buttongroup (e.g. it can't be `justified`). If you need to do that there is nothing wrong with having a multi-button
+group with just one button.
 
     # multi button
     <%= buttongroup %has,
                     buttons => [
-                        [ |button| ],
-                        {
-                            button => [ |button| ],
-                            items => [
-                                [ $itemtext, [ $url ], %item_has ],
+                        [ |button|,
+                          (items => [
+                                [ |link| ],
                                ($headertext,)
                                ([],)
-                            ]
-                        }
+                           ])
+                        ]
                     ]
     %>
 
     # single button
-    <%= buttongroup {
-                        button => [ |button| ],
-                        items => [
-                            [ $itemtext, [ $url ], %item_has ],
+    <%= buttongroup [ |button|,
+                      (items => [
+                            [ |link| ],
                            ($headertext,)
                            ([],)
-                        ]
-                    }
+                       ])
+                    ]
     %>
 
 **`buttons => []`**
 
-Single-button: Not available. Multi-button: Mandatory array reference. Takes a list of child elements of two different types:
+The single-button style is a shortcut for the `buttons` array reference. It takes ordinary [buttons](#buttons), with two differences: The `items` array reference, and it is unnecessary to give a button
+with `items` a url.
 
-> **`[ |button| ]`**
+> **`items => [...]`**
 >
-> Single-button: Not available. Multi-button: Array references are (and take the same arguments as) ordinary [buttons](#buttons). Two exceptions: It can't take a url, and it can take the `caret` strapping.
->
-> **`{ ... }`**
->
-> Hash references are nested [dropdowns](#dropdowns). Read more there.
->
-> For the single-button dropdown, this is the only argument.
+> Giving a button an `items` array reference creates a [dropdown](#dropdowns). Read more under `items` there.
 
 ### Examples
 
@@ -589,40 +599,33 @@ A mandatory array reference of [button groups](#button-groups).
 ### Syntax
 
     <%= dropdown  %has,
-                  button => [ |button| ],
-                  items  => [
-                      [ $itemtext, [ $url ], %item_has ],
-                     ($headertext,)
-                     ([],)
+                  [ |button|, items  => [
+                       [ |link| ],
+                      ($headertext,)
+                      ([],)
+                    ]
                   ]
 
-**`button => []`**
+**`[ |button| ]`**
 
-Mandatory array reference. Takes the same arguments as an ordinary [button](#buttons), with two exceptions: It can't take a url, and it can take the `caret` strapping.
+Mandatory array reference. It takes an ordinary [button](#buttons), with two differences: The `items` array reference, and it is unnecessary to give a button
+with `items` a url.
 
-**`items`**
-
-Mandatory array reference. Here are the items that make up the menu. It takes two different types of value (both can occur any number of times:
-
-> **`[ $itemtext, [ $url ], %item_has ]`**
+> **`items`**
 >
-> This creates a linked menu item.
+> Mandatory array reference. Here are the items that make up the menu. It takes three different types of value (both can occur any number of times:
 >
-> > **`$itemtext`**
+> > **`[ |link| ]`**
 > >
-> > Mandatory. The text on the link.
+> > An array reference creates a [link](#link) in the menu.
 > >
-> > **`$url`**
+> > **`$headertext`**
 > >
-> > Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
->
-> **`$headertext`**
->
-> A string creates a dropdown header.
->
-> **`[]`**
->
-> An empty array reference creates a divider.
+> > A string creates a dropdown header.
+> >
+> > **`[]`**
+> >
+> > An empty array reference creates a divider.
 
 **Available strappings**
 
@@ -877,13 +880,29 @@ Both are optional, but input groups don't make sense if neither is present. They
 >
 > **`prepend => { buttongroup => { |buttongroup| }`**
 >
-> Creates a single button buttongroup. See [button\_groups](#button-groups) for details.
+> Creates a single button buttongroup. See [button groups](#button-groups) for details.
 >
 > **`prepend => { buttongroup => [ |buttongroup| ]`**
 >
-> Creates a multi button buttongroup. See [button\_groups](#button-groups) for details.
+> Creates a multi button buttongroup. See [button groups](#button-groups) for details.
 
 ### Examples
+
+    <%= input input => { text_field => ['username'] },
+              prepend => { check_box => ['agreed'] }
+    %>
+
+    <div class="input-group">
+        <span class="input-group-addon"><input name="agreed" type="checkbox" /></span>
+        <input class="form-control" id="username" type="text" name="username" />
+    </div>
+
+<div>
+    <p>
+    An input group with a checkbox.
+
+    </p>
+</div>
 
     <%= input large,
               prepend => { radio_button => ['yes'] },
@@ -901,6 +920,346 @@ Both are optional, but input groups don't make sense if neither is present. They
     <p>
     A <code>large</code> input group with a radio button prepended and a string appended.
 
+    </p>
+</div>
+
+    <%= input input => { text_field => ['username'] },
+              append => { button => ['Click me!'] },
+    %>
+
+    <div class="input-group">
+        <input class="form-control" id="username" type="text" name="username" />
+        <span class="input-group-btn"><button class="btn btn-default" type="button">Click me!</button></span>
+    </div>
+
+<div>
+    <p>
+    An input group with a button.
+
+    </p>
+</div>
+
+<div>
+    <p>
+        <%= buttongroup ['Default', caret, items  => [
+                            ['Item 1', ['item1'] ],
+                            ['Item 2', ['item2'] ],
+                            [],
+                            ['Item 3', ['item3'] ],
+                        ] ]
+        %>
+    </p>
+</div>
+
+    <%= input input  => { text_field => ['username'] },
+              append => { buttongroup => [['The button', caret, right, items => [
+                                  ['Item 1', ['item1'] ],
+                                  ['Item 2', ['item2'] ],
+                                  [],
+                                  ['Item 3', ['item3'] ],
+                              ] ] ]
+                        }
+    %>
+
+    <div class="input-group">
+        <input class="form-control" id="username" type="text" name="username" />
+        <div class="input-group-btn">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">The button <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+<div>
+    <p>
+    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+
+    </p>
+</div>
+
+    <%= input input   => { text_field => ['username'] },
+              prepend => { buttongroup => [
+                              buttons => [
+                                ['Link 1', ['http://www.example.com/'] ],
+                                [undef, caret, items => [
+                                      ['Item 1', ['item1'] ],
+                                      ['Item 2', ['item2'] ],
+                                      [],
+                                      ['Item 3', ['item3'] ],
+                                  ],
+                               ],
+                            ],
+                         ],
+                      },
+    %>
+
+    <div class="input-group">
+        <div class="input-group-btn">
+            <a class="btn btn-default" href="http://www.example.com/">Link 1</a>
+            <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                    <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                    <li class="divider"></li>
+                    <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+                </ul>
+            </div>
+        </div>
+        <input class="form-control" id="username" type="text" name="username" />
+    </div>
+
+<div>
+    <p>
+    An input group with a split button dropdown prepended.
+    </p>
+</div>
+
+## Navs
+
+### Syntax
+
+    <%= nav %has,
+            $type => [ |link|,
+                      (items => [
+                            [ |link| ],
+                           ($headertext,)
+                           ([],)
+                       ])
+                    ]
+    %>
+
+`Navs` are syntactically similar to [button groups](#button-groups).
+
+**`$type => [...]`**
+
+Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a [navbar](#navbars)) and applies the adequate class to the surrounding `ul`.
+
+> **`items => []`**
+>
+> If present does the same as `items` in [dropdown](#dropdowns).
+
+### Examples
+
+## Navbars
+
+### Syntax
+
+    navbar %has, header => [ |link|, %navbar_has ],
+                 form => [
+                     [ [ $url ], %form_has ],
+                     [
+                         formgroup => [ |formgroup| ],
+                         input => [ |input| ],
+                         button => [ |button| ],
+                         submit_button => [ |submit_button| ],
+                      ]
+                  ],
+                  button => [ |button| ],
+                  nav => [ |nav| ]
+                  p => [ $text, %p_has ]
+
+`Navbars` are comples structures. They take the following arguments:
+
+**`header => [ |link|, %navbar_has ]`**
+
+`header` creates a `navbar-header`. There can be only one `header`.
+
+> **`|link|`**
+>
+> Creates the `brand`. Set the link text to `undef` if you don't want a brand.
+>
+> **`%navbar_has`**
+>
+> Can take the following extra arguments:
+>
+> > The `hamburger` strapping creates the menu button for collapsed navbars.
+> >
+> > **`toggler => $collapse_id`**
+> >
+> > This sets the `id` on the collapsing part of the navbar. Set it if you need to reference that part of the navbar, otherwise an id will be generated.
+
+The following arguments can appear any number of times, and is rendered in order.
+
+> **`button => [ |button| ]`**
+>
+> Creates a [button](#buttons).
+>
+> **`nav => [ |nav| ]`**
+>
+> Creates a [nav](#navs). Use `items` if you need to create submenus.
+>
+> **`p => [ $text, %p_has ]`**
+>
+> Creates a `<p>$text</p> tag.`
+>
+> **`form => [...]`**
+>
+> Creates a `form`, by leveraging [form\_for](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#form_for) in [Mojolicious::Plugin::TagHelpers](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers).
+>
+> > **`[ [ $url ], %form_has ]`**
+> >
+> > Mandatory array reference. This sets up the `form` tag.
+> >
+> > **`[...]`**
+> >
+> > Mandatory array reference. The second argument to `form` can take different types (any number of times, rendered in order):
+> >
+> > > **`formgroup => [ |formgroup| ]`**
+> > > **`input => [ |input| ]`**
+> > > **`button => [ |button| ]`**
+> > > **`submit_button => [ |submit_button| ]`**
+> > >
+> > > Creates [form groups](#form-groups), [input groups](#input-groups), [buttons](#buttons) and [submit\_buttons](#submit_buttons)
+
+    <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
+               nav => [ items => [
+                       ['Link', ['#'] ],
+                       ['Another link', ['#'], active ],
+                       ['Menu', ['#'], caret, items => [
+                           ['Choice 1', ['#'] ],
+                           ['Choice 2', ['#'] ],
+                           [],
+                           ['Choice 3', ['#'] ],
+                       ] ],
+                   ]
+               ]
+    %>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="collapsed navbar-toggle" data-target="#bs-example-navbar-collapse-2" data-toggle="collapse" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">The brand</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Link</a></li>
+                    <li class="active"><a href="#">Another link</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Choice 1</a></li>
+                            <li><a href="#">Choice 2</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Choice 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div>
+    <p>
+    A simple navbar with a couple of links and a submenu.
+
+    </p>
+</div>
+
+<%= navbar header => \['Brand', \['#'\], hamburger, toggler => 'collapse-4124'\],
+           nav => \[ items => \[
+                   \['Link', \['#'\], active \],
+                   \['Link', \['#'\] \],
+                   \['Dropdown', \['#'\], caret, items => \[
+                       \['Action', \['#'\] \],
+                       \['Another action', \['#'\] \],
+                       \['Something else here', \['#'\] \],
+                       \[\],
+                       \['Separated link', \['#'\] \],
+                       \[\],
+                       \['One more separated link', \['#'\] \],
+                   \] \] \],
+            \],
+            form => \[
+                \[\['/login'\], method => 'post', left\],
+                \[
+                    formgroup => \[
+                        text\_field => \['the-search', placeholder => 'Search' \],
+                    \],
+                    submit\_button => \['Submit'\],
+                \]
+            \],
+            nav => \[
+                right,
+                items => \[
+                    \['Link', \['#'\] \],
+                    \['Dropdown', \['#'\], caret, items => \[
+                            \['Action', \['#'\] \],
+                            \['Another action', \['#'\] \],
+                            \['Something else here', \['#'\] \],
+                            \[\],
+                            \['Separated link', \['#'\] \],
+                        \],
+                    \]
+                \],
+            \]
+
+%>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#collapse-4124">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>
+            </div>
+            <div class="collapse navbar-collapse" id="collapse-4124">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="/login" class="navbar-form navbar-left" method="post">
+                    <div class="form-group">
+                        <input class="form-control" id="the-search" name="the_search" placeholder="Search" type="text" />
+                    </div>
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div>
+    <p>
+    This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>.
     </p>
 </div>
 
@@ -1133,3 +1492,11 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 1275:
+
+    Unterminated C<...> sequence

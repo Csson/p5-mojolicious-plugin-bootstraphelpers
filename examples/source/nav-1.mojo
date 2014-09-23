@@ -17,7 +17,7 @@
     </ul>
 --e--
 
-==no test==
+==test==
 --t--
     <%= nav justified, id => 'my-nav', tabs => [
                 ['Item 1', ['#'] ],
