@@ -9,7 +9,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-    use Data::Dump::Streamer 'Dumper';
+#    use Data::Dump::Streamer 'Dumper';
     use String::Random;
     use experimental qw/postderef signatures/; # requires 5.20
 
