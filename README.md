@@ -181,15 +181,13 @@ All other `|references|` are also helpers, so `|link|` needs special mention:
 
     $linktext, [ $url ], %link_has
 
-> **`$itemtext`**
->
-> Mandatory. The text on the link.
->
-> **`$url`**
->
-> Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+**`$itemtext`**
 
-It is similar to a [button](#buttons), except that `$url` is mandatory
+Mandatory. The text on the link.
+
+**`$url`**
+
+Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
 
 # HELPERS
 
@@ -939,18 +937,6 @@ Both are optional, but input groups don't make sense if neither is present. They
     </p>
 </div>
 
-<div>
-    <p>
-        <%= buttongroup ['Default', caret, items  => [
-                            ['Item 1', ['item1'] ],
-                            ['Item 2', ['item2'] ],
-                            [],
-                            ['Item 3', ['item3'] ],
-                        ] ]
-        %>
-    </p>
-</div>
-
     <%= input input  => { text_field => ['username'] },
               append => { buttongroup => [['The button', caret, right, items => [
                                   ['Item 1', ['item1'] ],
@@ -1122,7 +1108,7 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
                   nav => [ |nav| ]
                   p => [ $text, %p_has ]
 
-`Navbars` are comples structures. They take the following arguments:
+`Navbars` are complex structures. They take the following arguments:
 
 **`header => [ |link|, %navbar_has ]`**
 
@@ -1169,8 +1155,11 @@ The following arguments can appear any number of times, and is rendered in order
 > > Mandatory array reference. The second argument to `form` can take different types (any number of times, rendered in order):
 > >
 > > > **`formgroup => [ |formgroup| ]`**
+> > >
 > > > **`input => [ |input| ]`**
+> > >
 > > > **`button => [ |button| ]`**
+> > >
 > > > **`submit_button => [ |submit_button| ]`**
 > > >
 > > > Creates [form groups](#form-groups), [input groups](#input-groups), [buttons](#buttons) and [submit\_buttons](#submit_buttons)
@@ -1315,7 +1304,7 @@ The following arguments can appear any number of times, and is rendered in order
 
 <div>
     <p>
-    This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>.
+    This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action, the <code>input</code> has <code>id</code> and <code>name</code>.
     </p>
 </div>
 

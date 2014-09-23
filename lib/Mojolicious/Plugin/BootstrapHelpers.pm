@@ -267,8 +267,6 @@ All other C<|references|> are also helpers, so C<|link|> needs special mention:
 
     $linktext, [ $url ], %link_has
 
-=over 4
-
 B<C<$itemtext>>
 
 Mandatory. The text on the link.
@@ -277,9 +275,6 @@ B<C<$url>>
 
 Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
 
-=back
-
-It is similar to a L<button|/"Buttons">, except that C<$url> is mandatory
 
 
 =head1 HELPERS
@@ -657,7 +652,7 @@ If present does the same as C<items> in L<dropdown|/"Dropdowns">.
                   nav => [ |nav| ]
                   p => [ $text, %p_has ]
 
-C<Navbars> are comples structures. They take the following arguments:
+C<Navbars> are complex structures. They take the following arguments:
 
 B<C<header =E<gt> [ |link|, %navbar_has ]>>
 
@@ -718,8 +713,11 @@ Mandatory array reference. The second argument to C<form> can take different typ
 =over 4
 
 B<C<formgroup =E<gt> [ |formgroup| ]>>
+
 B<C<input =E<gt> [ |input| ]>>
+
 B<C<button =E<gt> [ |button| ]>>
+
 B<C<submit_button =E<gt> [ |submit_button| ]>>
 
 Creates L<form groups|/"Form-groups">, L<input groups|/"Input-groups">, L<buttons|/"Buttons"> and L<submit_buttons|/"Submit_buttons">

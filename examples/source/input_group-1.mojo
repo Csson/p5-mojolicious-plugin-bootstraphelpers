@@ -47,13 +47,6 @@ An input group with a button.
 
 
 ==test example==
-    <%= buttongroup ['Default', caret, items  => [
-                        ['Item 1', ['item1'] ],
-                        ['Item 2', ['item2'] ],
-                        [],
-                        ['Item 3', ['item3'] ],
-                    ] ]
-    %>
 --t--
     <%= input input  => { text_field => ['username'] },
               append => { buttongroup => [['The button', caret, right, items => [

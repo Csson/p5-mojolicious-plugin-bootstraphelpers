@@ -207,4 +207,4 @@ A simple navbar with a couple of links and a submenu.
         </div>
     </nav>
 --e--
-This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>.
+This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action, the <code>input</code> has <code>id</code> and <code>name</code>.
