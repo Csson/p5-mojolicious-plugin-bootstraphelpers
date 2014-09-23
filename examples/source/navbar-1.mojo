@@ -118,45 +118,43 @@ A simple navbar with a couple of links and a submenu.
 ==test example==
 --t--
     <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
-           nav => [ items => [
-                   ['Link', ['#'], active ],
-                   ['Link', ['#'] ],
-                   ['Dropdown', ['#'], caret, items => [
-                       ['Action', ['#'] ],
-                       ['Another action', ['#'] ],
-                       ['Something else here', ['#'] ],
-                       [],
-                       ['Separated link', ['#'] ],
-                       [],
-                       ['One more separated link', ['#'] ],
-                   ] ] ],
-            ],
-            form => [
-                [['/login'], method => 'post', left],
-                [
-                    formgroup => [
-                        text_field => ['the-search', placeholder => 'Search' ],
-                    ],
-                    submit_button => ['Submit'],
-                ]
-            ],
-            nav => [
-                right,
-                items => [
-                    ['Link', ['#'] ],
-                    ['Dropdown', ['#'], caret, items => [
-                            ['Action', ['#'] ],
-                            ['Another action', ['#'] ],
-                            ['Something else here', ['#'] ],
-                            [],
-                            ['Separated link', ['#'] ],
+               nav => [ items => [
+                       ['Link', ['#'], active ],
+                       ['Link', ['#'] ],
+                       ['Dropdown', ['#'], caret, items => [
+                           ['Action', ['#'] ],
+                           ['Another action', ['#'] ],
+                           ['Something else here', ['#'] ],
+                           [],
+                           ['Separated link', ['#'] ],
+                           [],
+                           ['One more separated link', ['#'] ],
+                       ] ] ],
+                ],
+                form => [
+                    [['/login'], method => 'post', left],
+                    [
+                        formgroup => [
+                            text_field => ['the-search', placeholder => 'Search' ],
                         ],
+                        submit_button => ['Submit'],
                     ]
                 ],
-            ]
-
-
-%>
+                nav => [
+                    right,
+                    items => [
+                        ['Link', ['#'] ],
+                        ['Dropdown', ['#'], caret, items => [
+                                ['Action', ['#'] ],
+                                ['Another action', ['#'] ],
+                                ['Something else here', ['#'] ],
+                                [],
+                                ['Separated link', ['#'] ],
+                            ],
+                        ]
+                    ],
+                ]
+    %>
 --t--
 --e--
     <nav class="navbar navbar-default">

@@ -1225,44 +1225,43 @@ The following arguments can appear any number of times, and is rendered in order
 </div>
 
     <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
-           nav => [ items => [
-                   ['Link', ['#'], active ],
-                   ['Link', ['#'] ],
-                   ['Dropdown', ['#'], caret, items => [
-                       ['Action', ['#'] ],
-                       ['Another action', ['#'] ],
-                       ['Something else here', ['#'] ],
-                       [],
-                       ['Separated link', ['#'] ],
-                       [],
-                       ['One more separated link', ['#'] ],
-                   ] ] ],
-            ],
-            form => [
-                [['/login'], method => 'post', left],
-                [
-                    formgroup => [
-                        text_field => ['the-search', placeholder => 'Search' ],
-                    ],
-                    submit_button => ['Submit'],
-                ]
-            ],
-            nav => [
-                right,
-                items => [
-                    ['Link', ['#'] ],
-                    ['Dropdown', ['#'], caret, items => [
-                            ['Action', ['#'] ],
-                            ['Another action', ['#'] ],
-                            ['Something else here', ['#'] ],
-                            [],
-                            ['Separated link', ['#'] ],
+               nav => [ items => [
+                       ['Link', ['#'], active ],
+                       ['Link', ['#'] ],
+                       ['Dropdown', ['#'], caret, items => [
+                           ['Action', ['#'] ],
+                           ['Another action', ['#'] ],
+                           ['Something else here', ['#'] ],
+                           [],
+                           ['Separated link', ['#'] ],
+                           [],
+                           ['One more separated link', ['#'] ],
+                       ] ] ],
+                ],
+                form => [
+                    [['/login'], method => 'post', left],
+                    [
+                        formgroup => [
+                            text_field => ['the-search', placeholder => 'Search' ],
                         ],
+                        submit_button => ['Submit'],
                     ]
                 ],
-            ]
-
-%>
+                nav => [
+                    right,
+                    items => [
+                        ['Link', ['#'] ],
+                        ['Dropdown', ['#'], caret, items => [
+                                ['Action', ['#'] ],
+                                ['Another action', ['#'] ],
+                                ['Something else here', ['#'] ],
+                                [],
+                                ['Separated link', ['#'] ],
+                            ],
+                        ]
+                    ],
+                ]
+    %>
 
     <nav class="navbar navbar-default">
         <div class="container-fluid">
