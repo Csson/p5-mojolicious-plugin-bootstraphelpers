@@ -699,7 +699,7 @@ Creates a L<nav|/"Navs">. Use C<items> if you need to create submenus.
 
 B<C<p =E<gt> [ $text, %p_has ]>>
 
-Creates a C<E<lt>pE<gt>$textE<lt>/pE<gt> tag.
+Creates a C<E<lt>pE<gt>$textE<lt>/pE<gt>> tag.
 
 B<C<form =E<gt> [...]>>
 

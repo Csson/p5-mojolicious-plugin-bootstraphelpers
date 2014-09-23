@@ -1,4 +1,4 @@
-==test==
+==test example==
 --t--
     <%= nav pills => [
                 ['Item 1', ['#'] ],
@@ -16,8 +16,10 @@
         <li class="disabled"><a href="#">Item 4</a></li>
     </ul>
 --e--
+A simple pills navigation.
 
-==test==
+
+==test example==
 --t--
     <%= nav justified, id => 'my-nav', tabs => [
                 ['Item 1', ['#'] ],
@@ -49,3 +51,4 @@
         </li>
     </ul>
 --e--
+A tab navigation with a menu.

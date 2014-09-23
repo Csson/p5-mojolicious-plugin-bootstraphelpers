@@ -1047,6 +1047,63 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 
 ### Examples
 
+    <%= nav pills => [
+                ['Item 1', ['#'] ],
+                ['Item 2', ['#'], active ],
+                ['Item 3', ['#'] ],
+                ['Item 4', ['#'], disabled ],
+            ]
+    %>
+
+    <ul class="nav nav-pills">
+        <li><a href="#">Item 1</a></li>
+        <li class="active"><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+        <li class="disabled"><a href="#">Item 4</a></li>
+    </ul>
+
+<div>
+    <p>
+    A simple pills navigation.
+
+    </p>
+</div>
+
+    <%= nav justified, id => 'my-nav', tabs => [
+                ['Item 1', ['#'] ],
+                ['Item 2', ['#'], active ],
+                ['Item 3', ['#'] ],
+                ['Dropdown', ['#'], caret, items => [
+                        ['There are...', ['#'] ],
+                        ['...three...', ['#'] ],
+                        [],
+                        ['...choices', ['#'] ],
+                    ],
+                ],
+            ]
+    %>
+
+    <ul class="nav nav-justified nav-tabs" id="my-nav">
+        <li><a href="#">Item 1</a></li>
+        <li class="active"><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">There are...</a></li>
+                <li><a href="#">...three...</a></li>
+                <li class="divider"></li>
+                <li><a href="#">...choices</a></li>
+            </ul>
+        </li>
+    </ul>
+
+<div>
+    <p>
+    A tab navigation with a menu.
+    </p>
+</div>
+
 ## Navbars
 
 ### Syntax
@@ -1097,7 +1154,7 @@ The following arguments can appear any number of times, and is rendered in order
 >
 > **`p => [ $text, %p_has ]`**
 >
-> Creates a `<p>$text</p> tag.`
+> Creates a `<p>$text</p>` tag.
 >
 > **`form => [...]`**
 >
@@ -1492,11 +1549,3 @@ Bootstrap itself is (c) Twitter. See [their license information](http://getboots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 1275:
-
-    Unterminated C<...> sequence
