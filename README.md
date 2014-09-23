@@ -1224,43 +1224,43 @@ The following arguments can appear any number of times, and is rendered in order
     </p>
 </div>
 
-<%= navbar header => \['Brand', \['#'\], hamburger, toggler => 'collapse-4124'\],
-           nav => \[ items => \[
-                   \['Link', \['#'\], active \],
-                   \['Link', \['#'\] \],
-                   \['Dropdown', \['#'\], caret, items => \[
-                       \['Action', \['#'\] \],
-                       \['Another action', \['#'\] \],
-                       \['Something else here', \['#'\] \],
-                       \[\],
-                       \['Separated link', \['#'\] \],
-                       \[\],
-                       \['One more separated link', \['#'\] \],
-                   \] \] \],
-            \],
-            form => \[
-                \[\['/login'\], method => 'post', left\],
-                \[
-                    formgroup => \[
-                        text\_field => \['the-search', placeholder => 'Search' \],
-                    \],
-                    submit\_button => \['Submit'\],
-                \]
-            \],
-            nav => \[
+    <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
+           nav => [ items => [
+                   ['Link', ['#'], active ],
+                   ['Link', ['#'] ],
+                   ['Dropdown', ['#'], caret, items => [
+                       ['Action', ['#'] ],
+                       ['Another action', ['#'] ],
+                       ['Something else here', ['#'] ],
+                       [],
+                       ['Separated link', ['#'] ],
+                       [],
+                       ['One more separated link', ['#'] ],
+                   ] ] ],
+            ],
+            form => [
+                [['/login'], method => 'post', left],
+                [
+                    formgroup => [
+                        text_field => ['the-search', placeholder => 'Search' ],
+                    ],
+                    submit_button => ['Submit'],
+                ]
+            ],
+            nav => [
                 right,
-                items => \[
-                    \['Link', \['#'\] \],
-                    \['Dropdown', \['#'\], caret, items => \[
-                            \['Action', \['#'\] \],
-                            \['Another action', \['#'\] \],
-                            \['Something else here', \['#'\] \],
-                            \[\],
-                            \['Separated link', \['#'\] \],
-                        \],
-                    \]
-                \],
-            \]
+                items => [
+                    ['Link', ['#'] ],
+                    ['Dropdown', ['#'], caret, items => [
+                            ['Action', ['#'] ],
+                            ['Another action', ['#'] ],
+                            ['Something else here', ['#'] ],
+                            [],
+                            ['Separated link', ['#'] ],
+                        ],
+                    ]
+                ],
+            ]
 
 %>
 

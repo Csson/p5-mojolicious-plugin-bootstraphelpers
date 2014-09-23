@@ -65,6 +65,7 @@
 --e--
 A simple navbar with a couple of links and a submenu.
 
+
 ==test==
 --t--
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
@@ -116,7 +117,7 @@ A simple navbar with a couple of links and a submenu.
 
 ==test example==
 --t--
-<%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
+    <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
            nav => [ items => [
                    ['Link', ['#'], active ],
                    ['Link', ['#'] ],
