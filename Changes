@@ -10,11 +10,14 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Enhancements]
 
  [Meta]
- - Cleanup
 
  [New Features]
 
  [Revision]
+
+0.0182 2014-09-24T18:34:20Z CEST
+ [Meta]
+ - Cleanup
 
 0.0181 2014-09-23T19:48:36Z CEST
  [Documentation]
