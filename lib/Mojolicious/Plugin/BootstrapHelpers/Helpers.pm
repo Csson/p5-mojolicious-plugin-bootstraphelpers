@@ -216,52 +216,6 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         return out($out);
 
-
-
-
-#        my $button_info = delete $attr->{'button'};
-#
-#        my $button_text = shift $button_info->@*;
-#        my $button_attr =  { $button_info->@* };
-#
-#        my $items_info = delete $attr->{'items'};
-#
-#        my $ulattr = { __right => exists $attr->{'__right'} ? delete $attr->{'__right'} : 0 };
-#        $ulattr = add_classes($ulattr, 'dropdown-menu');
-#        $ulattr = add_classes($ulattr, 'dropdown-menu-right') if $ulattr->{'__right'};
-#        my $ulhtml = htmlify_attrs($ulattr);
-#
-#        $button_attr = add_classes($button_attr, 'dropdown-toggle');
-#        $button_attr->{'data-toggle'} = 'dropdown';
-#        $button_attr->{'type'} = 'button';
-#        my $button = bootstrap_button($c, $button_text, $button_attr->%*);
-#
-#        my $menuitems = '';
-#
-#        ITEM:
-#        foreach my $item ($items_info->@*) {
-#            if(ref $item eq '') {
-#                $menuitems .= qq{<li class="dropdown-header">$item</li>};
-#            }
-#            next ITEM if ref $item ne 'ARRAY';
-#            if(!scalar $item->@*) {
-#                $menuitems .= q{<li class="divider"></li>} ;
-#            }
-#            else {
-#                $menuitems .= create_dropdown_menuitem($c, $item->@*);
-#            }
-#
-#        }
-#
-#        my $out = qq{
-#            $button
-#            <ul$ulhtml>
-#                $menuitems
-#            </ul>
-#        };
-#
-#        return out($out);
-
     }
 
     sub create_dropdown_menuitem {
@@ -286,6 +240,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
     sub bootstrap_buttongroup {
         my $c = shift;
+
         #* Shortcut for one button menus
         if(ref $_[0] eq 'ARRAY') {
             my $meat = make_dropdown_meat($c, $_[0]->@*);
@@ -357,34 +312,6 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
                 </div>
             };
 
-
-
-
-
-            # if(ref $button eq 'ARRAY') {
-            #     my $bootstrap_button = bootstrap_button($c, $button->@*);
-
-            #     #* Justified + No url -> button -> must nest
-            #     if(length $justified_class && ref $button->[1] ne 'ARRAY') {
-            #         $buttons .= qq{<div class="btn-group">$bootstrap_button</div>};
-            #     }
-            #     #* Url -> a -> no need to nest
-            #     else {
-            #         $buttons .= $bootstrap_button;
-            #     }
-            # }
-            # elsif(ref $button eq 'HASH') {
-            #     my $dropup_class = delete $button->{'__dropup'} ? 'dropup' : ();
-            #     $inner_attr = add_classes($inner_attr, $dropup_class);
-            #     my $inner_html = htmlify_attrs($inner_attr);
-            #     my $meat = make_dropdown_meat($c, $button->%*);
-            #     $buttons .= qq{
-            #         <div$inner_html>
-            #             $meat
-            #         </div>
-            #     };
-
-            # }
         }
         return ($buttons, $html);
     }
@@ -411,8 +338,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         return out($tag);
     }
-# <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'], [] %>
-# <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
+
     sub bootstrap_navbar {
         my $c = shift;
 
@@ -625,60 +551,6 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
                     </ul>
                 </li>
             };
-
-
-
-            # #* Link
-            # if(ref $content eq 'ARRAY') {
-            #     my $text = shift $content->@*;
-            #     my $url = url_for($c, shift $content->@*);
-
-            #     my $link_attr = parse_attributes($content->@*);
-            #     my $active = delete $link_attr->{'__active'};
-            #     my $disabled = delete $link_attr->{'__disabled'};
-            #     my $li_attr = add_classes({}, $active ? 'active' : (), $disabled ? 'disabled' : ());
-            #     my $li_html = htmlify_attrs($li_attr);
-
-            #     my $link_html = qq{<a href="$url">$text</a>};
-            #     $tag .= qq{<li$li_html>$link_html</li>};
-            # }
-            # #* Menu
-            # elsif(ref $content eq 'HASH') {
-            #     my $button = delete $content->{'button'};
-            #     my $button_text = shift $button->@*;
-            #     my $url = shift $button->@*;
-            #     my $button_attr = parse_attributes($button->@*);
-            #     $button_attr = add_classes($button_attr, 'dropdown-toggle');
-            #     $button_attr->{'data-toggle'} = 'dropdown';
-            #     $button_attr->{'href'} = url_for($c, $url);
-            #     my $caret = delete $button_attr->{'__caret'} ? ' <span class="caret"></span>' : '';
-            #     my $button_arg = htmlify_attrs($button_attr);
-            #     my $button_html = qq{<a$button_arg>$button_text$caret</a>};
-
-            #     my $items = delete $content->{'items'};
-            #     my $lis = '';
-            #     ITEM:
-            #     foreach my $item ($items->@*) {
-            #         if(!scalar $item->@*) {
-            #             $lis .= q{<li class="divider"></li>};
-            #             next ITEM;
-            #         }
-            #         my $text = shift $item->@*;
-            #         my $url = url_for($c, shift $item->@*);
-            #         my $a_attr = parse_attributes($item->@*);
-            #         $a_attr->{'href'} = $url;
-            #         my $a_html = htmlify_attrs($a_attr);
-            #         $lis .= qq{<li><a$a_html>$text</a></li>};
-            #     }
-            #     $tag .= qq{
-            #         <li class="dropdown">
-            #             $button_html
-            #             <ul class="dropdown-menu">
-            #                 $lis
-            #             </ul>
-            #         </li>
-            #     };
-            # }
         }
         return $tag;
     }
