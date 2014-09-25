@@ -175,19 +175,55 @@ Both of these are legal:
          <tr><td>A Table Cell</td></tr>
     %  end
 
+## References
+
+All other `|references|` are also helpers, so `|link|` and `|item|` needs special mention.
+
 ### |link|
 
-All other `|references|` are also helpers, so `|link|` needs special mention:
+`|link|` creates an `<a>` tag.
 
-    $linktext, [ $url ], %link_has
+    |link|
 
-**`$itemtext`**
+Is exactly the same as
+
+    $link_text, [ $url ], %link_has
+
+**`$link_text`**
 
 Mandatory. The text on the link.
 
 **`$url`**
 
 Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/Mojolicious::Controller#url_for) is used to create the link.
+
+**`%link_has`**
+
+Which strappings are available varies depending on context.
+
+### |item|
+
+`|item|` is used in the various submenus/dropdowns. One `|item|` creates one `<li>` tag.
+
+    |item|
+
+Is exactly the same as
+
+    [ |link| ]
+
+    # or
+    $header_text
+
+    # or
+    []
+
+So, a submenu item can be one of three things:
+
+- 1. A link, in which case you create a `|link|` in an array reference.
+- 2. A `.dropdown-header`, in which case you give it a `'string'` which then is turned into the text of the header.
+- 3. A `.divider`, in which case you give it an empty array reference.
+
+See ["Dropdowns"](#dropdowns), ["Button groups"](#button-groups) and ["Navbars"](#navbars) for examples.
 
 # HELPERS
 
@@ -309,22 +345,14 @@ group with just one button.
     <%= buttongroup %has,
                     buttons => [
                         [ |button|,
-                          (items => [
-                                [ |link| ],
-                               ($headertext,)
-                               ([],)
-                           ])
+                          (items => [ |item| ])
                         ]
                     ]
     %>
 
     # single button
     <%= buttongroup [ |button|,
-                      (items => [
-                            [ |link| ],
-                           ($headertext,)
-                           ([],)
-                       ])
+                      (items => [ |item| ])
                     ]
     %>
 
@@ -335,7 +363,7 @@ with `items` a url.
 
 > **`items => [...]`**
 >
-> Giving a button an `items` array reference creates a [dropdown](#dropdowns). Read more under `items` there.
+> Giving a button an `items` array reference consisting of one or many `|item|` creates a [dropdown](#dropdowns) like submenu. Read more under ["item"](#item).
 
 ### Examples
 
@@ -597,11 +625,7 @@ A mandatory array reference of [button groups](#button-groups).
 ### Syntax
 
     <%= dropdown  %has,
-                  [ |button|, items  => [
-                       [ |link| ],
-                      ($headertext,)
-                      ([],)
-                    ]
+                  [ |button|, items  => [ |item| ]
                   ]
 
 **`[ |button| ]`**
@@ -611,19 +635,7 @@ with `items` a url.
 
 > **`items`**
 >
-> Mandatory array reference. Here are the items that make up the menu. It takes three different types of value (both can occur any number of times:
->
-> > **`[ |link| ]`**
-> >
-> > An array reference creates a [link](#link) in the menu.
-> >
-> > **`$headertext`**
-> >
-> > A string creates a dropdown header.
-> >
-> > **`[]`**
-> >
-> > An empty array reference creates a divider.
+> Mandatory array reference consisting of one or many `|item|`. Read more under ["item"](#item).
 
 **Available strappings**
 
@@ -1013,11 +1025,7 @@ Both are optional, but input groups don't make sense if neither is present. They
 
     <%= nav %has,
             $type => [ |link|,
-                      (items => [
-                            [ |link| ],
-                           ($headertext,)
-                           ([],)
-                       ])
+                      (items => [ |item| ])
                     ]
     %>
 
@@ -1027,9 +1035,9 @@ Both are optional, but input groups don't make sense if neither is present. They
 
 Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a [navbar](#navbars)) and applies the adequate class to the surrounding `ul`.
 
-> **`items => []`**
+> **`items => [ |item| ]`**
 >
-> If present does the same as `items` in [dropdown](#dropdowns).
+> If present does the same as `items` in [dropdown](#dropdowns). Also see ["item"](#item).
 
 ### Examples
 

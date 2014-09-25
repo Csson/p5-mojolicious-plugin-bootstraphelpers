@@ -261,13 +261,21 @@ Both of these are legal:
          <tr><td>A Table Cell</td></tr>
     %  end
 
+=head2 References
+
+All other C<|references|> are also helpers, so C<|link|> and C<|item|> needs special mention.
+
 =head3 |link|
 
-All other C<|references|> are also helpers, so C<|link|> needs special mention:
+C<|link|> creates an C<E<lt>aE<gt>> tag.
 
-    $linktext, [ $url ], %link_has
+    |link|
 
-B<C<$itemtext>>
+Is exactly the same as
+
+    $link_text, [ $url ], %link_has
+
+B<C<$link_text>>
 
 Mandatory. The text on the link.
 
@@ -275,6 +283,40 @@ B<C<$url>>
 
 Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#url_for> is used to create the link.
 
+B<C<%link_has>>
+
+Which strappings are available varies depending on context.
+
+
+=head3 |item|
+
+C<|item|> is used in the various submenus/dropdowns. One C<|item|> creates one C<E<lt>liE<gt>> tag.
+
+    |item|
+
+Is exactly the same as
+
+    [ |link| ]
+
+    # or
+    $header_text
+
+    # or
+    []
+
+So, a submenu item can be one of three things:
+
+=over 4
+
+=item 1. A link, in which case you create a C<|link|> in an array reference.
+
+=item 2. A C<.dropdown-header>, in which case you give it a C<'string'> which then is turned into the text of the header.
+
+=item 3. A C<.divider>, in which case you give it an empty array reference.
+
+=back
+
+See L</"Dropdowns">, L</"Button groups"> and L</"Navbars"> for examples.
 
 
 =head1 HELPERS
@@ -353,22 +395,14 @@ group with just one button.
     <%= buttongroup %has,
                     buttons => [
                         [ |button|,
-                          (items => [
-                                [ |link| ],
-                               ($headertext,)
-                               ([],)
-                           ])
+                          (items => [ |item| ])
                         ]
                     ]
     %>
 
     # single button
     <%= buttongroup [ |button|,
-                      (items => [
-                            [ |link| ],
-                           ($headertext,)
-                           ([],)
-                       ])
+                      (items => [ |item| ])
                     ]
     %>
 
@@ -381,7 +415,7 @@ with C<items> a url.
 
 B<C<items =E<gt> [...]>>
 
-Giving a button an C<items> array reference creates a L<dropdown|/"Dropdowns">. Read more under C<items> there.
+Giving a button an C<items> array reference consisting of one or many C<|item|> creates a L<dropdown|/"Dropdowns"> like submenu. Read more under L</"item">.
 
 =back
 
@@ -415,11 +449,7 @@ A mandatory array reference of L<button groups|/"Button-groups">.
 =head3 Syntax
 
     <%= dropdown  %has,
-                  [ |button|, items  => [
-                       [ |link| ],
-                      ($headertext,)
-                      ([],)
-                    ]
+                  [ |button|, items  => [ |item| ]
                   ]
 
 B<C<[ |button| ]>>
@@ -431,23 +461,7 @@ with C<items> a url.
 
 B<C<items>>
 
-Mandatory array reference. Here are the items that make up the menu. It takes three different types of value (both can occur any number of times:
-
-=over 4
-
-B<C<[ |link| ]>>
-
-An array reference creates a L<link|/"link"> in the menu.
-
-B<C<$headertext>>
-
-A string creates a dropdown header.
-
-B<C<[]>>
-
-An empty array reference creates a divider.
-
-=back
+Mandatory array reference consisting of one or many C<|item|>. Read more under L</"item">.
 
 =back
 
@@ -607,11 +621,7 @@ Creates a multi button buttongroup. See L<button groups|/"Button-groups"> for de
 
     <%= nav %has,
             $type => [ |link|,
-                      (items => [
-                            [ |link| ],
-                           ($headertext,)
-                           ([],)
-                       ])
+                      (items => [ |item| ])
                     ]
     %>
 
@@ -623,9 +633,9 @@ Mandatory. C<$type> is either C<pills> or C<tabs> (or C<items> if the C<nav> is 
 
 =over 4
 
-B<C<items =E<gt> []>>
+B<C<items =E<gt> [ |item| ]>>
 
-If present does the same as C<items> in L<dropdown|/"Dropdowns">.
+If present does the same as C<items> in L<dropdown|/"Dropdowns">. Also see L</"item">.
 
 =back
 

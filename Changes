@@ -6,6 +6,8 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
+ - Added |item| description.
+ - Improved |link| description.
 
  [Enhancements]
 
