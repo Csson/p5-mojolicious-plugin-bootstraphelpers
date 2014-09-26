@@ -1102,7 +1102,7 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 
 ### Syntax
 
-    navbar %has, header => [ |link|, %navbar_has ],
+    navbar (inverse,) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -1117,6 +1117,10 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
                   p => [ $text, %p_has ]
 
 `Navbars` are complex structures. They take the following arguments:
+
+**`inverse`**
+
+The `inverse` strapping is currently outside the `%navbar_has`. It applies the `.navbar-inverse` class.
 
 **`header => [ |link|, %navbar_has ]`**
 
@@ -1171,6 +1175,8 @@ The following arguments can appear any number of times, and is rendered in order
 > > > **`submit_button => [ |submit_button| ]`**
 > > >
 > > > Creates [form groups](#form-groups), [input groups](#input-groups), [buttons](#buttons) and [submit\_buttons](#submit_buttons)
+
+### Examples
 
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
                nav => [ items => [

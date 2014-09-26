@@ -648,7 +648,7 @@ If present does the same as C<items> in L<dropdown|/"Dropdowns">. Also see L</"i
 
 =head3 Syntax
 
-    navbar %has, header => [ |link|, %navbar_has ],
+    navbar (inverse,) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -663,6 +663,10 @@ If present does the same as C<items> in L<dropdown|/"Dropdowns">. Also see L</"i
                   p => [ $text, %p_has ]
 
 C<Navbars> are complex structures. They take the following arguments:
+
+B<C<inverse>>
+
+The C<inverse> strapping is currently outside the C<%navbar_has>. It applies the C<.navbar-inverse> class.
 
 B<C<header =E<gt> [ |link|, %navbar_has ]>>
 
@@ -737,6 +741,8 @@ Creates L<form groups|/"Form-groups">, L<input groups|/"Input-groups">, L<button
 =back
 
 =back
+
+=head3 Examples
 
 # EXAMPLE: navbar-1.mojo:examples
 
