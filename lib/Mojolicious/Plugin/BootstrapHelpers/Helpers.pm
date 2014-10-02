@@ -401,7 +401,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $hamburger = $has_hamburger ? get_hamburger($toggler_id) : '';
         $header_attr = add_classes($header_attr, 'navbar-brand');
 
-        my $brand_html = qq{<a class="navbar-brand" href="$url">$brand</a>};
+        my $brand_html = defined $brand ? qq{<a class="navbar-brand" href="$url">$brand</a>} : '';
 
         my $navbar_header = qq{
             <div class="navbar-header">
