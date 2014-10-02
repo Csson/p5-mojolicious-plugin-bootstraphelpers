@@ -4,8 +4,6 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [API Changes]
 
  [Bug Fixes]
- - If brand in a navbar is undef, no brand link is created (the url still needs to exist). This was
-   in the documentation, but wasn't implemented.
 
  [Documentation]
 
@@ -16,6 +14,11 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [New Features]
 
  [Revision]
+
+0.0185 2014-10-02T23:11:42Z CEST
+ [Bug Fixes]
+ - If brand in a navbar is undef, no brand link is created (the url still
+   needs to exist). This was in the documentation, but wasn't implemented.
 
 0.0184 2014-09-26T09:42:13Z CEST
  [Documentation]
