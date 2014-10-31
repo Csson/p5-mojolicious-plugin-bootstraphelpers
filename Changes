@@ -8,6 +8,7 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
+ - Updated currently supported Bootstrap version to 3.3.0.
 
  [Meta]
 

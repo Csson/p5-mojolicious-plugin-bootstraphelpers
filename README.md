@@ -29,7 +29,7 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
 
-Currently supported Bootstrap version: 3.2.0.
+Currently supported Bootstrap version: 3.3.0.
 
 Currently only Perl 5.20+ is supported (thanks to postderef).
 
