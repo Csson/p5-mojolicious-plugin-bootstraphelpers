@@ -15,6 +15,13 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
 
  [Revision]
 
+0.0187 2014-12-04T15:52:33Z CET
+ [Enhancements]
+ - Updated currenctly supported Bootstrap version to 3.3.1.
+
+ [New Features]
+ - Added support for textarea in formgroups.
+
 0.0186 2014-10-31T10:34:05Z CET
  [Enhancements]
  - Updated currently supported Bootstrap version to 3.3.0.

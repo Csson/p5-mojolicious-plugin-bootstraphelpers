@@ -29,7 +29,7 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
 
-Currently supported Bootstrap version: 3.3.0.
+Currently supported Bootstrap version: 3.3.1.
 
 Currently only Perl 5.20+ is supported (thanks to postderef).
 
@@ -836,6 +836,20 @@ There can be only one `$fieldtype` per `formgroup`.
     A formgroup used in a <code>.form-horizontal</code> <code>form</code>.
 
     (Note that in this context, <code>medium</code> and <code>large</code> are not short form strappings. Those don't take arguments.)
+
+    </p>
+</div>
+
+    %= formgroup 'Text test 9', text_area => ['atextarea', 'default text']
+
+    <div class="form-group">
+        <label class="control-label" for="atextarea">Text test 9</label>
+        <textarea class="form-control" id="atextarea" name="atextarea">default text</textarea>
+    </div>
+
+<div>
+    <p>
+    Textareas can also be used in formgroups.
 
     </p>
 </div>
