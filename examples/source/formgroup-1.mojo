@@ -113,6 +113,18 @@ A formgroup used in a <code>.form-horizontal</code> <code>form</code>.
     </div>
 --e--
 
+==test example==
+--t--
+    %= formgroup 'Text test 9', text_area => ['atextarea', 'default text']
+--t--
+--e--
+    <div class="form-group">
+        <label class="control-label" for="atextarea">Text test 9</label>
+        <textarea class="form-control" id="atextarea" name="atextarea">default text</textarea>
+    </div>
+--e--
+Textareas can also be used in formgroups.
+
 ==test==
 --t--
     

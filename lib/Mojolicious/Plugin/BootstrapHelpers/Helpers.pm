@@ -17,9 +17,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $arg = shift;
 
-        my $css   = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">};
-        my $theme = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">};
-        my $js    = q{<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>};
+        my $css   = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">};
+        my $theme = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">};
+        my $js    = q{<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>};
         my $jq    = q{<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>};
 
         return out(
@@ -690,8 +690,17 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
         my $c = shift;
         my $attr = shift;
 
-        my $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url password/)[0];
-        my $info = $attr->{"${tagname}_field"};
+        my $tagname;
+        my $info;
+
+        if((grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url password/)[0]) {
+            $tagname = (grep { exists $attr->{"${_}_field"} } qw/date datetime month time week color email number range search tel text url password/)[0];
+            $info = $attr->{"${tagname}_field"};
+        }
+        elsif(exists $attr->{'text_area'}) {
+            $tagname = 'textarea';
+            $info = $attr->{'text_area'};
+        }
         my $id = shift $info->@*;
 
         # if odd number of elements, the first one is the value (shortcut to avoid having to: value => 'value')
@@ -710,7 +719,9 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
         my $horizontal_before = scalar @column_classes ? qq{<div class="} . (trim join ' ' => @column_classes) . '">' : '';
         my $horizontal_after = scalar @column_classes ? '</div>' : '';
-        my $input = Mojolicious::Plugin::TagHelpers::_input($c, $name_attr, $tag_attr->%*, type => $tagname);
+        my $input = exists $attr->{'text_area'} ? Mojolicious::Plugin::TagHelpers::_text_area($c, $name_attr, delete $tag_attr->{'value'}, $tag_attr->%*)
+                  :                               Mojolicious::Plugin::TagHelpers::_input($c, $name_attr, $tag_attr->%*, type => $tagname)
+                  ;
 
         return ($id => $horizontal_before . $input . $horizontal_after);
 
