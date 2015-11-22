@@ -1,4 +1,7 @@
-== stencil ===
+== stencil ==
+
+An ordinary button, with applied shortcuts:
+
 --input--
     %= button 'The example 5' => large, warning
 --end input--
@@ -6,10 +9,12 @@
     <button class="btn btn-lg btn-warning" type="button">The example 5</button>
 --end output--
 
-An ordinary button, with applied strappings.
 
 
-== stencil ===
+== stencil ==
+
+With a url the button turns into a link:
+
 --input--
     %= button 'The example 1' => ['http://www.example.com/'], small
 --end input--
@@ -17,10 +22,12 @@ An ordinary button, with applied strappings.
     <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
 --end output--
 
-With a url the button turns into a link.
 
 
-== stencil ===
+== stencil ==
+
+A submit button for use in forms. It overrides the build-in submit_button helper:
+
 --input--
     %= submit_button 'Save 2', primary
 --end input--
@@ -28,10 +35,9 @@ With a url the button turns into a link.
     <button class="btn btn-primary" type="submit">Save 2</button>
 --end output--
 
-A submit button for use in forms. It overrides the build-in submit_button helper.
 
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= submit_button 'Save 2', primary, disabled
 --end input--
@@ -41,15 +47,15 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 
 
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= button 'The example 2' => [url_for]
 --end input--
 --output--
-    <a class="btn btn-default" href="/button_1_5">The example 2</a>
+    <a class="btn btn-default" href="/button_1_50">The example 2</a>
 --end output--
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= button 'The example 3' => ['panel_1']
 --end input--
@@ -58,7 +64,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 --end output--
 
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= button 'The example 4'
 --end input--
@@ -67,18 +73,18 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 --end output--
 
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= button [url_for], disabled, begin
        The Example 6
     %  end
 --end input--
 --output--
-    <a class="btn btn-default disabled" href="/button_1_8"> The Example 6 </a>
+    <a class="btn btn-default disabled" href="/button_1_76"> The Example 6 </a>
 --end output--
 
 
-== stencil ===
+== stencil { to_pod => 0 } ==
 --input--
     %= submit_button 'Save 1'
 --end input--
@@ -90,7 +96,7 @@ A submit button for use in forms. It overrides the build-in submit_button helper
 
 
 
-== stencil = loop(active block)==
+== stencil { loop => [qw/active block/] } ==
 --input--
     %= button 'Loop', [var]
 --end input--
