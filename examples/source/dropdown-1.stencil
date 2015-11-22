@@ -1,5 +1,8 @@
-==test example==
---t--
+== stencil ==
+
+By default, <code>tabindex</code> is set to <code>-1</code>:
+
+--input--
     <%= dropdown
          ['Dropdown 1', id => 'a_custom_id', right, items => [
             ['Item 1', ['item1'] ],
@@ -7,8 +10,8 @@
             [],
             ['Item 3', ['item3'] ]
          ] ] %>
---t--
---e--
+--end input--
+--output--
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
         <ul class="dropdown-menu dropdown-menu-right">
@@ -18,13 +21,11 @@
             <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
         </ul>
     </div>
---e--
-
-By default, <code>tabindex</code> is set to <code>-1</code>...
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+--input--
     <%= dropdown
          ['Dropdown 2', caret, large, primary, items => [
             ['Item 1', ['item1'], data => { attr => 2 } ],
@@ -36,8 +37,8 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
             'This is a header',
             ['Item 5', ['item5'] ],
          ] ] %>
---t--
---e--
+--end input--
+--output--
     <div class="dropdown">
         <button class="btn btn-lg btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown 2 <span class="caret"></span></button>
         <ul class="dropdown-menu">
@@ -51,7 +52,7 @@ By default, <code>tabindex</code> is set to <code>-1</code>...
             <li><a class="menuitem" href="item5" tabindex="-1">Item 5</a></li>
         </ul>
     </div>
---e--
+--end output--
 
 ...but it can be overridden.
 
