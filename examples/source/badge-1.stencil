@@ -18,7 +18,7 @@ A right aligned badge with a data attribute:
 
 
 
-== stencil { is_html_example => 0 } ==
+== stencil { is_html_example => 0, to_pod => 0 } ==
 --input--
     %= badge 'Badge 2', right
 --end input--
@@ -27,12 +27,12 @@ A right aligned badge with a data attribute:
 --end output--
 
 
-== stencil { is_html_example => 0 } ==
+== stencil { is_html_example => 0, to_pod => 0 } ==
 A badge with undef value or empty string is not rendered:
 --input--
     % my $empty_badge = '';
     %= badge $empty_badge
 --end input--
 --output--
-
+    
 --end output--

@@ -1,55 +1,55 @@
-==test example 1==
---t--
+== stencil ==
+--input--
     %= bootstrap
---t--
---e--
+--end input--
+--output--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
     %= bootstrap 'css'
---t--
---e--
+--end input--
+--output--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
     %= bootstrap 'js'
---t--
---e--
+--end input--
+--output--
      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
     %= bootstrap 'all'
---t--
---e--
+--end input--
+--output--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
     %= bootstrap 'jsq'
---t--
---e--
+--end input--
+--output--
         <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
     %= bootstrap 'allq'
---t--
---e--
+--end input--
+--output--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
---e--
+--end output--
 
