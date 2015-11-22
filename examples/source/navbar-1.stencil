@@ -1,8 +1,8 @@
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -15,11 +15,14 @@
             </div>
         </div>
     </nav>
---e--
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+
+A simple navbar with a couple of links and a submenu:
+
+--input--
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
                nav => [ items => [
                        ['Link', ['#'] ],
@@ -33,8 +36,8 @@
                    ]
                ]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -62,12 +65,11 @@
             </div>
         </div>
     </nav>
---e--
-A simple navbar with a couple of links and a submenu.
+--end output--
 
 
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
                form => [
                     [['/login'], method => 'post', left],
@@ -85,8 +87,8 @@ A simple navbar with a couple of links and a submenu.
                 ],
                 p => ['Hello', right]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -112,11 +114,14 @@ A simple navbar with a couple of links and a submenu.
             </div>
         </div>
     </nav>
---e--
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+
+This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action and the <code>input</code> has an <code>id</code> and a <code>name</code>:
+
+--input--
     <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
                nav => [ items => [
                        ['Link', ['#'], active ],
@@ -155,8 +160,8 @@ A simple navbar with a couple of links and a submenu.
                     ],
                 ]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -206,5 +211,4 @@ A simple navbar with a couple of links and a submenu.
             </div>
         </div>
     </nav>
---e--
-This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action, the <code>input</code> has <code>id</code> and <code>name</code>.
+--end output--

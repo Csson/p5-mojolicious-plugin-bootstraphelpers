@@ -1,0 +1,70 @@
+== stencil ==
+
+The class is set to <code>.panel-default</code>, by default:
+
+--input--
+    %= panel
+--end input--
+--output--
+    <div class="panel panel-default">
+        <div class="panel-body">
+        </div>
+    </div>
+--end output--
+
+
+== stencil ==
+
+If you want a panel without title, set the title to <code>undef</code>:
+
+--input--
+    %= panel undef ,=> begin
+        <p>A short text.</p>
+    %  end
+--end input--
+--output--
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+--end output--
+
+
+== stencil ==
+
+A panel with a header:
+
+--input--
+    %= panel 'The Header' => begin
+        <p>A short text.</p>
+    %  end
+--end input--
+--output--
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">The Header</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+--end output--
+
+
+== stencil { to_pod => 0 } ==
+--input--
+    %= panel 'Panel 5', success, begin
+        <p>A short text.</p>
+    %  end
+--end input--
+--output--
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel 5</h3>
+        </div>
+        <div class="panel-body">
+            <p>A short text.</p>
+        </div>
+    </div>
+--end output--

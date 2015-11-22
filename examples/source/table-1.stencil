@@ -1,39 +1,45 @@
-==test==
+== stencil ==
 
---t--
+A basic table:
+
+--input--
     <%= table begin %>
         <tr><td>Table 1</td></tr>
     <% end %>
---t--
---e--
+--end input--
+--output--
     <table class="table">
         <tr><td>Table 1</td></tr>
     </table>
---e--
-A basic table.
+--end output--
 
 
-==test==
---t--
+== stencil ==
+
+Several classes applied to the table:
+
+--input--
     %= table hover, striped, condensed, begin
         <tr><td>Table 2</td></tr>
     %  end
---t--
---e--
+--end input--
+--output--
     <table class="table table-condensed table-hover table-striped">
         <tr><td>Table 2</td></tr>
     </table>
---e--
-Several classes applied to the table.
+--end output--
 
 
-==test==
---t--
+== stencil ==
+
+A <code>condensed</code> table with an <code>id</code> wrapped in a <code>success</code> panel:
+
+--input--
     %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
         <tr><td>Table 4</td></tr>
     %  end
---t--
---e--
+--end input--
+--output--
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Heading Table 4</h3>
@@ -42,27 +48,26 @@ Several classes applied to the table.
             <tr><td>Table 4</td></tr>
         </table>
     </div>
---e--
-
-A <code>condensed</code> table with an <code>id</code> wrapped in a <code>success</code> panel.
+--end output--
 
 
 
-==test==
---t--
+
+== stencil { to_pod => 0 } ==
+--input--
     <%= table begin %>
         <tr><td>Table 1</td></tr>
     <% end %>
---t--
---e--
+--end input--
+--output--
     <table class="table">
         <tr><td>Table 1</td></tr>
     </table>
---e--
+--end output--
     
 
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     %= table hover, striped, condensed, begin
         <thead>
             <tr><th>In the th</th></tr>
@@ -71,8 +76,8 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
             <tr><td>Table 2</td></tr>
         </tbody>
     %  end
---t--
---e--
+--end input--
+--output--
     <table class="table table-condensed table-hover table-striped">
         <thead>
             <tr><th>In the th</th></tr>
@@ -81,15 +86,15 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
             <tr><td>Table 2</td></tr>
         </tbody>
     </table>
---e--
+--end output--
 
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     %= table 'Heading Table 3', hover, striped, condensed, begin
         <tr><td>Table 3</td></tr>
     %  end
---t--
---e--
+--end input--
+--output--
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Heading Table 3</h3>
@@ -98,21 +103,21 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
             <tr><td>Table 3</td></tr>
         </table>
     </div>
---e--
+--end output--
 
 
-==test==
---t--
+== stencil ==
+--input--
 
---t--
---e--
+--end input--
+--output--
 
---e--
+--end output--
 
-==test==
---t--
+== stencil ==
+--input--
 
---t--
---e--
+--end input--
+--output--
 
---e--
+--end output--
