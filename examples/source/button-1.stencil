@@ -1,100 +1,100 @@
-==test==
---t--
+== stencil ===
+--input--
     %= button 'The example 5' => large, warning
---t--
---e--
+--end input--
+--output--
     <button class="btn btn-lg btn-warning" type="button">The example 5</button>
---e--
+--end output--
 
 An ordinary button, with applied strappings.
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= button 'The example 1' => ['http://www.example.com/'], small
---t--
---e--
+--end input--
+--output--
     <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
---e--
+--end output--
 
 With a url the button turns into a link.
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= submit_button 'Save 2', primary
---t--
---e--
+--end input--
+--output--
     <button class="btn btn-primary" type="submit">Save 2</button>
---e--
+--end output--
 
 A submit button for use in forms. It overrides the build-in submit_button helper.
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= submit_button 'Save 2', primary, disabled
---t--
---e--
+--end input--
+--output--
     <button class="btn btn-primary" disabled="disabled" type="submit">Save 2</button>
---e--
+--end output--
 
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= button 'The example 2' => [url_for]
---t--
---e--
+--end input--
+--output--
     <a class="btn btn-default" href="/button_1_5">The example 2</a>
---e--
+--end output--
 
-==test==
---t--
+== stencil ===
+--input--
     %= button 'The example 3' => ['panel_1']
---t--
---e--
+--end input--
+--output--
     <a class="btn btn-default" href="panel_1">The example 3</a>
---e--
+--end output--
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= button 'The example 4'
---t--
---e--
+--end input--
+--output--
     <button class="btn btn-default" type="button">The example 4</button>
---e--
+--end output--
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= button [url_for], disabled, begin
        The Example 6
     %  end
---t--
---e--
+--end input--
+--output--
     <a class="btn btn-default disabled" href="/button_1_8"> The Example 6 </a>
---e--
+--end output--
 
 
-==test==
---t--
+== stencil ===
+--input--
     %= submit_button 'Save 1'
---t--
---e--
+--end input--
+--output--
     <button class="btn btn-default" type="submit">Save 1</button>
---e--
+--end output--
 
 
 
 
 
-==test loop(active block)==
---t--
+== stencil = loop(active block)==
+--input--
     %= button 'Loop', [var]
---t--
---e--
+--end input--
+--output--
     <button class="[var] btn btn-default" type="button">Loop</button>
---e--
+--end output--
 
