@@ -12,7 +12,7 @@ An input group with a checkbox:
     </div>
 --end output--
 
-==test example==
+== stencil ==
 A <code>large</code> input group with a radio button prepended and a string appended:
 --input--
     <%= input large,
@@ -30,7 +30,7 @@ A <code>large</code> input group with a radio button prepended and a string appe
 --end output--
 
 
-==test example==
+== stencil ==
 An input group with a button:
 --input--
     <%= input input => { text_field => ['username'] },
@@ -46,7 +46,7 @@ An input group with a button:
 
 
 
-==test example==
+== stencil ==
 An input group with a button dropdown appended. Note that <code>right</code> is manually applied:
 --input--
     <%= input input  => { text_field => ['username'] },
@@ -76,7 +76,7 @@ An input group with a button dropdown appended. Note that <code>right</code> is 
 --end output--
 
 
-==test example==
+== stencil ==
 An input group with a split button dropdown prepended:
 --input--
     <%= input input   => { text_field => ['username'] },

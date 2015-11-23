@@ -31,10 +31,7 @@ If you want a panel without title, set the title to <code>undef</code>:
 --end output--
 
 
-== stencil ==
-
-A panel with a header:
-
+== stencil { to_pod => 0 } ==
 --input--
     %= panel 'The Header' => begin
         <p>A short text.</p>
@@ -52,7 +49,10 @@ A panel with a header:
 --end output--
 
 
-== stencil { to_pod => 0 } ==
+== stencil ==
+
+A <code>success</code> panel with a header:
+
 --input--
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>

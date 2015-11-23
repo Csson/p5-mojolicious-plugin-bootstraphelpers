@@ -4,12 +4,40 @@ A basic table:
 
 --input--
     <%= table begin %>
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     <% end %>
 --end input--
 --output--
     <table class="table">
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     </table>
 --end output--
 
@@ -20,12 +48,40 @@ Several classes applied to the table:
 
 --input--
     %= table hover, striped, condensed, begin
-        <tr><td>Table 2</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     %  end
 --end input--
 --output--
     <table class="table table-condensed table-hover table-striped">
-        <tr><td>Table 2</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     </table>
 --end output--
 
@@ -36,7 +92,21 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
 
 --input--
     %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
-        <tr><td>Table 4</td></tr>
+            <thead>
+                <tr>
+                    <th>th 1</th>
+                    <th>th 2</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+            </tbody>
     %  end
 --end input--
 --output--
@@ -45,7 +115,21 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
             <h3 class="panel-title">Heading Table 4</h3>
         </div>
         <table class="table table-condensed" id="the-table">
-            <tr><td>Table 4</td></tr>
+            <thead>
+                <tr>
+                    <th>th 1</th>
+                    <th>th 2</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 --end output--
@@ -56,12 +140,40 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
 == stencil { to_pod => 0 } ==
 --input--
     <%= table begin %>
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     <% end %>
 --end input--
 --output--
     <table class="table">
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     </table>
 --end output--
     
@@ -70,20 +182,38 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
 --input--
     %= table hover, striped, condensed, begin
         <thead>
-            <tr><th>In the th</th></tr>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
         </thead>
         <tbody>
-            <tr><td>Table 2</td></tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
         </tbody>
     %  end
 --end input--
 --output--
     <table class="table table-condensed table-hover table-striped">
         <thead>
-            <tr><th>In the th</th></tr>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
         </thead>
         <tbody>
-            <tr><td>Table 2</td></tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
         </tbody>
     </table>
 --end output--
@@ -91,7 +221,21 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
 == stencil { to_pod => 0 } ==
 --input--
     %= table 'Heading Table 3', hover, striped, condensed, begin
-        <tr><td>Table 3</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     %  end
 --end input--
 --output--
@@ -100,7 +244,21 @@ A <code>condensed</code> table with an <code>id</code> wrapped in a <code>succes
             <h3 class="panel-title">Heading Table 3</h3>
         </div>
         <table class="table table-condensed table-hover table-striped">
-            <tr><td>Table 3</td></tr>
+            <thead>
+                <tr>
+                    <th>th 1</th>
+                    <th>th 2</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 --end output--

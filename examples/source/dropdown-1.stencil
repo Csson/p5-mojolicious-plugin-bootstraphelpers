@@ -25,6 +25,7 @@ By default, <code>tabindex</code> is set to <code>-1</code>:
 
 
 == stencil ==
+...but it can be overridden:
 --input--
     <%= dropdown
          ['Dropdown 2', caret, large, primary, items => [
@@ -54,5 +55,4 @@ By default, <code>tabindex</code> is set to <code>-1</code>:
     </div>
 --end output--
 
-...but it can be overridden.
 

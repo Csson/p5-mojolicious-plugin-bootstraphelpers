@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Examples</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            
+
+<p>The class is set to <code>.panel-default</code>, by default:</p>
+<pre>%= panel</pre>
+<pre>&lt;div class=&quot;panel panel-default&quot;&gt;
+    &lt;div class=&quot;panel-body&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>    <div class="panel panel-default">        <div class="panel-body">        </div>    </div></p>
+<p><hr /></p>
+<p>If you want a panel without title, set the title to <code>undef</code>:</p>
+<pre>%= panel undef ,=&gt; begin
+    &lt;p&gt;A short text.&lt;/p&gt;
+%  end</pre>
+<pre>&lt;div class=&quot;panel panel-default&quot;&gt;
+    &lt;div class=&quot;panel-body&quot;&gt;
+        &lt;p&gt;A short text.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>    <div class="panel panel-default">        <div class="panel-body">            <p>A short text.</p>        </div>    </div></p>
+<p><hr /></p>
+<pre>%= panel &#39;The Header&#39; =&gt; begin
+    &lt;p&gt;A short text.&lt;/p&gt;
+%  end</pre>
+<pre>&lt;div class=&quot;panel panel-default&quot;&gt;
+    &lt;div class=&quot;panel-heading&quot;&gt;
+        &lt;h3 class=&quot;panel-title&quot;&gt;The Header&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;panel-body&quot;&gt;
+        &lt;p&gt;A short text.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>    <div class="panel panel-default">        <div class="panel-heading">            <h3 class="panel-title">The Header</h3>        </div>        <div class="panel-body">            <p>A short text.</p>        </div>    </div></p>
+<p><hr /></p>
+<p>A <code>success</code> panel with a header:</p>
+<pre>%= panel &#39;Panel 5&#39;, success, begin
+    &lt;p&gt;A short text.&lt;/p&gt;
+%  end</pre>
+<pre>&lt;div class=&quot;panel panel-success&quot;&gt;
+    &lt;div class=&quot;panel-heading&quot;&gt;
+        &lt;h3 class=&quot;panel-title&quot;&gt;Panel 5&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;panel-body&quot;&gt;
+        &lt;p&gt;A short text.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>    <div class="panel panel-success">        <div class="panel-heading">            <h3 class="panel-title">Panel 5</h3>        </div>        <div class="panel-body">            <p>A short text.</p>        </div>    </div></p>
+        </div>
+        <pre style="background-color: #fff; border-width: 0px;">
+
+
+
+        </pre>
+    </body>
+</html>
