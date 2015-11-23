@@ -1,35 +1,37 @@
+use strict;
+use warnings;
+use 5.20.0;
+
+# VERSION:
+# ABSTRACT: Supporting module
+
 package Mojolicious::Plugin::BootstrapHelpers::Helpers {
 
-    use strict;
-    use warnings;
-    use Mojo::Base 'Mojolicious::Plugin';
-
-    use List::AllUtils qw/uniq first_index/;
+    use List::MoreUtils qw/uniq first_index/;
     use Mojo::ByteStream;
     use Mojo::Util 'xml_escape';
     use Scalar::Util 'blessed';
     use String::Trim;
-#    use Data::Dump::Streamer 'Dumper';
     use String::Random;
-    use experimental qw/postderef signatures/; # requires 5.20
+    use experimental qw/postderef signatures/;
 
     sub bootstraps_bootstraps {
         my $c = shift;
         my $arg = shift;
 
-        my $css   = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">};
-        my $theme = q{<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">};
-        my $js    = q{<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>};
-        my $jq    = q{<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>};
+        my $css   = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">};
+        my $theme = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">};
+        my $js    = q{<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>};
+        my $jq    = q{<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>};
 
         return out(
               !defined $arg  ? $css
-            : $arg eq 'css'  ? $css . $theme
-            : $arg eq 'js'   ? $js
-            : $arg eq 'jsq'  ? $jq . $js
-            : $arg eq 'all'  ? $css . $theme . $js
-            : $arg eq 'allq' ? $css . $theme . $jq . $js
-            :                 ''
+            : $arg eq 'css'  ? join "\n" => $css, $theme
+            : $arg eq 'js'   ? join "\n" => $js
+            : $arg eq 'jsq'  ? join "\n" => $jq, $js
+            : $arg eq 'all'  ? join "\n" => $css, $theme, $js
+            : $arg eq 'allq' ? join "\n" => $css, $theme, $jq, $js
+            :                  ''
         );
     }
 
@@ -805,6 +807,8 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
             }
         }
 
+        #$attr->{'class'} = trim join ' ' => uniq sort @classes;
+        my %uniqs = ();
         $attr->{'class'} = trim join ' ' => uniq sort @classes;
 
         return $attr;
@@ -857,7 +861,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers {
     sub cleanup_attrs {
         my $hash = shift;
 
-        #* delete all strappings (__*)
+        #* delete all shortcuts (-> __*)
         map { delete $hash->{ $_ } } grep { substr($_, 0, 2) eq '__' } keys $hash->%*;
 
         #* delete all keys whose value is not a string
