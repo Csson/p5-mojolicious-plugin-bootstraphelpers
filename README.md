@@ -2,7 +2,7 @@
 
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
-![Requires Perl 5.20+](https://img.shields.io/badge/perl-5.20+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master)](https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers)
+![Requires Perl 5.20](https://img.shields.io/badge/perl-5.20-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master)](https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers)
 
 # VERSION
 
@@ -29,9 +29,9 @@ Version 0.0188, released 2015-11-23.
 
 # STATUS
 
-This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
+Relatively stable. This distribution will not be updated to support Bootstrap 4. There might be a separate distribution for that.
 
-Currently supported Bootstrap version: 3.3.5.
+All examples are tested.
 
 # DESCRIPTION
 
@@ -225,6 +225,24 @@ So, a submenu item can be one of three things:
 - 3. A `.divider`, in which case you give it an empty array reference.
 
 See ["Dropdowns"](#dropdowns), ["Button groups"](#button-groups) and ["Navbars"](#navbars) for examples.
+
+# EXAMPLES
+
+All examples below, and more, are included in html files in `/examples`. They are also available on github:
+
+- [Badges](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/badge-1.html)
+- [Include bootstrap](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/bootstrap-1.html)
+- [Buttons](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button-1.html)
+- [Button groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button_group-1.html)
+- [Dropdowns](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/dropdown-1.html)
+- [Form groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/formgroup-1.html)
+- [Icons](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/icon-1.html)
+- [Input groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/input_group-1.html)
+- [Navs](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/nav-1.html)
+- [Navbars](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/navbar-1.html)
+- [Panels](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/panel-1.html)
+- [Tables](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/table-1.html)
+- [Toolbars](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/toolbar-1.html)
 
 # HELPERS
 
