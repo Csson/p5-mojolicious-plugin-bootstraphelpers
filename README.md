@@ -6,7 +6,7 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 # VERSION
 
-Version 0.0188, released 2015-11-23.
+Version 0.0188, released 2015-11-24.
 
 # SYNOPSIS
 
@@ -642,22 +642,26 @@ with `items` a url.
     By default, <code>tabindex</code> is set to <code>-1</code>:
 </div>
 
-    <%= dropdown
-         ['Dropdown 1', id => 'a_custom_id', right, items => [
-            ['Item 1', ['item1'] ],
-            ['Item 2', ['item2'] ],
-            [],
-            ['Item 3', ['item3'] ]
-         ] ] %>
+    <p class="text-right">
+        <%= dropdown
+             ['Dropdown 1', id => 'a_custom_id', right, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ]
+             ] ] %>
+    </p>
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
+    <div class="text-right">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
     </div>
 
 <div>
