@@ -887,21 +887,4 @@ This creates the specific icon class. If you use the glyphicon pack, this should
 
 =back
 
-=head1 AUTHOR
-
-Erik Carlsson E<lt>csson@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2014- Erik Carlsson
-
-Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
-
-L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
-
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
 =cut

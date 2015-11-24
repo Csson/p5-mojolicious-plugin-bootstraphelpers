@@ -63,3 +63,11 @@ plugins:
    text_as_html_pod: 1
 
  - +remove_plugin: Splint
+
+ - +replace_plugin: Legal
+   +with: Legal::Supplemented
+   header: WHat
+   text_after:
+    - Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
+    - ~
+    - L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.

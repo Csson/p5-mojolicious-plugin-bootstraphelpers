@@ -84,7 +84,7 @@
             "Pod::Weaver::Section::Generic" : "0",
             "Pod::Weaver::Section::Homepage::DefaultCPAN" : "0",
             "Pod::Weaver::Section::Leftovers" : "0",
-            "Pod::Weaver::Section::Legal" : "0",
+            "Pod::Weaver::Section::Legal::Supplemented" : "0",
             "Pod::Weaver::Section::Name" : "0",
             "Pod::Weaver::Section::Region" : "0",
             "Pod::Weaver::Section::Source::DefaultGitHub" : "0",
@@ -120,11 +120,11 @@
    "provides" : {
       "Mojolicious::Plugin::BootstrapHelpers" : {
          "file" : "lib/Mojolicious/Plugin/BootstrapHelpers.pm",
-         "version" : "0.0188"
+         "version" : "0.0201"
       },
       "Mojolicious::Plugin::BootstrapHelpers::Helpers" : {
          "file" : "lib/Mojolicious/Plugin/BootstrapHelpers/Helpers.pm",
-         "version" : "0.0188"
+         "version" : "0.0201"
       }
    },
    "release_status" : "stable",
@@ -139,6 +139,6 @@
          "web" : "https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers"
       }
    },
-   "version" : "0.0188"
+   "version" : "0.0201"
 }
 

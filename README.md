@@ -2,11 +2,11 @@
 
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
-![Requires Perl 5.20](https://img.shields.io/badge/perl-5.20-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master)](https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers)
+![Requires Perl 5.20+](https://img.shields.io/badge/perl-5.20+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master)](https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers)
 
 # VERSION
 
-Version 0.0188, released 2015-11-24.
+Version 0.0201, released 2015-11-24.
 
 # SYNOPSIS
 
@@ -1543,23 +1543,6 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 >
 > This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `icon` helper.
 
-# AUTHOR
-
-Erik Carlsson <csson@cpan.org>
-
-# COPYRIGHT
-
-Copyright 2014- Erik Carlsson
-
-Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
-
-[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
-
-# LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
 # SOURCE
 
 [https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers](https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers)
@@ -1572,9 +1555,13 @@ it under the same terms as Perl itself.
 
 Erik Carlsson <info@code301.com>
 
-# COPYRIGHT AND LICENSE
+# WHat
 
 This software is copyright (c) 2015 by Erik Carlsson.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
+
+[Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.

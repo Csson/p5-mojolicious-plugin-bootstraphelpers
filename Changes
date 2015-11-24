@@ -6,26 +6,39 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
- - Examples (both inline in POD and in /examples) and tests are now generated via Stenciller.
+
+ [Enhancements]
+
+ [Meta]
+
+ [New Features]
+
+ [Requirements]
+
+ [Revision]
+
+ [Testing]
+
+0.0200 2015-11-24T14:12:19Z UTC
+ [Documentation]
+ - Tests and examples (both inline in POD and in /examples) are now
+   generated via Stenciller.
  - Various improvements.
 
  [Enhancements]
  - Updated Bootstrap version to 3.3.5 (when included via the cdn helpers).
  - Updated jQuery version to 2.1.4 (when included via the cdn helpers).
- - The cdn helpers now always create https urls, previously they created protocol relative urls.
+ - The cdn helpers now always create https urls, previously they created
+   protocol relative urls.
 
  [Meta]
  - Replaced iller.ini with iller.yaml
  - Regenerated dist.ini (and weaver.ini) from iller.yaml with new plugins.
  - Removed cpanfile
 
- [New Features]
-
  [Requirements]
  - Removed superfluous use of true.
  - Moved Dist::Zilla things to the correct requirement phase.
-
- [Revision]
 
 0.0187 2014-12-04T15:52:33Z CET
  [Enhancements]
