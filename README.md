@@ -642,7 +642,7 @@ with `items` a url.
     By default, <code>tabindex</code> is set to <code>-1</code>:
 </div>
 
-    <p class="text-right">
+    <div class="text-right">
         <%= dropdown
              ['Dropdown 1', id => 'a_custom_id', right, items => [
                 ['Item 1', ['item1'] ],
@@ -650,7 +650,7 @@ with `items` a url.
                 [],
                 ['Item 3', ['item3'] ]
              ] ] %>
-    </p>
+    </div>
 
     <div class="text-right">
         <div class="dropdown">
