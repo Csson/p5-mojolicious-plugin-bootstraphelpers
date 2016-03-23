@@ -33,14 +33,29 @@ If you want a panel without title, set the title to <code>undef</code>:
 
 == stencil { to_pod => 0 } ==
 --input--
-    %= panel 'The Header' => begin
+    <%= panel 'The Header', -header => [
+                            buttongroup => [buttons => [
+                                ['Click me', ['#'], data => { holder => 'claw'}],
+                                ['Tap-tap', ['#'], caret, items => [
+                                    ['Me too', ['#']]
+                                ]],
+                            ]]] => begin %>
         <p>A short text.</p>
     %  end
 --end input--
 --output--
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">The Header</h3>
+            <h3 class="panel-title">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default" data-holder="claw" href="#">Click me</a>
+                    <div class="btn-group">
+                        <a type="button" href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Tap-tap <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="#" class="menuitem">Me too</a></li>
+                        </ul>
+                    </div>
+                </div>The Header</h3>
         </div>
         <div class="panel-body">
             <p>A short text.</p>
