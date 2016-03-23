@@ -1,75 +1,68 @@
 use 5.20.0;
-use strict;
 use warnings;
 
-# VERSION:
+package Mojolicious::Plugin::BootstrapHelpers;
+
 # ABSTRACT: Type less bootstrap
+# AUTHORITY
+our $VERSION = '0.0201';
 
-package Mojolicious::Plugin::BootstrapHelpers {
+use Mojo::Base 'Mojolicious::Plugin';
+use Mojolicious::Plugin::BootstrapHelpers::Helpers;
+use experimental qw/postderef signatures/;
 
-    use Mojo::Base 'Mojolicious::Plugin';
-    use Mojolicious::Plugin::BootstrapHelpers::Helpers;
-    use experimental 'postderef';
+sub register($self, $app, $args) {
 
-    sub register {
-        my $self = shift;
-        my $app = shift;
-        my $args = shift;
+    if(exists $args->{'short_strappings_prefix'}) {
+        $app->log->debug("'short_strappings_prefix' is deprecated. Use 'shortcut_prefix' instead");
+        $args->{'shortcut_prefix'} //= $args->{'short_strappings_prefix'};
+    }
+    if(exists $args->{'init_short_strappings'}) {
+        $app->log->debug("'init_short_strappings' is deprecated. Use 'init_shortcuts' instead");
+        $args->{'init_shortcuts'} //= $args->{'init_short_strappings'};
+    }
+    my $tp = setup_prefix($args->{'tag_prefix'});
+    my $ssp = setup_prefix($args->{'shortcut_prefix'});
+    my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
 
-        if(exists $args->{'short_strappings_prefix'}) {
-            $app->log->debug("'short_strappings_prefix' is deprecated. Use 'shortcut_prefix' instead");
-            $args->{'shortcut_prefix'} //= $args->{'short_strappings_prefix'};
-        }
-        if(exists $args->{'init_short_strappings'}) {
-            $app->log->debug("'init_short_strappings' is deprecated. Use 'init_shortcuts' instead");
-            $args->{'init_shortcuts'} //= $args->{'init_short_strappings'};
-        }
-        my $tp = setup_prefix($args->{'tag_prefix'});
-        my $ssp = setup_prefix($args->{'shortcut_prefix'});
-        my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
+    $app->helper($tp.'bootstrap' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstraps_bootstraps);
+    $app->helper($tp.'table' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_table);
+    $app->helper($tp.'panel' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_panel);
+    $app->helper($tp.'formgroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_formgroup);
+    $app->helper($tp.'button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_button);
+    $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
+    $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
+    $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
+    $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
+    $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
+    $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
+    $app->helper($tp.'navbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_navbar);
+    $app->helper($tp.'nav' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_nav);
 
-        $app->helper($tp.'bootstrap' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstraps_bootstraps);
-        $app->helper($tp.'table' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_table);
-        $app->helper($tp.'panel' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_panel);
-        $app->helper($tp.'formgroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_formgroup);
-        $app->helper($tp.'button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_button);
-        $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
-        $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
-        $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
-        $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
-        $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
-        $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
-        $app->helper($tp.'navbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_navbar);
-        $app->helper($tp.'nav' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_nav);
-
-        if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
-            $app->config->{'Plugin::BootstrapHelpers'} = $args;
-            $app->helper($tp.'icon' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_icon);
-        }
-
-        if($init_shortcuts) {
-            my @sizes = qw/xsmall small medium large/;
-            my @contexts = qw/default active primary success info warning danger/;
-            my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right left block vertical justified dropup/;
-            my @menu = qw/caret hamburger/;
-            my @misc = qw/disabled inverse/;
-
-            foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
-               $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
-            }
-        }
+    if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
+        $app->config->{'Plugin::BootstrapHelpers'} = $args;
+        $app->helper($tp.'icon' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_icon);
     }
 
-    sub setup_prefix {
-        my $prefix = shift;
+    if($init_shortcuts) {
+        my @sizes = qw/xsmall small medium large/;
+        my @contexts = qw/default active primary success info warning danger/;
+        my @table = qw/striped bordered hover condensed responsive/;
+        my @direction = qw/right left block vertical justified dropup/;
+        my @menu = qw/caret hamburger/;
+        my @misc = qw/disabled inverse/;
 
-        return defined $prefix && !length $prefix   ?   '_'
-             : defined $prefix                      ?   $prefix
-             :                                          ''
-             ;
+        foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
+           $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
+        }
     }
+}
 
+sub setup_prefix($prefix) {
+    return defined $prefix && !length $prefix   ?   '_'
+         : defined $prefix                      ?   $prefix
+         :                                          ''
+         ;
 }
 
 1;
@@ -666,7 +659,7 @@ If present does the same as C<items> in L<dropdown|/"Dropdowns">. Also see L</"i
 
 =head3 Syntax
 
-    navbar (inverse,) header => [ |link|, %navbar_has ],
+    navbar (inverse,) (container => 'normal',) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -685,6 +678,14 @@ C<Navbars> are complex structures. They take the following arguments:
 B<C<inverse>>
 
 The C<inverse> shortcut is placed outside the C<%navbar_has>. It applies the C<.navbar-inverse> class.
+
+B<C<container>>
+
+Default: C<fluid>
+
+Allowed values: C<fluid>, C<normal>
+
+Sets the class on the container inside the navbar.
 
 B<C<header =E<gt> [ |link|, %navbar_has ]>>
 
