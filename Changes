@@ -4,12 +4,18 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [API Changes]
 
  [Bug Fixes]
+ - Fixed an issue where an item in a 'nav' that wasn't a dropdown couldn't have attributes.
 
  [Documentation]
+ - Removed duplicated pod sections.
 
  [Enhancements]
+ - Added 'container' argument to navbar.
+ - Updated Bootstrap version to 3.3.6 (when included via the cdn helpers).
+ - Updated jQuery version to 2.2.2 (when included via the cdn helpers).
 
- [Meta]
+ [Other Changes]
+  - No longer uses package block syntax.
 
  [New Features]
 

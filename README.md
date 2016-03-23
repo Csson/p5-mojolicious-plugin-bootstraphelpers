@@ -2,11 +2,19 @@
 
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
-![Requires Perl 5.20+](https://img.shields.io/badge/perl-5.20+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master)](https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers)
+<div>
+    <p>
+    <img src="https://img.shields.io/badge/perl-5.20+-blue.svg" alt="Requires Perl 5.20+" />
+    <a href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master" alt="Travis status" /></a>
+    <a href="http://cpants.cpanauthors.org/dist/Mojolicious-Plugin-BootstrapHelpers-0.0201"><img src="https://badgedepot.code301.com/badge/kwalitee/Mojolicious-Plugin-BootstrapHelpers/0.0201" alt="Distribution kwalitee" /></a>
+    <a href="http://matrix.cpantesters.org/?dist=Mojolicious-Plugin-BootstrapHelpers%200.0201"><img src="https://badgedepot.code301.com/badge/cpantesters/Mojolicious-Plugin-BootstrapHelpers/0.0201" alt="CPAN Testers result" /></a>
+    <img src="https://img.shields.io/badge/coverage-87.2%-orange.svg" alt="coverage 87.2%" />
+    </p>
+</div>
 
 # VERSION
 
-Version 0.0201, released 2015-11-24.
+Version 0.0201, released 2016-03-23.
 
 # SYNOPSIS
 
@@ -1062,7 +1070,7 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 
 ### Syntax
 
-    navbar (inverse,) header => [ |link|, %navbar_has ],
+    navbar (inverse,) (container => 'normal',) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -1081,6 +1089,14 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 **`inverse`**
 
 The `inverse` shortcut is placed outside the `%navbar_has`. It applies the `.navbar-inverse` class.
+
+**`container`**
+
+Default: `fluid`
+
+Allowed values: `fluid`, `normal`
+
+Sets the class on the container inside the navbar.
 
 **`header => [ |link|, %navbar_has ]`**
 
@@ -1555,9 +1571,9 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 
 Erik Carlsson <info@code301.com>
 
-# WHat
+# LICENSE
 
-This software is copyright (c) 2015 by Erik Carlsson.
+This software is copyright (c) 2016 by Erik Carlsson.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
