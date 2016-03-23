@@ -21,7 +21,7 @@ prereqs:
   
   develop:
     requires:
-      - Stenciller: 0.1301
+      - Stenciller: 0.1400
 
 plugins:
  - +config: Author::CSSON
@@ -30,14 +30,11 @@ plugins:
    exclude_match:
      - examples/.*\.html
 
- - +add_plugin: TravisYML
-   +before: Git::Tag
-   perl_version: 5.20
-
  - +plugin: Run::AfterBuild
    run: cp %d/examples/*.html examples
 
  - +plugin: Stenciller::HtmlExamples
+   +version: 0.0201
    source_directory: examples/source
    output_directory: examples
    template_file: examples/source/template.html
@@ -45,6 +42,7 @@ plugins:
    separator: '<hr />'
 
  - +plugin: Stenciller::MojoliciousTests
+   +version: 0.0200
    source_directory: examples/source
    output_directory: t
    template_file: examples/source/template.test
@@ -66,7 +64,7 @@ plugins:
 
  - +replace_plugin: Legal
    +with: Legal::Supplemented
-   header: WHat
+   header: LICENSE
    text_after:
     - Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
     - ~
