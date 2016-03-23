@@ -1,7 +1,7 @@
-# This file was auto-generated from iller.yaml by Dist::Iller on 2016-03-23 22:33:12 UTC.
+# This file was auto-generated from iller.yaml by Dist::Iller on 2016-03-23 22:47:36 UTC.
 
 on runtime => sub {
-    requires 'List::MoreUtils' => '0.408';
+    requires 'List::Util' => '1.44';
     requires 'Mojolicious' => '5.0';
     requires 'Scalar::Util' => '1.29';
     requires 'String::Random' => '0';

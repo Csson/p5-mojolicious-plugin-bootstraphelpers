@@ -118,7 +118,7 @@
       },
       "runtime" : {
          "requires" : {
-            "List::MoreUtils" : "0.408",
+            "List::Util" : "1.44",
             "Mojolicious" : "5.0",
             "Scalar::Util" : "1.29",
             "String::Random" : "0",
