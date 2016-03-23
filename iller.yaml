@@ -69,3 +69,12 @@ plugins:
     - Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
     - ~
     - L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
+
+---
+doctype: cpanfile
+
+---
+doctype: gitignore
+config: Author::CSSON
+always:
+ - Mojolicious-Plugin-BootstrapHelpers-*
