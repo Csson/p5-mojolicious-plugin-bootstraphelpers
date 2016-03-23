@@ -25,6 +25,7 @@ prereqs:
 
 plugins:
  - +config: Author::CSSON
+   travis_perl_min: 20
 
  - +extend_plugin: Git::GatherDir
    exclude_match:
