@@ -13,7 +13,7 @@ prereqs:
       - String::Trim: 0.004
       - String::Random
       - experimental: 0.008
-      - List::MoreUtils
+      - List::Util: 1.44
 
   test:
     requires:

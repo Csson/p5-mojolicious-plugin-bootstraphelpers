@@ -7,7 +7,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers;
 # AUTHORITY
 our $VERSION = '0.0201';
 
-use List::MoreUtils qw/uniq first_index/;
+use List::Util qw/uniq/;
 use Mojo::ByteStream;
 use Mojo::Util 'xml_escape';
 use Scalar::Util 'blessed';
@@ -827,7 +827,6 @@ sub add_classes {
         }
     }
 
-    #$attr->{'class'} = trim join ' ' => uniq sort @classes;
     my %uniqs = ();
     $attr->{'class'} = trim join ' ' => uniq sort @classes;
 
