@@ -67,7 +67,6 @@ A simple navbar with a couple of links and a submenu:
     </nav>
 --end output--
 
-
 == stencil { to_pod => 0 } ==
 --input--
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
@@ -82,7 +81,7 @@ A simple navbar with a couple of links and a submenu:
                 ],
                 button => ['A link', ['#'], left ],
                 nav => [ items => [
-                        ['Another linkage', ['#'] ]
+                        ['Another linkage', ['#'], -li => [ data => { stuff => 'inli' } ], data => { item => 1 } ]
                     ]
                 ],
                 p => ['Hello', right]
@@ -108,7 +107,57 @@ A simple navbar with a couple of links and a submenu:
                 </form>
                 <a class="btn btn-default navbar-btn navbar-left" href="#">A link</a>
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Another linkage</a></li>
+                    <li data-stuff="inli"><a href="#" data-item="1">Another linkage</a></li>
+                </ul>
+                <p class="navbar-right navbar-text">Hello</p>
+            </div>
+        </div>
+    </nav>
+--end output--
+
+
+
+== stencil { to_pod => 0 } ==
+--input--
+    <%= navbar inverse, container => 'normal', header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
+               form => [
+                    [['/login'], method => 'post', left],
+                    [
+                        formgroup => [
+                            text_field => ['search-term', placeholder => 'Search' ],
+                        ],
+                        submit_button => ['Submit'],
+                    ]
+                ],
+                button => ['A link', ['#'], left ],
+                nav => [ items => [
+                        ['Another linkage', ['#'], -li => [ data => { stuff => 'inli' } ], data => { item => 1 } ]
+                    ]
+                ],
+                p => ['Hello', right]
+    %>
+--end input--
+--output--
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="collapsed navbar-toggle" data-target="#collapse-45821" data-toggle="collapse" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">The Brand</a>
+            </div>
+            <div class="collapse navbar-collapse" id="collapse-45821">
+                <form action="/login" class="navbar-form navbar-left" method="post">
+                    <div class="form-group">
+                        <input class="form-control" id="search-term" name="search_term" placeholder="Search" type="text" />
+                    </div>
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </form>
+                <a class="btn btn-default navbar-btn navbar-left" href="#">A link</a>
+                <ul class="nav navbar-nav">
+                    <li data-stuff="inli"><a href="#" data-item="1">Another linkage</a></li>
                 </ul>
                 <p class="navbar-right navbar-text">Hello</p>
             </div>
