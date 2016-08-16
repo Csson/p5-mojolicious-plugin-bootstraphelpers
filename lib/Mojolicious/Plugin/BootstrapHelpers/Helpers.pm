@@ -19,10 +19,10 @@ sub bootstraps_bootstraps {
     my $c = shift;
     my $arg = shift;
 
-    my $css   = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">};
-    my $theme = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">};
-    my $js    = q{<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>};
-    my $jq    = q{<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>};
+    my $css   = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">};
+    my $theme = q{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">};
+    my $js    = q{<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>};
+    my $jq    = q{<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>};
 
     return out(
           !defined $arg  ? $css
