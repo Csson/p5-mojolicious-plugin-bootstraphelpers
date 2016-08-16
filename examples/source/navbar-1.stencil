@@ -1,8 +1,8 @@
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-1'] %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -15,11 +15,14 @@
             </div>
         </div>
     </nav>
---e--
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+
+A simple navbar with a couple of links and a submenu:
+
+--input--
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
                nav => [ items => [
                        ['Link', ['#'] ],
@@ -33,8 +36,8 @@
                    ]
                ]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -62,12 +65,10 @@
             </div>
         </div>
     </nav>
---e--
-A simple navbar with a couple of links and a submenu.
+--end output--
 
-
-==test==
---t--
+== stencil { to_pod => 0 } ==
+--input--
     <%= navbar inverse, header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
                form => [
                     [['/login'], method => 'post', left],
@@ -80,13 +81,13 @@ A simple navbar with a couple of links and a submenu.
                 ],
                 button => ['A link', ['#'], left ],
                 nav => [ items => [
-                        ['Another linkage', ['#'] ]
+                        ['Another linkage', ['#'], -li => [ data => { stuff => 'inli' } ], data => { item => 1 } ]
                     ]
                 ],
                 p => ['Hello', right]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -106,17 +107,70 @@ A simple navbar with a couple of links and a submenu.
                 </form>
                 <a class="btn btn-default navbar-btn navbar-left" href="#">A link</a>
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Another linkage</a></li>
+                    <li data-stuff="inli"><a href="#" data-item="1">Another linkage</a></li>
                 </ul>
                 <p class="navbar-right navbar-text">Hello</p>
             </div>
         </div>
     </nav>
---e--
+--end output--
 
 
-==test example==
---t--
+
+== stencil { to_pod => 0 } ==
+--input--
+    <%= navbar inverse, container => 'normal', header => ['The Brand', ['#'], hamburger, toggler => 'collapse-45821'],
+               form => [
+                    [['/login'], method => 'post', left],
+                    [
+                        formgroup => [
+                            text_field => ['search-term', placeholder => 'Search' ],
+                        ],
+                        submit_button => ['Submit'],
+                    ]
+                ],
+                button => ['A link', ['#'], left ],
+                nav => [ items => [
+                        ['Another linkage', ['#'], -li => [ data => { stuff => 'inli' } ], data => { item => 1 } ]
+                    ]
+                ],
+                p => ['Hello', right]
+    %>
+--end input--
+--output--
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="collapsed navbar-toggle" data-target="#collapse-45821" data-toggle="collapse" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">The Brand</a>
+            </div>
+            <div class="collapse navbar-collapse" id="collapse-45821">
+                <form action="/login" class="navbar-form navbar-left" method="post">
+                    <div class="form-group">
+                        <input class="form-control" id="search-term" name="search_term" placeholder="Search" type="text" />
+                    </div>
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </form>
+                <a class="btn btn-default navbar-btn navbar-left" href="#">A link</a>
+                <ul class="nav navbar-nav">
+                    <li data-stuff="inli"><a href="#" data-item="1">Another linkage</a></li>
+                </ul>
+                <p class="navbar-right navbar-text">Hello</p>
+            </div>
+        </div>
+    </nav>
+--end output--
+
+
+== stencil ==
+
+This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action and the <code>input</code> has an <code>id</code> and a <code>name</code>:
+
+--input--
     <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
                nav => [ items => [
                        ['Link', ['#'], active ],
@@ -155,8 +209,8 @@ A simple navbar with a couple of links and a submenu.
                     ],
                 ]
     %>
---t--
---e--
+--end input--
+--output--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -206,5 +260,4 @@ A simple navbar with a couple of links and a submenu.
             </div>
         </div>
     </nav>
---e--
-This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action, the <code>input</code> has <code>id</code> and <code>name</code>.
+--end output--

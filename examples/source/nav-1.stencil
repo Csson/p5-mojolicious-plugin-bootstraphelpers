@@ -1,5 +1,6 @@
-==test example==
---t--
+== stencil ==
+A simple pills navigation:
+--input--
     <%= nav pills => [
                 ['Item 1', ['#'] ],
                 ['Item 2', ['#'], active ],
@@ -7,20 +8,20 @@
                 ['Item 4', ['#'], disabled ],
             ]
     %>
---t--
---e--
+--end input--
+--output--
     <ul class="nav nav-pills">
         <li><a href="#">Item 1</a></li>
         <li class="active"><a href="#">Item 2</a></li>
         <li><a href="#">Item 3</a></li>
         <li class="disabled"><a href="#">Item 4</a></li>
     </ul>
---e--
-A simple pills navigation.
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+A tab navigation with a menu:
+--input--
     <%= nav justified, id => 'my-nav', tabs => [
                 ['Item 1', ['#'] ],
                 ['Item 2', ['#'], active ],
@@ -34,8 +35,8 @@ A simple pills navigation.
                 ],
             ]
     %>
---t--
---e--
+--end input--
+--output--
     <ul class="nav nav-justified nav-tabs" id="my-nav">
         <li><a href="#">Item 1</a></li>
         <li class="active"><a href="#">Item 2</a></li>
@@ -50,5 +51,4 @@ A simple pills navigation.
             </ul>
         </li>
     </ul>
---e--
-A tab navigation with a menu.
+--end output--

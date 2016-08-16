@@ -1,53 +1,54 @@
-==test example==
---t--
+== stencil ==
+An input group with a checkbox:
+--input--
     <%= input input => { text_field => ['username'] },
               prepend => { check_box => ['agreed'] }
     %>
---t--
---e--
+--end input--
+--output--
     <div class="input-group">
         <span class="input-group-addon"><input name="agreed" type="checkbox" /></span>
         <input class="form-control" id="username" type="text" name="username" />
     </div>
---e--
-An input group with a checkbox.
+--end output--
 
-==test example==
---t--
+== stencil ==
+A <code>large</code> input group with a radio button prepended and a string appended:
+--input--
     <%= input large,
               prepend => { radio_button => ['yes'] },
               input => { text_field => ['username'] },
               append => '@'
     %>
---t--
---e--
+--end input--
+--output--
     <div class="input-group input-group-lg">
         <span class="input-group-addon"><input name="yes" type="radio" /></span>
         <input class="form-control" id="username" type="text" name="username" />
         <span class="input-group-addon">@</span>
     </div>
---e--
-A <code>large</code> input group with a radio button prepended and a string appended.
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+An input group with a button:
+--input--
     <%= input input => { text_field => ['username'] },
               append => { button => ['Click me!'] },
     %>
---t--
---e--
+--end input--
+--output--
     <div class="input-group">
         <input class="form-control" id="username" type="text" name="username" />
         <span class="input-group-btn"><button class="btn btn-default" type="button">Click me!</button></span>
     </div>
---e--
-An input group with a button.
+--end output--
 
 
 
-==test example==
---t--
+== stencil ==
+An input group with a button dropdown appended. Note that <code>right</code> is manually applied:
+--input--
     <%= input input  => { text_field => ['username'] },
               append => { buttongroup => [['The button', caret, right, items => [
                                   ['Item 1', ['item1'] ],
@@ -57,8 +58,8 @@ An input group with a button.
                               ] ] ]
                         }
     %>
---t--
---e--
+--end input--
+--output--
     <div class="input-group">
         <input class="form-control" id="username" type="text" name="username" />
         <div class="input-group-btn">
@@ -72,12 +73,12 @@ An input group with a button.
             </ul>
         </div>
     </div>
---e--
-An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
+--end output--
 
 
-==test example==
---t--
+== stencil ==
+An input group with a split button dropdown prepended:
+--input--
     <%= input input   => { text_field => ['username'] },
               prepend => { buttongroup => [
                               buttons => [
@@ -93,8 +94,8 @@ An input group with a button dropdown appended. Note that <code>right</code> is 
                          ],
                       },
     %>
---t--
---e--
+--end input--
+--output--
     <div class="input-group">
         <div class="input-group-btn">
             <a class="btn btn-default" href="http://www.example.com/">Link 1</a>
@@ -111,5 +112,4 @@ An input group with a button dropdown appended. Note that <code>right</code> is 
         </div>
         <input class="form-control" id="username" type="text" name="username" />
     </div>
---e--
-An input group with a split button dropdown prepended.
+--end output--

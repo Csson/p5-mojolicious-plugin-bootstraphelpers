@@ -3,8 +3,17 @@
 Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 <div>
-    <p><a style="float: left;" href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master">&nbsp;</a>
+    <p>
+    <img src="https://img.shields.io/badge/perl-5.20+-blue.svg" alt="Requires Perl 5.20+" />
+    <a href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master" alt="Travis status" /></a>
+    <a href="http://cpants.cpanauthors.org/release/CSSON/Mojolicious-Plugin-BootstrapHelpers-0.0202"><img src="http://badgedepot.code301.com/badge/kwalitee/CSSON/Mojolicious-Plugin-BootstrapHelpers/0.0202" alt="Distribution kwalitee" /></a>
+    <a href="http://matrix.cpantesters.org/?dist=Mojolicious-Plugin-BootstrapHelpers%200.0202"><img src="http://badgedepot.code301.com/badge/cpantesters/Mojolicious-Plugin-BootstrapHelpers/0.0202" alt="CPAN Testers result" /></a>
+    </p>
 </div>
+
+# VERSION
+
+Version 0.0202, released 2016-08-16.
 
 # SYNOPSIS
 
@@ -27,11 +36,9 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 # STATUS
 
-This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
+Relatively stable. This distribution will not be updated to support Bootstrap 4. There might be a separate distribution for that.
 
-Currently supported Bootstrap version: 3.3.1.
-
-Currently only Perl 5.20+ is supported (thanks to postderef).
+All examples are tested.
 
 # DESCRIPTION
 
@@ -52,55 +59,56 @@ To get going quickly by using the official CDN you can use the following helpers
     # CSS
     %= bootstrap
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     # or (if you want to use the theme)
     %= bootstrap 'theme'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
     # And the javascript
     %= bootstrap 'js'
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     # Or just:
     %= bootstrap 'all'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 It is also possible to automatically include jQuery (2.\*)
 
     %= bootstrap 'jsq'
 
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     %= bootstrap 'allq'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-## Strappings
+## Shortcuts
 
-There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending
-on which tag it is applied to. For instance, if you apply the `info` strapping to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
+There are several shortcuts for applying context and size classes that automatically expands to the correct class depending
+on which tag it is applied to. For instance, if you apply the `info` shortcut to a panel, it becomes `panel-info`, but when applied to a button it becomes `btn-info`.
 
 You can use them in two different ways, but internally they are the same. These to lines are exactly identical:
 
+    # 'standalone shortcut'
     %= button 'Push me', primary
 
+    # 'longform shortcut'
     %= button 'Push me', __primary => 1
 
-For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`) no matter if you use the short strapping form or not.
-They are shortened to the Bootstrap type classes.
+For sizes, you can only use the longform (`xsmall`, `small`, `medium` and `large`). They are shortened to the Bootstrap type classes.
 
-The following strappings are available:
+The following shortcuts are available:
 
     xsmall    default     striped       caret     right
     small     primary     bordered
@@ -109,15 +117,15 @@ The following strappings are available:
               warning     responsive
               danger
 
-Add two leading underscores if you don't want to use the short form.
+Add two leading underscores if you don't want to use the standalone form.
 
-See below for usage. **Important:** You can't follow a short form strapping with a fat comma (`=>`). The fat comma auto-quotes the strapping, and then it breaks.
+See below for usage. **Important:** You can't follow a standalone shortcut with a fat comma (`=>`). The fat comma auto-quotes the string on the left, and then it breaks.
 
-If there is no corresponding class for the element you add the strapping to it is silently not applied.
+If a shortcut you try to apply isn't available in that context, it is silently not applied.
 
 <div>
-    <p>The short form is recommended for readability, but it does setup several helpers in your templates.
-    You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
+    <p>The standalone form is recommended for readability, but it does setup several helpers in your templates.
+    You can turn off this style, see <a href="#init_shortcuts">init_shortcuts</a>.</p>
 </div>
 
 ## Syntax convention
@@ -128,7 +136,7 @@ In the syntax sections below the following conventions are used:
     $name           Any string
     %name           One or more key-value pairs, written as:
                       key => 'value', key2 => 'value2'
-                         or, if you use short form strappings:
+                         or, if you use standalone shortcuts:
                       primary, large
     $key => [...]   Both of these are array references where the ordering of strings
     key  => [...]     are significant, for example:
@@ -148,7 +156,7 @@ Ordering between two hashes that follows each other is also not significant.
 
 The following applies to all `%has` hashes below:
 
-- They refer to any html attributes and/or strappings to apply to the current element.
+- They refer to any html attributes and/or shortcuts to apply to the current element.
 - When helpers are nested, all occurrencies are change to tag-specific names, such as `%panel_has`.
 - This hash is always optional. It is not marked so in the definitions below in order to reduce clutter.
 - Depending on context either the leading or following comma is optional together with the hash. It is usually obvious.
@@ -199,7 +207,7 @@ Mandatory. It sets the `href` on the link. [url\_for](https://metacpan.org/pod/M
 
 **`%link_has`**
 
-Which strappings are available varies depending on context.
+Which shortcuts are available varies depending on context.
 
 ### |item|
 
@@ -225,6 +233,24 @@ So, a submenu item can be one of three things:
 
 See ["Dropdowns"](#dropdowns), ["Button groups"](#button-groups) and ["Navbars"](#navbars) for examples.
 
+# EXAMPLES
+
+All examples below, and more, are included in html files in `/examples`. They are also available on github:
+
+- [Badges](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/badge-1.html)
+- [Include bootstrap](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/bootstrap-1.html)
+- [Buttons](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button-1.html)
+- [Button groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button_group-1.html)
+- [Dropdowns](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/dropdown-1.html)
+- [Form groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/formgroup-1.html)
+- [Icons](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/icon-1.html)
+- [Input groups](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/input_group-1.html)
+- [Navs](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/nav-1.html)
+- [Navbars](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/navbar-1.html)
+- [Panels](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/panel-1.html)
+- [Tables](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/table-1.html)
+- [Toolbars](http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/toolbar-1.html)
+
 # HELPERS
 
 [Bootstrap documentation](http://getbootstrap.com/components/#badges)
@@ -239,33 +265,27 @@ See ["Dropdowns"](#dropdowns), ["Button groups"](#button-groups) and ["Navbars"]
 
 Mandatory. If it is `undef` no output is produced.
 
-**Available strappings**
+**Available shortcuts**
 
 `right` applies `.pull-right`.
 
 ### Examples
+
+<div>
+    A basic badge:
+</div>
 
     <%= badge '3' %>
 
     <span class="badge">3</span></a>
 
 <div>
-    <p>
-    A basic badge.
-
-    </p>
+    A right aligned badge with a data attribute:
 </div>
 
     <%= badge '4', data => { custom => 'yes' }, right %>
 
     <span class="badge pull-right" data-custom="yes">4</span>
-
-<div>
-    <p>
-    A right aligned badge with a data attribute.
-
-    </p>
-</div>
 
 ## Buttons
 
@@ -288,7 +308,7 @@ basically [link\_to](https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#li
 
 Not available for `submit_button`.
 
-**Available strappings**
+**Available shortcuts**
 
 `default` `primary` `success` `info` `warning` `danger` `link` applies the various `.btn-*` classes.
 
@@ -300,15 +320,16 @@ Not available for `submit_button`.
 
 ### Examples
 
+<div>
+    An ordinary button, with applied shortcuts:
+</div>
+
     %= button 'The example 5' => large, warning
 
     <button class="btn btn-lg btn-warning" type="button">The example 5</button>
 
 <div>
-    <p>
-    An ordinary button, with applied strappings.
-
-    </p>
+    With a url the button turns into a link:
 </div>
 
     %= button 'The example 1' => ['http://www.example.com/'], small
@@ -316,22 +337,20 @@ Not available for `submit_button`.
     <a class="btn btn-default btn-sm" href="http://www.example.com/">The example 1</a>
 
 <div>
-    <p>
-    With a url the button turns into a link.
-
-    </p>
+    A submit button for use in forms. It overrides the build-in submit_button helper:
 </div>
 
     %= submit_button 'Save 2', primary
 
     <button class="btn btn-primary" type="submit">Save 2</button>
 
-<div>
-    <p>
-    A submit button for use in forms. It overrides the build-in submit_button helper.
+    %= button 'Loop', active
 
-    </p>
-</div>
+    <button class="active btn btn-default" type="button">Loop</button>
+
+    %= button 'Loop', block
+
+    <button class="block btn btn-default" type="button">Loop</button>
 
 ## Button groups
 
@@ -367,6 +386,10 @@ with `items` a url.
 
 ### Examples
 
+<div>
+    A basic button group:
+</div>
+
     <%= buttongroup
         buttons => [
             ['Button 1'],
@@ -382,10 +405,7 @@ with `items` a url.
     </div>
 
 <div>
-    <p>
-    A basic button group.
-
-    </p>
+    Nested button group. Note that the <code>small</code> shortcut is only necessary once. The same classes are automatically applied to the nested <code>.btn-group</code>:
 </div>
 
     <%= buttongroup small,
@@ -419,10 +439,7 @@ with `items` a url.
     </div>
 
 <div>
-    <p>
-    Nested button group. Note that the <code>small</code> strapping is only necessary once. The same classes are automatically applied to the nested <code>.btn-group</code>.
-
-    </p>
+    Nested button group, with the <code>vertical</code> shortcut:
 </div>
 
     <%= buttongroup vertical,
@@ -456,10 +473,7 @@ with `items` a url.
     </div>
 
 <div>
-    <p>
-    Nested button group, with the <code>vertical</code> strapping.
-
-    </p>
+    Mix links and <code>dropup</code> menus in <code>justified</code> button groups:
 </div>
 
     <%= buttongroup justified,
@@ -491,10 +505,7 @@ with `items` a url.
     </div>
 
 <div>
-    <p>
-    Mix links and <code>dropup</code> menus in <code>justified</code> button groups.
-
-    </p>
+    Split button dropdowns uses the same syntax as any other multi-button dropdown. Set the <code>caret</code> button title to <code>undef</code>:
 </div>
 
     <%= buttongroup
@@ -524,10 +535,7 @@ with `items` a url.
     </div>
 
 <div>
-    <p>
-    Split button dropdowns uses the same syntax as any other multi-button dropdown. Set the <code>caret</code> button title to <code>undef</code>.
-
-    </p>
+    Using the simpler single-button button group dropdown syntax:
 </div>
 
     <%= buttongroup ['Default', caret, items  => [
@@ -567,12 +575,6 @@ with `items` a url.
             <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
         </ul>
     </div>
-
-<div>
-    <p>
-    Using the shortcut to create single-button button group dropdowns.
-    </p>
-</div>
 
 ## Button toolbars
 
@@ -637,35 +639,40 @@ with `items` a url.
 >
 > Mandatory array reference consisting of one or many `|item|`. Read more under ["item"](#item).
 
-**Available strappings**
+**Available shortcuts**
 
 `caret` adds a `<span class="caret"></span<>` element on the button.
 
 ### Examples
 
-    <%= dropdown
-         ['Dropdown 1', id => 'a_custom_id', right, items => [
-            ['Item 1', ['item1'] ],
-            ['Item 2', ['item2'] ],
-            [],
-            ['Item 3', ['item3'] ]
-         ] ] %>
+<div>
+    By default, <code>tabindex</code> is set to <code>-1</code>:
+</div>
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
-            <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
-            <li class="divider"></li>
-            <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
-        </ul>
+    <div class="text-right">
+        <%= dropdown
+             ['Dropdown 1', id => 'a_custom_id', right, items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ]
+             ] ] %>
+    </div>
+
+    <div class="text-right">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="a_custom_id" data-toggle="dropdown">Dropdown 1</button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+                <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+                <li class="divider"></li>
+                <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+            </ul>
+        </div>
     </div>
 
 <div>
-    <p>
-    By default, <code>tabindex</code> is set to <code>-1</code>...
-
-    </p>
+    ...but it can be overridden:
 </div>
 
     <%= dropdown
@@ -693,12 +700,6 @@ with `items` a url.
             <li><a class="menuitem" href="item5" tabindex="-1">Item 5</a></li>
         </ul>
     </div>
-
-<div>
-    <p>
-    ...but it can be overridden.
-    </p>
-</div>
 
 ## Form groups
 
@@ -760,6 +761,10 @@ There can be only one `$fieldtype` per `formgroup`.
 
 ### Examples
 
+<div>
+    The first item in the array ref is used for both <code>id</code> and <code>name</code>. Except...
+</div>
+
     %= formgroup 'Text test 1', text_field => ['test_text']
 
     <div class="form-group">
@@ -768,10 +773,7 @@ There can be only one `$fieldtype` per `formgroup`.
     </div>
 
 <div>
-    <p>
-    The first item in the array ref is used for both <code>id</code> and <code>name</code>. Except...
-
-    </p>
+    ...if the input name (the first item in the text_field array ref) contains dashes -- those are replaced (in the <code>name</code>) to underscores:
 </div>
 
     %= formgroup 'Text test 4', text_field => ['test-text', large]
@@ -782,10 +784,7 @@ There can be only one `$fieldtype` per `formgroup`.
     </div>
 
 <div>
-    <p>
-    ...if the input name (the first item in the text_field array ref) contains dashes -- those are replaced (in the <code>name</code>) to underscores.
-
-    </p>
+    An input with a value:
 </div>
 
     %= formgroup 'Text test 5', text_field => ['test_text', '200' ]
@@ -796,10 +795,7 @@ There can be only one `$fieldtype` per `formgroup`.
     </div>
 
 <div>
-    <p>
-    An input with a value.
-
-    </p>
+    Note the difference with the earlier example. Here <code>large</code> is outside the <code>text_field</code> array reference, and therefore <code>.form-group-lg</code> is applied to the form group:
 </div>
 
     <form class="form-horizontal">
@@ -816,10 +812,9 @@ There can be only one `$fieldtype` per `formgroup`.
     </form>
 
 <div>
-    <p>
-    Note the difference with the earlier example. Here <code>large</code> is outside the <code>text_field</code> array reference, and therefore <code>.form-group-lg</code> is applied to the form group.
+    A formgroup used in a <code>.form-horizontal</code> <code>form</code>:
 
-    </p>
+    (Note that in this context, <code>medium</code> and <code>large</code> are not shortcuts, but ordinary hash keys.)
 </div>
 
     %= formgroup 'Text test 8', text_field => ['test_text'], cols => { medium => [2, 10], small => [4, 8] }
@@ -830,29 +825,6 @@ There can be only one `$fieldtype` per `formgroup`.
             <input class="form-control" id="test_text" name="test_text" type="text" />
         </div>
     </div>
-
-<div>
-    <p>
-    A formgroup used in a <code>.form-horizontal</code> <code>form</code>.
-
-    (Note that in this context, <code>medium</code> and <code>large</code> are not short form strappings. Those don't take arguments.)
-
-    </p>
-</div>
-
-    %= formgroup 'Text test 9', text_area => ['atextarea', 'default text']
-
-    <div class="form-group">
-        <label class="control-label" for="atextarea">Text test 9</label>
-        <textarea class="form-control" id="atextarea" name="atextarea">default text</textarea>
-    </div>
-
-<div>
-    <p>
-    Textareas can also be used in formgroups.
-
-    </p>
-</div>
 
 ## Icons
 
@@ -912,6 +884,10 @@ Both are optional, but input groups don't make sense if neither is present. They
 
 ### Examples
 
+<div>
+    An input group with a checkbox:
+</div>
+
     <%= input input => { text_field => ['username'] },
               prepend => { check_box => ['agreed'] }
     %>
@@ -922,10 +898,7 @@ Both are optional, but input groups don't make sense if neither is present. They
     </div>
 
 <div>
-    <p>
-    An input group with a checkbox.
-
-    </p>
+    A <code>large</code> input group with a radio button prepended and a string appended:
 </div>
 
     <%= input large,
@@ -941,10 +914,7 @@ Both are optional, but input groups don't make sense if neither is present. They
     </div>
 
 <div>
-    <p>
-    A <code>large</code> input group with a radio button prepended and a string appended.
-
-    </p>
+    An input group with a button:
 </div>
 
     <%= input input => { text_field => ['username'] },
@@ -957,10 +927,7 @@ Both are optional, but input groups don't make sense if neither is present. They
     </div>
 
 <div>
-    <p>
-    An input group with a button.
-
-    </p>
+    An input group with a button dropdown appended. Note that <code>right</code> is manually applied:
 </div>
 
     <%= input input  => { text_field => ['username'] },
@@ -988,10 +955,7 @@ Both are optional, but input groups don't make sense if neither is present. They
     </div>
 
 <div>
-    <p>
-    An input group with a button dropdown appended. Note that <code>right</code> is manually applied.
-
-    </p>
+    An input group with a split button dropdown prepended:
 </div>
 
     <%= input input   => { text_field => ['username'] },
@@ -1027,12 +991,6 @@ Both are optional, but input groups don't make sense if neither is present. They
         <input class="form-control" id="username" type="text" name="username" />
     </div>
 
-<div>
-    <p>
-    An input group with a split button dropdown prepended.
-    </p>
-</div>
-
 ## Navs
 
 ### Syntax
@@ -1055,6 +1013,10 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 
 ### Examples
 
+<div>
+    A simple pills navigation:
+</div>
+
     <%= nav pills => [
                 ['Item 1', ['#'] ],
                 ['Item 2', ['#'], active ],
@@ -1071,10 +1033,7 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
     </ul>
 
 <div>
-    <p>
-    A simple pills navigation.
-
-    </p>
+    A tab navigation with a menu:
 </div>
 
     <%= nav justified, id => 'my-nav', tabs => [
@@ -1106,17 +1065,11 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
         </li>
     </ul>
 
-<div>
-    <p>
-    A tab navigation with a menu.
-    </p>
-</div>
-
 ## Navbars
 
 ### Syntax
 
-    navbar (inverse,) header => [ |link|, %navbar_has ],
+    navbar (inverse,) (container => 'normal',) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -1134,7 +1087,15 @@ Mandatory. `$type` is either `pills` or `tabs` (or `items` if the `nav` is in a 
 
 **`inverse`**
 
-The `inverse` strapping is currently outside the `%navbar_has`. It applies the `.navbar-inverse` class.
+The `inverse` shortcut is placed outside the `%navbar_has`. It applies the `.navbar-inverse` class.
+
+**`container`**
+
+Default: `fluid`
+
+Allowed values: `fluid`, `normal`
+
+Sets the class on the container inside the navbar.
 
 **`header => [ |link|, %navbar_has ]`**
 
@@ -1148,7 +1109,7 @@ The `inverse` strapping is currently outside the `%navbar_has`. It applies the `
 >
 > Can take the following extra arguments:
 >
-> > The `hamburger` strapping creates the menu button for collapsed navbars.
+> > The `hamburger` shortcut creates the menu button for collapsed navbars.
 > >
 > > **`toggler => $collapse_id`**
 > >
@@ -1191,6 +1152,10 @@ The following arguments can appear any number of times, and is rendered in order
 > > > Creates [form groups](#form-groups), [input groups](#input-groups), [buttons](#buttons) and [submit\_buttons](#submit_buttons)
 
 ### Examples
+
+<div>
+    A simple navbar with a couple of links and a submenu:
+</div>
 
     <%= navbar header => ['The brand', ['#'], hamburger, toggler => 'bs-example-navbar-collapse-2'],
                nav => [ items => [
@@ -1235,10 +1200,7 @@ The following arguments can appear any number of times, and is rendered in order
     </nav>
 
 <div>
-    <p>
-    A simple navbar with a couple of links and a submenu.
-
-    </p>
+    This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action and the <code>input</code> has an <code>id</code> and a <code>name</code>:
 </div>
 
     <%= navbar header => ['Brand', ['#'], hamburger, toggler => 'collapse-4124'],
@@ -1330,12 +1292,6 @@ The following arguments can appear any number of times, and is rendered in order
         </div>
     </nav>
 
-<div>
-    <p>
-    This is (almost) identical to the <a href="http://getbootstrap.com/components/#navbar">Bootstrap documentation example</a>. The differences should be: The <code>form</code> has an action, the <code>input</code> has <code>id</code> and <code>name</code>.
-    </p>
-</div>
-
 ## Panels
 
 [Bootstrap documentation](http://getbootstrap.com/components/#panels)
@@ -1356,6 +1312,10 @@ Optional (but panels are not much use without it). The html inside the `panel`.
 
 ### Examples
 
+<div>
+    The class is set to <code>.panel-default</code>, by default:
+</div>
+
     %= panel
 
     <div class="panel panel-default">
@@ -1364,10 +1324,7 @@ Optional (but panels are not much use without it). The html inside the `panel`.
     </div>
 
 <div>
-    <p>
-    The class is set to <code>.panel-default</code>, by default.
-
-    </p>
+    If you want a panel without title, set the title to <code>undef</code>:
 </div>
 
     %= panel undef ,=> begin
@@ -1381,25 +1338,8 @@ Optional (but panels are not much use without it). The html inside the `panel`.
     </div>
 
 <div>
-    <p>
-    If you want a panel without title, set the title to <code>undef</code>.
-
-    </p>
+    A <code>success</code> panel with a header:
 </div>
-
-    %= panel 'The Header' => begin
-        <p>A short text.</p>
-    %  end
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">The Header</h3>
-        </div>
-        <div class="panel-body">
-            <p>A short text.</p>
-        </div>
-    </div>
-
 
     %= panel 'Panel 5', success, begin
         <p>A short text.</p>
@@ -1439,43 +1379,105 @@ Optional if the table has a `$title`, otherwise without use.
 ### Examples
 
 <div>
-    <p>
-
-    </p>
+    A basic table:
 </div>
 
     <%= table begin %>
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     <% end %>
 
     <table class="table">
-        <tr><td>Table 1</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     </table>
 
 <div>
-    <p>
-    A basic table.
-
-    </p>
+    Several classes applied to the table:
 </div>
 
     %= table hover, striped, condensed, begin
-        <tr><td>Table 2</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     %  end
 
     <table class="table table-condensed table-hover table-striped">
-        <tr><td>Table 2</td></tr>
+        <thead>
+            <tr>
+                <th>th 1</th>
+                <th>th 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+            <tr>
+                <td>Cell 1</td>
+                <td>Cell 2</td>
+            </tr>
+        </tbody>
     </table>
 
 <div>
-    <p>
-    Several classes applied to the table.
-
-    </p>
+    A <code>condensed</code> table with an <code>id</code> wrapped in a <code>success</code> panel:
 </div>
 
     %= table 'Heading Table 4', panel => { success }, condensed, id => 'the-table', begin
-        <tr><td>Table 4</td></tr>
+            <thead>
+                <tr>
+                    <th>th 1</th>
+                    <th>th 2</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+            </tbody>
     %  end
 
     <div class="panel panel-success">
@@ -1483,16 +1485,23 @@ Optional if the table has a `$title`, otherwise without use.
             <h3 class="panel-title">Heading Table 4</h3>
         </div>
         <table class="table table-condensed" id="the-table">
-            <tr><td>Table 4</td></tr>
+            <thead>
+                <tr>
+                    <th>th 1</th>
+                    <th>th 2</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                </tr>
+            </tbody>
         </table>
     </div>
-
-<div>
-    <p>
-    A <code>condensed</code> table with an <code>id</code> wrapped in a <code>success</code> panel.
-
-    </p>
-</div>
 
 # OPTIONS
 
@@ -1500,8 +1509,8 @@ Some options are available:
 
     $app->plugin('BootstrapHelpers', {
         tag_prefix => 'bs',
-        short_strappings_prefix => 'set',
-        init_short_strappings => 1,
+        shortcut_prefix => 'set',
+        init_shortcuts => 1,
         icons => {
             class => 'glyphicon'
             formatter => 'glyphicon-%s',
@@ -1519,21 +1528,21 @@ by setting a prefix the original names are no longer available. The following ru
 - If the option is set to the empty string, the prefix is `_`. That is, `panel` is now used as `_panel`.
 - If the option is set to any other string, the prefix is that string. If you set `tag_prefix => 'bs'`, then `panel` is now used as `bspanel`.
 
-## short\_strappings\_prefix
+## shortcut\_prefix
 
 Default: `undef`
 
-This is similar to `tag_prefix`, but is instead applied to the short form strappings. The same rules applies.
+This is similar to `tag_prefix`, but is instead applied to the standalone shortcuts. The same rules applies.
 
-## init\_short\_strappings
+## init\_shortcuts
 
 Default: `1`
 
-If you don't want the short form of strappings setup at all, set this option to a defined but false value.
+If you don't want the standalone shortcuts setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of `warning` you must now use `__warning => 1`.
+All functionality is available, but instead of `warning` you must now write `__warning => 1`.
 
-With short form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not used.
+With standalone form turned off, sizes are still only supported in long form: `__xsmall`, `__small`, `__medium` and `__large`. The Bootstrap abbreviations (`xs` - `lg`) are not available.
 
 ## icons
 
@@ -1549,19 +1558,25 @@ By setting these keys you activate the `icon` helper. You can pick any icon pack
 >
 > This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the `icon` helper.
 
+# SOURCE
+
+[https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers](https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers)
+
+# HOMEPAGE
+
+[https://metacpan.org/release/Mojolicious-Plugin-BootstrapHelpers](https://metacpan.org/release/Mojolicious-Plugin-BootstrapHelpers)
+
 # AUTHOR
 
-Erik Carlsson <csson@cpan.org>
+Erik Carlsson <info@code301.com>
 
-# COPYRIGHT
+# LICENSE
 
-Copyright 2014- Erik Carlsson
+This software is copyright (c) 2016 by Erik Carlsson.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 Bootstrap itself is (c) Twitter. See [their license information](http://getbootstrap.com/getting-started/#license-faqs).
 
 [Mojolicious::Plugin::BootstrapHelpers](https://metacpan.org/pod/Mojolicious::Plugin::BootstrapHelpers) is third party software, and is not endorsed by Twitter.
-
-# LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.

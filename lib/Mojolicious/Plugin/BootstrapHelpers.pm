@@ -1,82 +1,75 @@
-package Mojolicious::Plugin::BootstrapHelpers {
+use 5.20.0;
+use warnings;
 
-    use strict;
-    use warnings;
-    use true;
+package Mojolicious::Plugin::BootstrapHelpers;
 
-    use Mojo::Base 'Mojolicious::Plugin';
+# ABSTRACT: Type less bootstrap
+# AUTHORITY
+our $VERSION = '0.0202';
 
-    use List::AllUtils qw/uniq first_index/;
-    use Mojo::ByteStream;
-    use Mojo::Util 'xml_escape';
-    use Scalar::Util 'blessed';
-    use String::Trim;
-    use Mojolicious::Plugin::BootstrapHelpers::Helpers;
+use Mojo::Base 'Mojolicious::Plugin';
+use Mojolicious::Plugin::BootstrapHelpers::Helpers;
+use experimental qw/postderef signatures/;
 
-    use 5.20.0;
-    use experimental 'postderef';
+sub register($self, $app, $args) {
 
-    sub register {
-        my $self = shift;
-        my $app = shift;
-        my $args = shift;
+    if(exists $args->{'short_strappings_prefix'}) {
+        $app->log->debug("'short_strappings_prefix' is deprecated. Use 'shortcut_prefix' instead");
+        $args->{'shortcut_prefix'} //= $args->{'short_strappings_prefix'};
+    }
+    if(exists $args->{'init_short_strappings'}) {
+        $app->log->debug("'init_short_strappings' is deprecated. Use 'init_shortcuts' instead");
+        $args->{'init_shortcuts'} //= $args->{'init_short_strappings'};
+    }
+    my $tp = setup_prefix($args->{'tag_prefix'});
+    my $ssp = setup_prefix($args->{'shortcut_prefix'});
+    my $init_shortcuts = $args->{'init_shortcuts'} //= 1;
 
-        my $tp = setup_prefix($args->{'tag_prefix'});
-        my $ssp = setup_prefix($args->{'short_strappings_prefix'});
-        my $init_short_strappings = $args->{'init_short_strappings'} //= 1;
+    $app->helper($tp.'bootstrap' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstraps_bootstraps);
+    $app->helper($tp.'table' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_table);
+    $app->helper($tp.'panel' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_panel);
+    $app->helper($tp.'formgroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_formgroup);
+    $app->helper($tp.'button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_button);
+    $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
+    $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
+    $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
+    $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
+    $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
+    $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
+    $app->helper($tp.'navbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_navbar);
+    $app->helper($tp.'nav' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_nav);
 
-        $app->helper($tp.'bootstrap' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstraps_bootstraps);
-        $app->helper($tp.'table' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_table);
-        $app->helper($tp.'panel' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_panel);
-        $app->helper($tp.'formgroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_formgroup);
-        $app->helper($tp.'button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_button);
-        $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
-        $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
-        $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
-        $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
-        $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
-        $app->helper($tp.'input' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_input);
-        $app->helper($tp.'navbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_navbar);
-        $app->helper($tp.'nav' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_nav);
-
-        if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
-            $app->config->{'Plugin::BootstrapHelpers'} = $args;
-            $app->helper($tp.'icon' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_icon);
-        }
-
-        if($init_short_strappings) {
-            my @sizes = qw/xsmall small medium large/;
-            my @contexts = qw/default active primary success info warning danger/;
-            my @table = qw/striped bordered hover condensed responsive/;
-            my @direction = qw/right left block vertical justified dropup/;
-            my @menu = qw/caret hamburger/;
-            my @misc = qw/disabled inverse/;
-
-            foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
-               $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
-            }
-        }
+    if(exists $args->{'icons'}{'class'} && $args->{'icons'}{'formatter'}) {
+        $app->config->{'Plugin::BootstrapHelpers'} = $args;
+        $app->helper($tp.'icon' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_icon);
     }
 
-    sub setup_prefix {
-        my $prefix = shift;
+    if($init_shortcuts) {
+        my @sizes = qw/xsmall small medium large/;
+        my @contexts = qw/default active primary success info warning danger/;
+        my @table = qw/striped bordered hover condensed responsive/;
+        my @direction = qw/right left block vertical justified dropup/;
+        my @menu = qw/caret hamburger/;
+        my @misc = qw/disabled inverse/;
 
-        return defined $prefix && !length $prefix   ?   '_'
-             : defined $prefix                      ?   $prefix
-             :                                          ''
-             ;
+        foreach my $helper (@sizes, @contexts, @table, @direction, @menu, @misc) {
+           $app->helper($ssp.$helper, sub { ("__$helper" => 1) });
+        }
     }
-
 }
+
+sub setup_prefix($prefix) {
+    return defined $prefix && !length $prefix   ?   '_'
+         : defined $prefix                      ?   $prefix
+         :                                          ''
+         ;
+}
+
+1;
+
 __END__
 
 =encoding utf-8
-
-=head1 NAME
-
-Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
-
-=for html <p><a style="float: left;" href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master">&nbsp;</a>
 
 =head1 SYNOPSIS
 
@@ -99,11 +92,9 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
 
 =head1 STATUS
 
-This is an unstable work in progress. Backwards compatibility is currently not to be expected between releases.
+Relatively stable. This distribution will not be updated to support Bootstrap 4. There might be a separate distribution for that.
 
-Currently supported Bootstrap version: 3.3.1.
-
-Currently only Perl 5.20+ is supported (thanks to postderef).
+All examples are tested.
 
 =head1 DESCRIPTION
 
@@ -125,58 +116,59 @@ To get going quickly by using the official CDN you can use the following helpers
     # CSS
     %= bootstrap
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     # or (if you want to use the theme)
     %= bootstrap 'theme'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
     # And the javascript
     %= bootstrap 'js'
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     # Or just:
     %= bootstrap 'all'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 It is also possible to automatically include jQuery (2.*)
 
     %= bootstrap 'jsq'
 
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     %= bootstrap 'allq'
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 
-=head2 Strappings
+=head2 Shortcuts
 
-There are several shortcuts ("strappings") for applying context and size classes that automatically expands to the correct class depending
-on which tag it is applied to. For instance, if you apply the C<info> strapping to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
+There are several shortcuts for applying context and size classes that automatically expands to the correct class depending
+on which tag it is applied to. For instance, if you apply the C<info> shortcut to a panel, it becomes C<panel-info>, but when applied to a button it becomes C<btn-info>.
 
 You can use them in two different ways, but internally they are the same. These to lines are exactly identical:
 
+    # 'standalone shortcut'
     %= button 'Push me', primary
 
+    # 'longform shortcut'
     %= button 'Push me', __primary => 1
 
 
 
-For sizes, you can only use the longform (C<xsmall>, C<small>, C<medium> and C<large>) no matter if you use the short strapping form or not.
-They are shortened to the Bootstrap type classes.
+For sizes, you can only use the longform (C<xsmall>, C<small>, C<medium> and C<large>). They are shortened to the Bootstrap type classes.
 
-The following strappings are available:
+The following shortcuts are available:
 
    xsmall    default     striped       caret     right
    small     primary     bordered
@@ -185,16 +177,16 @@ The following strappings are available:
              warning     responsive
              danger
 
-Add two leading underscores if you don't want to use the short form.
+Add two leading underscores if you don't want to use the standalone form.
 
-See below for usage. B<Important:> You can't follow a short form strapping with a fat comma (C<=E<gt>>). The fat comma auto-quotes the strapping, and then it breaks.
+See below for usage. B<Important:> You can't follow a standalone shortcut with a fat comma (C<=E<gt>>). The fat comma auto-quotes the string on the left, and then it breaks.
 
-If there is no corresponding class for the element you add the strapping to it is silently not applied.
+If a shortcut you try to apply isn't available in that context, it is silently not applied.
 
 =begin html
 
-<p>The short form is recommended for readability, but it does setup several helpers in your templates.
-You can turn off the short forms, see <a href="#init_short_strappings">init_short_strappings</a>.</p>
+<p>The standalone form is recommended for readability, but it does setup several helpers in your templates.
+You can turn off this style, see <a href="#init_shortcuts">init_shortcuts</a>.</p>
 
 =end html
 
@@ -206,7 +198,7 @@ In the syntax sections below the following conventions are used:
     $name           Any string
     %name           One or more key-value pairs, written as:
                       key => 'value', key2 => 'value2'
-                         or, if you use short form strappings:
+                         or, if you use standalone shortcuts:
                       primary, large
     $key => [...]   Both of these are array references where the ordering of strings
     key  => [...]     are significant, for example:
@@ -229,7 +221,7 @@ The following applies to all C<%has> hashes below:
 
 =over 4
 
-=item * They refer to any html attributes and/or strappings to apply to the current element.
+=item * They refer to any html attributes and/or shortcuts to apply to the current element.
 
 =item * When helpers are nested, all occurrencies are change to tag-specific names, such as C<%panel_has>.
 
@@ -286,7 +278,7 @@ Mandatory. It sets the C<href> on the link. L<url_for|Mojolicious::Controller#ur
 
 B<C<%link_has>>
 
-Which strappings are available varies depending on context.
+Which shortcuts are available varies depending on context.
 
 
 =head3 |item|
@@ -319,6 +311,24 @@ So, a submenu item can be one of three things:
 
 See L</"Dropdowns">, L</"Button groups"> and L</"Navbars"> for examples.
 
+=head1 EXAMPLES
+
+All examples below, and more, are included in html files in C</examples>. They are also available on github:
+
+=for :list
+* L<Badges|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/badge-1.html>
+* L<Include bootstrap|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/bootstrap-1.html>
+* L<Buttons|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button-1.html>
+* L<Button groups|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/button_group-1.html>
+* L<Dropdowns|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/dropdown-1.html>
+* L<Form groups|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/formgroup-1.html>
+* L<Icons|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/icon-1.html>
+* L<Input groups|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/input_group-1.html>
+* L<Navs|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/nav-1.html>
+* L<Navbars|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/navbar-1.html>
+* L<Panels|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/panel-1.html>
+* L<Tables|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/table-1.html>
+* L<Toolbars|http://htmlpreview.github.io/?https://github.com/Csson/p5-mojolicious-plugin-bootstraphelpers/blob/master/examples/toolbar-1.html>
 
 =head1 HELPERS
 
@@ -335,14 +345,14 @@ B<C<$text>>
 Mandatory. If it is C<undef> no output is produced.
 
 
-B<Available strappings>
+B<Available shortcuts>
 
 C<right> applies C<.pull-right>.
 
 
 =head3 Examples
 
-# EXAMPLE: badge-1.mojo:1,2
+:stenciller ToUnparsedText badge-1.stencil
 
 
 =head2 Buttons
@@ -367,7 +377,7 @@ basically L<link_to|Mojolicious::Plugin::TagHelpers#link_to> with Bootstrap clas
 Not available for C<submit_button>.
 
 
-B<Available strappings>
+B<Available shortcuts>
 
 C<default> C<primary> C<success> C<info> C<warning> C<danger> C<link> applies the various C<.btn-*> classes.
 
@@ -380,7 +390,7 @@ C<disabled> applies the C<.disabled> class if the generated element is an C<E<lt
 
 =head3 Examples
 
-# EXAMPLE: button-1.mojo:1-3
+:stenciller ToUnparsedText button-1.stencil
 
 
 
@@ -422,7 +432,7 @@ Giving a button an C<items> array reference consisting of one or many C<|item|> 
 
 =head3 Examples
 
-# EXAMPLE: button_group-1.mojo:examples
+:stenciller ToUnparsedText button_group-1.stencil
 
 
 
@@ -442,7 +452,7 @@ A mandatory array reference of L<button groups|/"Button-groups">.
 
 =head3 Examples
 
-# EXAMPLE: toolbar-1.mojo:examples
+:stenciller ToUnparsedText toolbar-1.stencil
 
 
 =head2 Dropdowns
@@ -467,14 +477,14 @@ Mandatory array reference consisting of one or many C<|item|>. Read more under L
 =back
 
 
-B<Available strappings>
+B<Available shortcuts>
 
 C<caret> adds a C<E<lt>span class="caret"E<gt>E<lt>/span<E<gt>> element on the button.
 
 
 =head3 Examples
 
-# EXAMPLE: dropdown-1.mojo:examples
+:stenciller ToUnparsedText dropdown-1.stencil
 
 
 =head2 Form groups
@@ -550,7 +560,7 @@ Optional. If you prefer you can set C<value> in C<%input_has> instead. (But don'
 
 =head3 Examples
 
-# EXAMPLE: formgroup-1.mojo:examples
+:stenciller ToUnparsedText formgroup-1.stencil
 
 
 =head2 Icons
@@ -567,7 +577,7 @@ Mandatory. The specific icon you wish to create. Possible values depends on your
 
 =head3 Examples
 
-# EXAMPLE: icon-1.mojo:1
+:stenciller ToUnparsedText icon-1.stencil { stencils => [0] }
 
 
 
@@ -613,7 +623,7 @@ Creates a multi button buttongroup. See L<button groups|/"Button-groups"> for de
 
 =head3 Examples
 
-# EXAMPLE: input_group-1.mojo:examples
+:stenciller ToUnparsedText input_group-1.stencil
 
 
 =head2 Navs
@@ -642,14 +652,14 @@ If present does the same as C<items> in L<dropdown|/"Dropdowns">. Also see L</"i
 
 =head3 Examples
 
-# EXAMPLE:nav-1.mojo:examples
+:stenciller ToUnparsedText nav-1.stencil
 
 
 =head2 Navbars
 
 =head3 Syntax
 
-    navbar (inverse,) header => [ |link|, %navbar_has ],
+    navbar (inverse,) (container => 'normal',) header => [ |link|, %navbar_has ],
                  form => [
                      [ [ $url ], %form_has ],
                      [
@@ -667,7 +677,15 @@ C<Navbars> are complex structures. They take the following arguments:
 
 B<C<inverse>>
 
-The C<inverse> strapping is currently outside the C<%navbar_has>. It applies the C<.navbar-inverse> class.
+The C<inverse> shortcut is placed outside the C<%navbar_has>. It applies the C<.navbar-inverse> class.
+
+B<C<container>>
+
+Default: C<fluid>
+
+Allowed values: C<fluid>, C<normal>
+
+Sets the class on the container inside the navbar.
 
 B<C<header =E<gt> [ |link|, %navbar_has ]>>
 
@@ -685,7 +703,7 @@ Can take the following extra arguments:
 
 =over 4
 
-The C<hamburger> strapping creates the menu button for collapsed navbars.
+The C<hamburger> shortcut creates the menu button for collapsed navbars.
 
 B<C<toggler =E<gt> $collapse_id>>
 
@@ -745,7 +763,7 @@ Creates L<form groups|/"Form-groups">, L<input groups|/"Input-groups">, L<button
 
 =head3 Examples
 
-# EXAMPLE: navbar-1.mojo:examples
+:stenciller ToUnparsedText navbar-1.stencil
 
 =head2 Panels
 
@@ -768,7 +786,7 @@ Optional (but panels are not much use without it). The html inside the C<panel>.
 
 =head3 Examples
 
-# EXAMPLE: panel-1.mojo:1-4
+:stenciller ToUnparsedText panel-1.stencil
 
 
 
@@ -797,7 +815,7 @@ Optional if the table has a C<$title>, otherwise without use.
 
 =head3 Examples
 
-# EXAMPLE: table-1.mojo:1-3
+:stenciller ToUnparsedText table-1.stencil
 
 
 
@@ -807,8 +825,8 @@ Some options are available:
 
     $app->plugin('BootstrapHelpers', {
         tag_prefix => 'bs',
-        short_strappings_prefix => 'set',
-        init_short_strappings => 1,
+        shortcut_prefix => 'set',
+        init_shortcuts => 1,
         icons => {
             class => 'glyphicon'
             formatter => 'glyphicon-%s',
@@ -835,22 +853,22 @@ If the option is set to any other string, the prefix is that string. If you set 
 
 =back
 
-=head2 short_strappings_prefix
+=head2 shortcut_prefix
 
 Default: C<undef>
 
-This is similar to C<tag_prefix>, but is instead applied to the short form strappings. The same rules applies.
+This is similar to C<tag_prefix>, but is instead applied to the standalone shortcuts. The same rules applies.
 
 
-=head2 init_short_strappings
+=head2 init_shortcuts
 
 Default: C<1>
 
-If you don't want the short form of strappings setup at all, set this option to a defined but false value.
+If you don't want the standalone shortcuts setup at all, set this option to a defined but false value.
 
-All functionality is available, but instead of C<warning> you must now use C<__warning =E<gt> 1>.
+All functionality is available, but instead of C<warning> you must now write C<__warning =E<gt> 1>.
 
-With short form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not used.
+With standalone form turned off, sizes are still only supported in long form: C<__xsmall>, C<__small>, C<__medium> and C<__large>. The Bootstrap abbreviations (C<xs> - C<lg>) are not available.
 
 =head2 icons
 
@@ -869,22 +887,5 @@ B<C<formatter>>
 This creates the specific icon class. If you use the glyphicon pack, this should be set to 'glyphicon-%s', where the '%s' will be replaced by the icon name you give the C<icon> helper.
 
 =back
-
-=head1 AUTHOR
-
-Erik Carlsson E<lt>csson@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2014- Erik Carlsson
-
-Bootstrap itself is (c) Twitter. See L<their license information|http://getbootstrap.com/getting-started/#license-faqs>.
-
-L<Mojolicious::Plugin::BootstrapHelpers> is third party software, and is not endorsed by Twitter.
-
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
 
 =cut

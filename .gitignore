@@ -1,7 +1,12 @@
-/Mojolicious-Plugin-BootstrapHelpers-*
+# This file was auto-generated from iller.yaml by Dist::Iller on 2016-03-23 22:33:12 UTC.
+# The following configs were used:
+# * Dist::Iller::Config::Author::CSSON: 0.0309
+
 /.build
 /_build*
 /Build
 MYMETA.*
 !META.json
 /.prove
+Mojolicious-Plugin-BootstrapHelpers-*
+.coverhistory.json

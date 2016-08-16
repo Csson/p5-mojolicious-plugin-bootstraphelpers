@@ -1,35 +1,36 @@
-==test==
---t--
+== stencil ==
+--input--
     <%= icon 'copyright-mark' %>
     %= icon 'sort-by-attributes-alt'
---t--
---e--
+--end input--
+--output--
     <span class="glyphicon glyphicon-copyright-mark"></span>
     <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
---e--
+--end output--
 
-==test==
---t--
+
+== stencil ==
+--input--
     <%= icon 'copyright-mark' %>
---t--
---e--
+--end input--
+--output--
     <span class="glyphicon glyphicon-copyright-mark"></span>
---e--
+--end output--
 
 
-==test==
---t--
+== stencil ==
+--input--
     %= icon 'sort-by-attributes-alt'
---t--
---e--
+--end input--
+--output--
     <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
---e--
+--end output--
 
 
-==test==
+== stencil ==
 
---t--
---t--
+--input--
+--end input--
 
---e--
---e--
+--output--
+--end output--
