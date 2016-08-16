@@ -8,10 +8,13 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
+ - Updated Bootstrap version to 3.3.7 (when included via the cdn helpers).
+ - Updated jQuery version to 2.2.4 (when included via the cdn helpers).
 
  [New Features]
 
- [Other Changes]
+ [Other]
+ - No changes necessary for Mojolicious 7 compatibility.
 
  [Requirements]
 
