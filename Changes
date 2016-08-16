@@ -8,19 +8,30 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
- - Updated Bootstrap version to 3.3.7 (when included via the cdn helpers).
- - Updated jQuery version to 2.2.4 (when included via the cdn helpers).
 
  [New Features]
 
- [Other]
- - No changes necessary for Mojolicious 7 compatibility.
+ [Other Changes]
 
  [Requirements]
 
  [Stats & Dependency Changes]
 
  [Testing]
+
+0.0202 2016-08-16T20:42:05Z UTC
+ [Enhancements]
+ - Updated Bootstrap version to 3.3.7 (when included via the cdn helpers).
+ - Updated jQuery version to 2.2.4 (when included via the cdn helpers).
+
+ [Other]
+ - No changes necessary for Mojolicious 7 compatibility.
+
+ [Stats & Dependency Changes]
+ - 4 files changed, 38 insertions(+), 38 deletions(-)
+ - (dev req) + Dist::Zilla::Plugin::MetaConfig (any)
+ - (dev req) + Dist::Zilla::Plugin::PromptIfStale (any)
+ - (dev sug) ~ Dist::Iller::Config::Author::CSSON 0.0309 --> 0.0312
 
 0.0201 2016-03-23T22:59:42Z UTC
  [Bug Fixes]
