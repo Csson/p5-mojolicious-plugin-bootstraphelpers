@@ -32,6 +32,7 @@ sub register($self, $app, $args) {
     $app->helper($tp.'button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_button);
     $app->helper($tp.'submit_button' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_submit);
     $app->helper($tp.'badge' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_badge);
+    $app->helper($tp.'context_menu' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_context_menu);
     $app->helper($tp.'dropdown' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_dropdown);
     $app->helper($tp.'buttongroup' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_buttongroup);
     $app->helper($tp.'toolbar' => \&Mojolicious::Plugin::BootstrapHelpers::Helpers::bootstrap_toolbar);
@@ -332,9 +333,10 @@ All examples below, and more, are included in html files in C</examples>. They a
 
 =head1 HELPERS
 
-L<Bootstrap documentation|http://getbootstrap.com/components/#badges>
 
 =head2 Badges
+
+L<Bootstrap documentation|http://getbootstrap.com/components/#badges>
 
 =head3 Syntax
 
@@ -453,6 +455,27 @@ A mandatory array reference of L<button groups|/"Button-groups">.
 =head3 Examples
 
 :stenciller ToUnparsedText toolbar-1.stencil
+
+
+=head2 Context menus
+
+Context menus are a slight variation on L<dropdowns|/Dropdowns>, where the button or other thing that opens the menu isn't part of the menu, such as menus that
+opens on right click. The context menu is created without the E<lt>div class="dropdown"E<gt>E<lt>/divE<gt> wrapper, so for it to show up at the right place its
+position must be set using either CSS or Javascript.
+
+=head3 Syntax
+
+    <%= context_menu %has, items  => [ |item| ] %>
+
+
+B<C<items>>
+
+Mandatory array reference consisting of one or many C<|item|>. Read more under L</"item">.
+
+=head3 Examples
+
+:stenciller ToUnparsedText context_menu-1.stencil
+
 
 
 =head2 Dropdowns

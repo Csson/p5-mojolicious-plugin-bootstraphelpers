@@ -174,6 +174,15 @@ sub bootstrap_submit {
     return bootstrap_button(@_);
 }
 
+sub bootstrap_context_menu {
+    my $c = shift;
+    my %args = @_;
+    my $items = delete $args{'items'};
+    my $list = make_dropdown_list($c, \%args, $items);
+
+    return out($list);
+}
+
 sub bootstrap_dropdown {
     my $meat = make_dropdown_meat(shift, shift->@*);
 
@@ -191,19 +200,33 @@ sub make_dropdown_meat {
     my $button_text = shift;
     my @url = ref $_[0] eq 'ARRAY' ? shift->@* : ();
     my $attr = parse_attributes(@_);
-    my $items = delete $attr->{'items'} || [];
 
+    my $items = delete $attr->{'items'} || [];
     my $ulattr = { __right => exists $attr->{'__right'} ? delete $attr->{'__right'} : 0 };
-    $ulattr = add_classes($ulattr, 'dropdown-menu');
-    $ulattr = add_classes($ulattr, 'dropdown-menu-right') if $ulattr->{'__right'};
-    my $ulhtml = htmlify_attrs($ulattr);
+    my $listhtml = make_dropdown_list($c, $ulattr, $items);
 
     $attr = add_classes($attr, 'dropdown-toggle');
     $attr->{'data-toggle'} = 'dropdown';
     $attr->{'type'} = 'button';
     my $button = bootstrap_button($c, $button_text, @url, $attr->%*);
 
+    my $out = qq{
+        $button
+        $listhtml
+    };
+    return out($out);
+}
+
+sub make_dropdown_list {
+    my $c = shift;
+    my $attr = shift;
+    my $items = shift;
+
+    $attr = add_classes($attr, 'dropdown-menu');
+    $attr = add_classes($attr, 'dropdown-menu-right') if $attr->{'__right'};
+    my $attrhtml = htmlify_attrs($attr);
     my $menuitems = '';
+
     ITEM:
     foreach my $item ($items->@*) {
         if(ref $item eq '') {
@@ -218,16 +241,12 @@ sub make_dropdown_meat {
         }
 
     }
-
     my $out = qq{
-        $button
-        <ul$ulhtml>
+        <ul$attrhtml>
             $menuitems
         </ul>
     };
-
     return out($out);
-
 }
 
 sub create_dropdown_menuitem {
