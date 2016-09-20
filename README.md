@@ -6,15 +6,15 @@ Mojolicious::Plugin::BootstrapHelpers - Type less bootstrap
     <p>
     <img src="https://img.shields.io/badge/perl-5.20+-blue.svg" alt="Requires Perl 5.20+" />
     <a href="https://travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers"><img src="https://api.travis-ci.org/Csson/p5-mojolicious-plugin-bootstraphelpers.svg?branch=master" alt="Travis status" /></a>
-    <a href="http://cpants.cpanauthors.org/release/CSSON/Mojolicious-Plugin-BootstrapHelpers-0.0202"><img src="http://badgedepot.code301.com/badge/kwalitee/CSSON/Mojolicious-Plugin-BootstrapHelpers/0.0202" alt="Distribution kwalitee" /></a>
-    <a href="http://matrix.cpantesters.org/?dist=Mojolicious-Plugin-BootstrapHelpers%200.0202"><img src="http://badgedepot.code301.com/badge/cpantesters/Mojolicious-Plugin-BootstrapHelpers/0.0202" alt="CPAN Testers result" /></a>
+    <a href="http://cpants.cpanauthors.org/release/CSSON/Mojolicious-Plugin-BootstrapHelpers-0.0203"><img src="http://badgedepot.code301.com/badge/kwalitee/CSSON/Mojolicious-Plugin-BootstrapHelpers/0.0203" alt="Distribution kwalitee" /></a>
+    <a href="http://matrix.cpantesters.org/?dist=Mojolicious-Plugin-BootstrapHelpers%200.0203"><img src="http://badgedepot.code301.com/badge/cpantesters/Mojolicious-Plugin-BootstrapHelpers/0.0203" alt="CPAN Testers result" /></a>
     <img src="https://img.shields.io/badge/coverage-87.2%-orange.svg" alt="coverage 87.2%" />
     </p>
 </div>
 
 # VERSION
 
-Version 0.0202, released 2016-08-16.
+Version 0.0203, released 2016-09-20.
 
 # SYNOPSIS
 
@@ -254,9 +254,9 @@ All examples below, and more, are included in html files in `/examples`. They ar
 
 # HELPERS
 
-[Bootstrap documentation](http://getbootstrap.com/components/#badges)
-
 ## Badges
+
+[Bootstrap documentation](http://getbootstrap.com/components/#badges)
 
 ### Syntax
 
@@ -622,6 +622,37 @@ A mandatory array reference of [button groups](#button-groups).
             <button class="btn btn-default" type="button">Button 6</button>
         </div>
     </div>
+
+## Context menus
+
+Context menus are a slight variation on [dropdowns](#dropdowns), where the button or other thing that opens the menu isn't part of the menu, such as menus that
+opens on right click. The context menu is created without the <div class="dropdown"></div> wrapper, so for it to show up at the right place its
+position must be set using either CSS or Javascript.
+
+### Syntax
+
+    <%= context_menu %has, items  => [ |item| ] %>
+
+**`items`**
+
+Mandatory array reference consisting of one or many `|item|`. Read more under ["item"](#item).
+
+### Examples
+
+        <%= context_menu id => 'my-context-menu', items => [
+                ['Item 1', ['item1'] ],
+                ['Item 2', ['item2'] ],
+                [],
+                ['Item 3', ['item3'] ]
+             ] %>
+    </div>
+
+    <ul class="dropdown-menu" id="my-context-menu">
+        <li><a class="menuitem" href="item1" tabindex="-1">Item 1</a></li>
+        <li><a class="menuitem" href="item2" tabindex="-1">Item 2</a></li>
+        <li class="divider"></li>
+        <li><a class="menuitem" href="item3" tabindex="-1">Item 3</a></li>
+    </ul>
 
 ## Dropdowns
 
