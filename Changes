@@ -10,7 +10,6 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Enhancements]
 
  [New Features]
-  - Added the 'context_menu' helper, a dropdown menu without button.
 
  [Other Changes]
 
@@ -19,6 +18,15 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Stats & Dependency Changes]
 
  [Testing]
+
+0.0203 2016-09-20T21:16:40Z UTC
+ [New Features]
+ - Added the 'context_menu' helper, a dropdown menu without button.
+
+ [Stats & Dependency Changes]
+ - 4 files changed, 109 insertions(+), 12 deletions(-)
+ - (dev req) ~ Dist::Zilla::Plugin::ChangeStats::Dependencies::Git 0.0100
+   --> 0.0200
 
 0.0202 2016-08-16T20:42:05Z UTC
  [Enhancements]
