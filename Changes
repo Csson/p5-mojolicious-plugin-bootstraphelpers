@@ -6,7 +6,6 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
- - Updated documentation regarding which versions of Bootstrap and jQuery are included when using those helpers.
 
  [Enhancements]
 
@@ -19,6 +18,24 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Stats & Dependency Changes]
 
  [Testing]
+
+0.0204 2016-12-31T16:43:08Z UTC
+ [Documentation]
+ - Updated documentation regarding which versions of Bootstrap and jQuery
+   are included when using those helpers.
+
+ [Stats & Dependency Changes]
+ - 2 files changed, 15 insertions(+), 15 deletions(-)
+ - (dev req) ~ Dist::Zilla 5.000 --> 6.008
+ - (dev req) ~ Dist::Zilla::Plugin::CopyFilesFromBuild 0.151680 -->
+   0.163040
+ - (dev req) ~ Dist::Zilla::Plugin::Git 2.036 --> 2.041
+ - (dev req) ~ Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch 0.013 -->
+   0.014
+ - (dev req) ~ Dist::Zilla::Plugin::Git::Contributors 0.017 --> 0.029
+ - (dev req) ~ Dist::Zilla::Plugin::ReadmeAnyFromPod 0.150250 --> 0.163250
+ - (dev req) ~ Dist::Zilla::Plugin::Test::Compile 2.054 --> 2.056
+ - (dev sug) ~ Dist::Iller::Config::Author::CSSON 0.0312 --> 0.0313
 
 0.0203 2016-09-20T21:16:40Z UTC
  [New Features]
