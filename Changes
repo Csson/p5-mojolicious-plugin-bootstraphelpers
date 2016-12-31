@@ -6,6 +6,7 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Bug Fixes]
 
  [Documentation]
+ - Updated documentation regarding which versions of Bootstrap and jQuery are included when using those helpers.
 
  [Enhancements]
 
