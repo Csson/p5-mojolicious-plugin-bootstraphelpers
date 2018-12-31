@@ -5,7 +5,7 @@ package Mojolicious::Plugin::BootstrapHelpers;
 
 # ABSTRACT: Type less bootstrap
 # AUTHORITY
-our $VERSION = '0.0205';
+our $VERSION = '0.0206';
 
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojolicious::Plugin::BootstrapHelpers::Helpers;
