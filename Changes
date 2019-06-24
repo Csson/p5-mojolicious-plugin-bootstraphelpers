@@ -8,7 +8,6 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Documentation]
 
  [Enhancements]
- - Updated Bootstrap version to 3.4.1 (when included via the cdn helpers).
 
  [New Features]
 
@@ -19,6 +18,13 @@ Revision history for Mojolicious-Plugin-BootstrapHelpers
  [Stats & Dependency Changes]
 
  [Testing]
+
+0.0206 2019-06-24T20:14:11Z UTC
+ [Enhancements]
+ - Updated Bootstrap version to 3.4.1 (when included via the cdn helpers).
+
+ [Stats & Dependency Changes]
+ - 4 files changed, 42 insertions(+), 42 deletions(-)
 
 0.0205 2018-12-31T19:02:24Z UTC
  [Enhancements]
