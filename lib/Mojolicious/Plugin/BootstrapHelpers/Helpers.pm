@@ -19,7 +19,7 @@ sub bootstraps_bootstraps {
     my $c = shift;
     my $arg = shift;
 
-    my $bs_version = '3.4.0';
+    my $bs_version = '3.4.1';
 
     my $css   = qq{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/$bs_version/css/bootstrap.min.css">};
     my $theme = qq{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/$bs_version/css/bootstrap-theme.min.css">};
