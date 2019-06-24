@@ -5,7 +5,7 @@ package Mojolicious::Plugin::BootstrapHelpers::Helpers;
 
 # ABSTRACT: Supporting module
 # AUTHORITY
-our $VERSION = '0.0206';
+our $VERSION = '0.0207';
 
 use List::Util qw/uniq/;
 use Mojo::ByteStream;
